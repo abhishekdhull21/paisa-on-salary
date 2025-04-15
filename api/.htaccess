@@ -1,0 +1,18 @@
+<IfModule mod_headers.c>
+    # Check if the Origin header matches either of the allowed domains
+    SetEnvIf Origin "http(s)?://(valueleaf\.salaryontime\.com|salaryontime\.com)$" AccessControlAllowOrigin=$0
+
+    # Set the Access-Control-Allow-Origin header based on the matching domain
+    Header always set Access-Control-Allow-Origin %{AccessControlAllowOrigin}e env=AccessControlAllowOrigin
+
+    # Set the other CORS headers only if the origin matches
+    Header always set Access-Control-Allow-Methods "POST, GET, OPTIONS, DELETE, PUT" env=AccessControlAllowOrigin
+    Header always set Access-Control-Allow-Headers "Content-Type, Authorization, Accept, Auth" env=AccessControlAllowOrigin
+    Header always set Access-Control-Max-Age "86400" env=AccessControlAllowOrigin
+</IfModule>
+
+RewriteEngine On
+#RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule (.*) index.php/$1

@@ -1,0 +1,9 @@
+
+
+
+ Time: June 14, 2024, 3:55 pm 
+ Request Method: POST
+ Headers: {"apikey":"Rtqq92s6A1bQ9BOpgDv8zbTVvNH1e8vW","x-priority":"0100","Content-Type":"application\/json","User-Agent":"PostmanRuntime\/7.39.0","Accept":"*\/*","Cache-Control":"no-cache","Postman-Token":"b71355cb-6911-4588-900a-dc3fb15f988f","Host":"salaryontime.in","Accept-Encoding":"gzip, deflate, br","Connection":"keep-alive","Content-Length":"25","X-HTTPS":"1"}
+ Data: {
+    "code":"testhere"
+}

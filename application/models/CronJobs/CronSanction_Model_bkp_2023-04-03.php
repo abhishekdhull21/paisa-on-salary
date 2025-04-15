@@ -1,0 +1,135 @@
+<?php
+
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+require APPPATH . '/models/CronJobs/CronCommon_Model.php';
+
+class CronSanction_Model extends CronCommon_Model {
+
+//    public function __construct() {
+//        parent::__construct();
+//        date_default_timezone_set('Asia/Kolkata');
+//    }
+
+    public function emaillog_insert($data) {
+        return $this->db->insert('api_email_logs', $data);
+    }
+
+    public function get_lead_new_list() {
+
+        $return_array = ['status' => 0];
+
+        $sql = "SELECT LD.lead_id, LD.user_type, LD.utm_source, LD.email, LD.mobile, LD.first_name";
+        $sql .= " FROM leads LD";
+        $sql .= " WHERE LD.lead_status_id=1 AND (LD.lead_screener_assign_user_id IS NULL OR LD.lead_screener_assign_user_id=0) AND LD.lead_data_source_id NOT IN(21,27) ORDER BY LD.lead_id ASC";
+
+        $tempDetails = $this->db->query($sql);
+
+        if (!empty($tempDetails->num_rows())) {
+            $return_array['status'] = 1;
+            $return_array['data'] = $tempDetails->result_array();
+        }
+
+        return $return_array;
+    }
+
+    public function get_users_lead_list() {
+        $current_date = date("Y-m-d");
+        $return_array = ['status' => 0];
+
+        $sql = "SELECT U.user_id, U.name, U.email, U.mobile, SUM(IF(LD.lead_id > 0,1,0)) as total_leads, ";
+        $sql .= " (SELECT IF(LAA.ula_user_status=1,1,0) FROM user_lead_allocation_log LAA WHERE LAA.ula_user_id=U.user_id AND DATE(LAA.ula_created_on)='$current_date' AND LAA.ula_active=1 ORDER BY LAA.ula_id DESC LIMIT 1) as user_active_flag,";
+        $sql .= " (SELECT IF(LFR.ula_user_case_type>0,LFR.ula_user_case_type,0) FROM user_lead_allocation_log LFR WHERE LFR.ula_user_id=U.user_id AND DATE(LFR.ula_created_on)='$current_date' AND LFR.ula_user_status=1 AND LFR.ula_active=1 ORDER BY LFR.ula_id DESC LIMIT 1) as user_active_case_type";
+        $sql .= " FROM users U INNER JOIN user_roles UR ON(U.user_id=UR.user_role_user_id AND UR.user_role_type_id=2)";
+        $sql .= " LEFT JOIN leads LD ON(LD.lead_screener_assign_user_id>0 AND LD.lead_screener_assign_user_id=U.user_id AND LD.lead_status_id IN(2,3))";
+        $sql .= " WHERE U.user_id=UR.user_role_user_id AND UR.user_role_type_id=2 AND U.user_is_loanwalle=0";
+        $sql .= " AND U.user_active=1 AND U.user_status_id=1 AND UR.user_role_active=1";
+        $sql .= " GROUP BY U.user_id ORDER BY total_leads ASC";
+//        echo "<br/>" . $sql;
+        $tempDetails = $this->db->query($sql);
+
+        if (!empty($tempDetails->num_rows())) {
+            $return_array['status'] = 1;
+            $return_array['data'] = $tempDetails->result_array();
+        }
+
+        return $return_array;
+    }
+
+    public function update_sanction_target() {
+
+        $return_array = array('status' => 0, 'message' => '');
+
+        $updated_on = date('Y-m-d H:i:s');
+
+        $update = "UPDATE user_target_allocation_log UTA INNER JOIN users U ON(UTA.uta_user_id=U.user_id) INNER JOIN user_roles UR ON(UTA.uta_user_id=UR.user_role_user_id) ";
+        $update .= "SET UTA.uta_user_achieve_amount=(SELECT SUM(CAM.loan_recommended) FROM leads LD INNER JOIN credit_analysis_memo CAM ON(LD.lead_id=CAM.lead_id) WHERE LD.lead_credit_assign_user_id=UTA.uta_user_id AND DATE_FORMAT(CAM.disbursal_date, '%M-%y') = DATE_FORMAT(NOW(), '%M-%y') AND LD.lead_id=CAM.lead_id AND LD.lead_data_source_id NOT IN(21,27,33) AND LD.lead_status_id IN(14, 16, 17, 19)), ";
+        $update .= "UTA.uta_user_achieve_cases=(SELECT COUNT(LD.lead_id) FROM leads LD INNER JOIN credit_analysis_memo CAM ON(LD.lead_id=CAM.lead_id) WHERE LD.lead_credit_assign_user_id=UTA.uta_user_id AND DATE_FORMAT(CAM.disbursal_date, '%M-%y') = DATE_FORMAT(NOW(), '%M-%y') AND LD.lead_id=CAM.lead_id AND LD.lead_data_source_id NOT IN(21,27,33) AND LD.lead_status_id IN(14, 16, 17, 19)), ";
+        $update .= "UTA.uta_updated_on = '$updated_on' ";
+        $update .= "WHERE U.user_status_id=1  AND UR.user_role_type_id=3 AND UTA.uta_type_id=1 AND DATE_FORMAT(UTA.uta_created_on, '%M-%y') = DATE_FORMAT(NOW(), '%M-%y') AND UTA.uta_active=1 AND UTA.uta_deleted=0";
+
+        $tempDetails = $this->db->query($update);
+
+        if ($tempDetails == 1) {
+            $return_array['status'] = 1;
+            $return_array['message'] = 'Achieve Target updated.';
+        }
+
+        return $return_array;
+    }
+
+    public function update_sanction_collection_history() {
+
+        $return_array = array('status' => 0, 'message' => '', 'updated_record' => 0);
+        $insert_collection = array();
+        $user_id = 0;
+        $uta_id = 0;
+        $current_date = date("Y-m-d", strtotime("-1 year", strtotime(date('Y-m-d'))));
+        $to_date = date('Y-m-d');
+
+        $select_users = "SELECT uta_id, uta_type_id, uta_user_id, uta_created_on FROM user_target_allocation_log WHERE DATE(uta_created_on) >= '$current_date' AND DATE(uta_created_on) <= '$to_date' AND uta_active=1 AND uta_type_id=1";
+
+        $user_data = $this->db->query($select_users)->result_array();
+
+        if (!empty($user_data)) {
+
+            foreach ($user_data as $value) {
+
+                $user_id = $value['uta_user_id'];
+                $uta_id = $value['uta_id'];
+
+                $select = "SELECT COUNT(LD.lead_id) as total_cases, SUM(IF(LD.lead_status_id=16 OR LD.lead_status_id=17 OR LD.lead_status_id=18, 1,0)) as closed_cases, SUM(CAM.loan_recommended) as loan_amount, SUM(L.loan_total_payable_amount) as payable_amount, SUM(L.loan_principle_received_amount) as principle_rcvd, SUM(L.loan_interest_received_amount) as interest_rcvd, SUM(L.loan_total_received_amount) as total_rcvd, SUM(L.loan_principle_outstanding_amount) as principle_outstanding, SUM(L.loan_interest_outstanding_amount) as interest_outstanding ";
+                $select .= "FROM leads LD INNER JOIN credit_analysis_memo CAM ON(LD.lead_id=CAM.lead_id) INNER JOIN loan L ON(LD.lead_id=L.lead_id) ";
+                $select .= "WHERE LD.lead_active=1 AND LD.lead_data_source_id NOT IN(21,27,33) AND LD.lead_status_id IN(14, 16, 17, 18, 19) AND LD.lead_credit_assign_user_id='$user_id' AND CAM.repayment_date >= '$current_date' AND CAM.repayment_date <= '$to_date'";
+
+                $tempDetails = $this->db->query($select)->row();
+
+                if (!empty($tempDetails)) {
+
+                    $insert_collection = array(
+                        'uta_user_loan_total_cases' => $tempDetails->total_cases,
+                        'uta_user_loan_closed_cases' => $tempDetails->closed_cases,
+                        'uta_user_loan_total_principle' => $tempDetails->loan_amount,
+                        'uta_user_loan_payable_amount' => $tempDetails->payable_amount,
+                        'uta_user_loan_principle_received' => $tempDetails->principle_rcvd,
+                        'uta_user_loan_int_received' => $tempDetails->interest_rcvd,
+                        'uta_user_loan_total_received' => $tempDetails->total_rcvd,
+                        'uta_user_loan_principle_outstanding' => $tempDetails->principle_outstanding,
+                        'uta_user_loan_interest_outstanding' => $tempDetails->interest_outstanding,
+                    );
+
+                    $condition = "uta_id=$uta_id AND uta_active=1 AND uta_type_id=1 AND uta_user_id = $user_id";
+                    $this->update('user_target_allocation_log', $condition, $insert_collection);
+
+                    $return_array['status'] = 1;
+                    $return_array['message'] = 'Updated Successfully.';
+                    $return_array['updated_record'] += 1;
+                }
+            }
+        }
+        return $return_array;
+    }
+
+}
+
+?>
