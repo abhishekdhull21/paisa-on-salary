@@ -176,16 +176,16 @@
                                                                                             <th style="text-align: center;"><b>Allocation Status</b></th>
 
                                                                                             <td>
-                                                                                                <label><input type="radio" name="user_status" value="1" <?= ($allocation_data['ula_user_status'] == 1) ? "checked" : ''; ?> required>&nbsp;&nbsp;ACTIVE&nbsp;&nbsp;</label>
-                                                                                                <label><input type="radio" name="user_status" value="2" <?= ($allocation_data['ula_user_status'] == 2) ? "checked" : ''; ?> required>&nbsp;&nbsp;IN-ACTIVE</label>
+                                                                                                <label><input type="radio" name="user_status" value="1" <?= (isset($allocation_data['ula_user_status']) && $allocation_data['ula_user_status'] == 1) ? "checked" : ''; ?> required>&nbsp;&nbsp;ACTIVE&nbsp;&nbsp;</label>
+                                                                                                <label><input type="radio" name="user_status" value="2" <?= (isset($allocation_data['ula_user_status']) && $allocation_data['ula_user_status'] == 2) ? "checked" : ''; ?> required>&nbsp;&nbsp;IN-ACTIVE</label>
                                                                                             </td>
                                                                                         </tr>
 
                                                                                         <tr>
                                                                                             <th style="text-align: center;"><b>User Type</b></th>
                                                                                             <td>
-                                                                                                <label><input type="radio" name="user_type" value="1" <?= ($allocation_data['ula_user_case_type'] == 1) ? "checked" : ''; ?> required>&nbsp;&nbsp;FRESH&nbsp;&nbsp;</label>
-                                                                                                <label><input type="radio" name="user_type" value="2" <?= ($allocation_data['ula_user_case_type'] == 2) ? "checked" : ''; ?> required>&nbsp;&nbsp;REPEAT</label>
+                                                                                                <label><input type="radio" name="user_type" value="1" <?= (isset($allocation_data['ula_user_case_type']) && $allocation_data['ula_user_case_type'] == 1) ? "checked" : ''; ?> required>&nbsp;&nbsp;FRESH&nbsp;&nbsp;</label>
+                                                                                                <label><input type="radio" name="user_type" value="2" <?= (isset($allocation_data['ula_user_case_type']) && $allocation_data['ula_user_case_type'] == 2) ? "checked" : ''; ?> required>&nbsp;&nbsp;REPEAT</label>
                                                                                             </td>
                                                                                         </tr>
 
@@ -299,7 +299,7 @@
                                                                                         <tr>
                                                                                             <th style="text-align: center;"><b><?= (in_array(agent, ["CR1"])) ? 'Disbursal Amount' : 'Collection Amount'; ?></b></th>
 
-                                                                                            <?php if ($target_data['uta_user_target_amount'] <= 0) { ?>
+                                                                                            <?php if (isset($target_data['uta_user_target_amount']) && $target_data['uta_user_target_amount'] <= 0) { ?>
                                                                                                 <td id="target_amount">
                                                                                                     <input type="text" id="target_amount_val" name="target_amount" maxlength="8" required="" />
                                                                                                     <div id="errortarget_amount" class="error-me"></div>

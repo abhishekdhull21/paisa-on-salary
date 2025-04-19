@@ -8,7 +8,8 @@ set_time_limit(0);
 
 date_default_timezone_set('Asia/Calcutta');
 
-$xco_path = '/var/www/sot_lms/common_component';
+// $xco_path = 'C:/xampp/htdocs/suryalms-main/common_component';
+$xco_path = FCPATH . 'common_component/';
 
 define("COMP_PATH", $xco_path);
 define("COMP_ENVIRONMENT", 'development'); //production
@@ -16,9 +17,7 @@ define("COMP_DOC_URL", 'https://salaryontime.in/direct-document-file/'); //produ
 define("COMP_CRM_URL", 'https://salaryontime.in/');
 define("COMP_WEBSITE_URL", 'https://salaryontime.in/');
 define("COMP_DOC_S3_FLAG", true); //true=> Store in S3 bucket , false=> Physical store.
-define("COMP_DOC_PATH", "/var/www/sot_lms/upload/");
-define("COMP_TEMP_DOC_PATH", "/var/www/sot_lms/temp_upload/");
-
+define("COMP_DOC_PATH", FCPATH . 'upload' . DIRECTORY_SEPARATOR);
 require_once(COMP_PATH . "/includes/functions.inc.php");
 require_once(COMP_PATH . "/classes/model/BaseModel.class.php");
 require_once(COMP_PATH . "/classes/model/LeadModel.class.php");

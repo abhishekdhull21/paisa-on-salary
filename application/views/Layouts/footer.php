@@ -106,7 +106,7 @@
             
             <!--<div class="footer-line"></div>-->
             <div class="copyright">
-                <p><i class="fa-solid fa-copyright"></i>&nbsp;2024 Copyright. All Rights Reserved by Kasar Credit & Capital Pvt. Ltd.</p>
+                <p><i class="fa-solid fa-copyright"></i>&nbsp;2024 Copyright. All Rights Reserved by <?= getenv("COMPANY_NAME"); ?></p>
             </div>
         </div>
 

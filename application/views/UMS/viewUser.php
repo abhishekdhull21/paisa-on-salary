@@ -125,7 +125,7 @@ $this->load->view('Layouts/header')
                                                                                     <th>Created By</th>
                                                                                     <td><?= display_data($user_data["created_by_name"]) ?></td>
                                                                                     <th>Updated By</th>
-                                                                                    <td><?= display_data($user_data["updated_by_name"]) ?></td>
+                                                                                    <td><?= display_data($user_data["updated_by_name"] ?? "-") ?></td>
                                                                                 </tr>
                                                                                 <tr>
                                                                                     <th>Created On</th>
@@ -169,9 +169,10 @@ $this->load->view('Layouts/header')
                                                                                     $i = 1;
                                                                                     foreach ($user_role_data as $role_data) {
                                                                                         $getMappedSCM = $this->umsModel->getSCMSelectedvalue($role_data['user_role_id']);
-                                                                                        $getMappedcredit = $this->umsModel->getcreditSelectedvalue($role_data['user_role_id']);
+                                                                                        echo $role_data['user_role_id'];
+                                                                                        $getMappedcredit = $this->umsModel->getMappedCredit($role_data['user_role_id']);
                                                                                         $cfe_list = $this->umsModel->getMapped_FCE_with_SCM($role_data['user_role_id']);
-
+                                                                                        // echo  $getMappedcredit;
                                                                                         $branch_list = $this->umsModel->getUmsUserMappedBranchList($role_data['user_role_id'], 3, false); // 3 => branch
                                                                                         $state_list = $this->umsModel->getUmsStateList($role_data['user_role_id'], 2, false); // 3 => branch
                                                                                         ?>
@@ -216,8 +217,8 @@ $this->load->view('Layouts/header')
                                                                                                     </div>
                                                                                                 <?php } ?>
                                                                                             </td>
-                                                                                            <td><?= ($getMappedcredit['name'] ? $getMappedcredit['name'] : "-"); ?></td>
-                                                                                            <td><?= ($getMappedSCM['name'] ? $getMappedSCM['name'] : "-"); ?></td>
+                                                                                            <td><?= (is_array($getMappedcredit) ? $getMappedcredit['name']?? "-" : "-"); ?></td>
+                                                                                            <td><?= (is_array($getMappedSCM) ? $getMappedSCM['name'] ?? "-" : "-"); ?></td>
                                                                                             <td>
                                                                                                 <?php
                                                                                                 if (!empty($cfe_list)) {

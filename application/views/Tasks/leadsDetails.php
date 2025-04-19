@@ -74,7 +74,13 @@
         </tr>
         <tr>
             <th>Salary</th>
-            <td><?= !empty($leadDetails->monthly_income) ? round($leadDetails->monthly_income) : !empty($leadDetails->monthly_salary_amount) ? $leadDetails->monthly_salary_amount : '-' ?></td>
+            <td>
+            <?= !empty($leadDetails->monthly_income)
+                    ? round($leadDetails->monthly_income)
+                    : (!empty($leadDetails->monthly_salary_amount)
+                        ? $leadDetails->monthly_salary_amount
+                        : '-') ?>
+            </td>
             <th>Obligations</th>
             <td><?= ($leadDetails->obligations) ? round($leadDetails->obligations) : '-' ?></td>
         </tr>

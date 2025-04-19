@@ -61,7 +61,7 @@ class TaskController extends CI_Controller {
         if (in_array($stage, ['S9'])) {
             $conditions["LD.lead_status_id"] = 9;
 
-            if ($_REQUEST['search'] != 1) {
+            if (isset($_REQUEST['search']) && $_REQUEST['search'] != 1) {
                 $conditions["LD.lead_entry_date >="] = '2021-04-01';
             }
         }

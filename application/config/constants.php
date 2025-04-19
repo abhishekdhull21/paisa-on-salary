@@ -101,13 +101,13 @@ defined('CC_DISBURSAL_WAIVE_EMAIL') OR define('CC_DISBURSAL_WAIVE_EMAIL', 'info@
 
 defined('TO_KYC_DOCS_ZIP_DOWNLOAD_EMAIL') OR define('TO_KYC_DOCS_ZIP_DOWNLOAD_EMAIL', 'info@salaryontime.com');
 
-define("COMPONENT_PATH", "/var/www/sot_lms/common_component/");
-define("UPLOAD_PATH", "/var/www/sot_lms/upload/");
-define("UPLOAD_LEGAL_PATH", "/var/www/sot_lms/upload/legal/");
-define("UPLOAD_SETTLEMENT_PATH", "/var/www/sot_lms/upload/settlement/");
-define("TEMP_UPLOAD_PATH", "/var/www/sot_lms/upload/");
-define("UPLOAD_TEMP_PATH", "/var/www/sot_lms/temp_upload/");
-define("UPLOAD_DISBURSAL_PATH", "/var/www/sot_lms/upload/disburse_letter/");
+define("COMPONENT_PATH", "C:/xampp/htdocs/suryalms-main/common_component/");
+define("UPLOAD_PATH", "C:/xampp/htdocs/suryalms-main/upload/");
+define("UPLOAD_LEGAL_PATH", "C:/xampp/htdocs/suryalms-main/upload/legal/");
+define("UPLOAD_SETTLEMENT_PATH", "C:/xampp/htdocs/suryalms-main/upload/settlement/");
+define("TEMP_UPLOAD_PATH", "C:/xampp/htdocs/suryalms-main/upload/");
+define("UPLOAD_TEMP_PATH", "C:/xampp/htdocs/suryalms-main/temp_upload/");
+define("UPLOAD_DISBURSAL_PATH", "C:/xampp/htdocs/suryalms-main/upload/disburse_letter/");
 
 
 //define("LOANS_KYC_DOCS", "/kycdocs/loans/");
@@ -120,22 +120,22 @@ defined('SERVER_API_URL') OR define('SERVER_API_URL', "https://api.salaryontime.
 
 // ********** LMS DEFINED VARIABLE *****
 
-define("LMS_URL", "https://salaryontime.in/");
-define("WEBSITE_URL", "https://salaryontime.com/");
-define("WEBSITE", "salaryontime.com");
+define("LMS_URL", "http://localhost/suryalms-main/");
+define("WEBSITE_URL", "http://localhost/suryalms-main/");
+define("WEBSITE", getenv("WEBSITE"));
 define("WEBSITE_UTM_SOURCE", WEBSITE_URL . "apply-now?utm_source=");
 
-define("LMS_COMPANY_LOGO", LMS_URL . "public/front/img/company_logo.png");
+define("LMS_COMPANY_LOGO", LMS_URL . "public/front/img/company_logo.jpg");
 define("LMS_KASAR_LETTERHEAD", LMS_URL . "public/images/kasar_letter_head_bg.jpg");
 define("LMS_COMPANY_MIS_LOGO", LMS_URL . "public/front/img/company_logo.jpg");
 define("LMS_BRAND_LOGO", LMS_URL . "public/front/img/brand_logo.jpg");
-define("BANK_STATEMENT_UPLOAD", "/var/www/sot_lms/application/helpers/integration/");
-define("COMPANY_NAME", "KASAR CREDIT & CAPITAL PVT. LTD");
+define("BANK_STATEMENT_UPLOAD", "C:/xampp/htdocs/suryalms-main/application/helpers/integration/");
+define("COMPANY_NAME",getenv("COMPANY_NAME"));
 define("RBI_LICENCE_NUMBER", "B-14.01843");
 define('CONTACT_PERSON', 'ALOK NAUTIYAL');
 define("REGISTED_ADDRESS", "G -51, Krishna Apra Business Square, Netaji Subhash Place, New Delhi - 110034");
 define("REGISTED_MOBILE", "+91-8800002890");
-define("BRAND_NAME", "SALARYONTIME");
+define("BRAND_NAME",getenv("BRAND_NAME"));
 
 define("TECH_EMAIL", "info@salaryontime.com");
 define("INFO_EMAIL", "info@salaryontime.com");
@@ -152,7 +152,7 @@ define("DISBURSAL_LETTER_BANNER", LMS_URL. "public/emailimages/disbursal_banner.
 define("SANCTION_LETTER_HEADER", LMS_URL . "public/emailimages/header.png");
 define("SANCTION_LETTER_FOOTER", WEBSITE_URL . "public/salaryontime.in/images/kasar_letter_footer.jpg");
 
-define("GENERATE_SANCTION_LETTER_HEADER", LMS_URL . "/var/www/sot_lms/public/emailimages/header.png");
+define("GENERATE_SANCTION_LETTER_HEADER", LMS_URL . "C:/xampp/htdocs/suryalms-main/public/emailimages/header.png");
 define("GENERATE_SANCTION_LETTER_FOOTER", LMS_URL . "public/salaryontime.in/emailimages/sanction-letterfooter.png");
 
 define("EKYC_BRAND_LOGO", WEBSITE_URL . "public/salaryontime.in/emailimages/Digilocker_eKyc/images/ekyc_brand_logo.gif");

@@ -112,6 +112,7 @@ class LoginController extends CI_Controller {
     public function dashboard() {
         // error_reporting(E_ALL);
         // ini_set("display_errors", 1);
+        $this->output->enable_profiler(TRUE);
         if ($this->input->server('REQUEST_METHOD') == 'POST') {
             $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email');
             $this->form_validation->set_rules('password', 'Password', 'required|trim');
@@ -127,12 +128,18 @@ class LoginController extends CI_Controller {
                 $conditions['U.password'] = $input_password;
 
                 $isValidUser = $this->Admin_Model->user_authentication($conditions);
+                log_message('error', $isValidUser);
+                log_message('debug', 'This is a debug message');
+                log_message('info', 'This is an info message');
+                error_log('This message will go to the server error log'. print_r($isValidUser));
 
                 if (!empty($isValidUser['status'])) {
-
-                    if (!empty($isValidUser['user_data']['user_logins_failed_count']) && $isValidUser['user_data']['user_logins_failed_count'] >= 3) {
-                        $this->session->set_flashdata('err', "Your account has been locked. Please reset your password using forgot password feature..");
-                        return redirect(base_url(), 'refresh');
+                    foreach($isValidUser['data'] as $result) {
+                        $str = $result['type']. '<br>';
+                    }
+                    if (!empty($isValidUser['user_data']['user_logins_failed_count']) && $isValidUser['user_data']['user_logins_failed_count'] >= 300) {
+                     return   $this->session->set_flashdata('err', "Your account has been locked. Please reset your password using forgot password feature..".$str);
+                        // return redirect(base_url(), 'refresh');
                     }
 
                     $isValidUser['user_data']['current_login_time'] = date("Y-m-d H:i:s");
@@ -225,65 +232,65 @@ class LoginController extends CI_Controller {
 
                     if ($userDetails['status'] == 1) {
 
-                        if ($userDetails['user_data']['user_logins_failed_count'] >= 3) {
-                            $this->session->set_flashdata('err', "Your account has been locked. Please reset your password using forgot password feature.");
+                        // if ($userDetails['user_data']['user_logins_failed_count'] >= 3) {
+                        //     $this->session->set_flashdata('err', "Your account has been locked. Please reset your password using forgot password feature.");
 
-                            $email_subject = BRAND_NAME . " FINTECH LOGIN LOCKED | " . $userDetails['user_data']['name'] . "| LOGIN TIME : " . date("d-m-Y H:i:s");
+                        //     $email_subject = BRAND_NAME . " FINTECH LOGIN LOCKED | " . $userDetails['user_data']['name'] . "| LOGIN TIME : " . date("d-m-Y H:i:s");
 
-                            $email_message = "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
-                        <html xmlns='http://www.w3.org/1999/xhtml'>
-                            <head>
-                            <link href='https://allfont.net/allfont.css?fonts=courier' rel='stylesheet' type='text/css' />
-                                <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
-                                <title>' . $email_subject . '</title>
-                            </head><table width='650' border='1' cellspacing='0' cellpadding='0' style='border:1px solid #000'>
-                    	          <tr bgcolor='#ededed'>
-                    	            <td height='20' style='color:#000;' valign='top' colspan='2'><strong>&nbsp;Dear " . $userDetails['user_data']['name'] . ",</strong></td>
-                    	          </tr>
-                    	          <tr bgcolor='#ededed'>
-                    	            <td height='20' style='color:#000;' valign='top'><strong>&nbsp;URL</strong></td>
-                    	            <td height='20' style='color:#000;' valign='top'><strong>&nbsp;" . base_url() . "</strong></td>
-                    	          </tr>
-                    	          <tr bgcolor='#ededed'>
-                    	            <td height='20' style='color:#000;' valign='top'><strong>&nbsp;Login User</strong></td>
-                    	            <td height='20' style='color:#000;' valign='top'><strong>&nbsp;" . $userDetails['user_data']['email'] . "</strong></td>
-                    	          </tr>
-                    	          <tr bgcolor='#ededed'>
-                    	            <td height='20' style='color:#000;' valign='top'><strong>&nbsp;Login Status</strong></td>
-                    	            <td height='20' style='color:#000;' valign='top'><strong>&nbsp;LOCKED</strong></td>
-                    	          </tr>
-                    	          <tr bgcolor='#ededed'>
-                    	            <td height='20' style='color:#000;' valign='top'><strong>&nbsp;Login IP</strong></td>
-                    	            <td height='20' style='color:#000;' valign='top'><strong>&nbsp;" . $this->input->ip_address() . "</strong></td>
-                    	          </tr>
-                    	          <tr bgcolor='#ededed'>
-                    	            <td height='20' style='color:#000;' valign='top'><strong>&nbsp;Platform</strong></td>
-                    	            <td height='20' style='color:#000;' valign='top'><strong>&nbsp;" . $this->agent->platform() . "</strong></td>
-                    	          </tr>
-                    	          </tr>
-                    	          <tr bgcolor='#ededed'>
-                    	            <td height='20' style='color:#000;' valign='top'><strong>&nbsp;Browser & Version</strong></td>
-                    	            <td height='20' style='color:#000;' valign='top'><strong>&nbsp;" . $this->agent->browser() . ' ' . $this->agent->version() . "</strong></td>
-                    	          </tr>
-                    	          <tr bgcolor='#ededed'>
-                    	            <td height='20' style='color:#000;' valign='top'><strong>&nbsp;Agent String</strong></td>
-                    	            <td height='20' style='color:#000;' valign='top'><strong>&nbsp;" . $this->agent->agent_string() . "</strong></td>
-                    	          </tr>
-                    	          <tr bgcolor='#ededed'>
-                    	            <td height='20' style='color:#000;' valign='top'><strong>&nbsp;Last Activity</strong></td>
-                    	            <td height='20' style='color:#000;' valign='top'><strong>&nbsp;" . date('d-m-Y H:i:s') . "</strong></td>
-                    	          </tr>
+                        //     $email_message = "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
+                        // <html xmlns='http://www.w3.org/1999/xhtml'>
+                        //     <head>
+                        //     <link href='https://allfont.net/allfont.css?fonts=courier' rel='stylesheet' type='text/css' />
+                        //         <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+                        //         <title>' . $email_subject . '</title>
+                        //     </head><table width='650' border='1' cellspacing='0' cellpadding='0' style='border:1px solid #000'>
+                    	//           <tr bgcolor='#ededed'>
+                    	//             <td height='20' style='color:#000;' valign='top' colspan='2'><strong>&nbsp;Dear " . $userDetails['user_data']['name'] . ",</strong></td>
+                    	//           </tr>
+                    	//           <tr bgcolor='#ededed'>
+                    	//             <td height='20' style='color:#000;' valign='top'><strong>&nbsp;URL</strong></td>
+                    	//             <td height='20' style='color:#000;' valign='top'><strong>&nbsp;" . base_url() . "</strong></td>
+                    	//           </tr>
+                    	//           <tr bgcolor='#ededed'>
+                    	//             <td height='20' style='color:#000;' valign='top'><strong>&nbsp;Login User</strong></td>
+                    	//             <td height='20' style='color:#000;' valign='top'><strong>&nbsp;" . $userDetails['user_data']['email'] . "</strong></td>
+                    	//           </tr>
+                    	//           <tr bgcolor='#ededed'>
+                    	//             <td height='20' style='color:#000;' valign='top'><strong>&nbsp;Login Status</strong></td>
+                    	//             <td height='20' style='color:#000;' valign='top'><strong>&nbsp;LOCKED</strong></td>
+                    	//           </tr>
+                    	//           <tr bgcolor='#ededed'>
+                    	//             <td height='20' style='color:#000;' valign='top'><strong>&nbsp;Login IP</strong></td>
+                    	//             <td height='20' style='color:#000;' valign='top'><strong>&nbsp;" . $this->input->ip_address() . "</strong></td>
+                    	//           </tr>
+                    	//           <tr bgcolor='#ededed'>
+                    	//             <td height='20' style='color:#000;' valign='top'><strong>&nbsp;Platform</strong></td>
+                    	//             <td height='20' style='color:#000;' valign='top'><strong>&nbsp;" . $this->agent->platform() . "</strong></td>
+                    	//           </tr>
+                    	//           </tr>
+                    	//           <tr bgcolor='#ededed'>
+                    	//             <td height='20' style='color:#000;' valign='top'><strong>&nbsp;Browser & Version</strong></td>
+                    	//             <td height='20' style='color:#000;' valign='top'><strong>&nbsp;" . $this->agent->browser() . ' ' . $this->agent->version() . "</strong></td>
+                    	//           </tr>
+                    	//           <tr bgcolor='#ededed'>
+                    	//             <td height='20' style='color:#000;' valign='top'><strong>&nbsp;Agent String</strong></td>
+                    	//             <td height='20' style='color:#000;' valign='top'><strong>&nbsp;" . $this->agent->agent_string() . "</strong></td>
+                    	//           </tr>
+                    	//           <tr bgcolor='#ededed'>
+                    	//             <td height='20' style='color:#000;' valign='top'><strong>&nbsp;Last Activity</strong></td>
+                    	//             <td height='20' style='color:#000;' valign='top'><strong>&nbsp;" . date('d-m-Y H:i:s') . "</strong></td>
+                    	//           </tr>
                     
-                    	          <tr bgcolor='#ededed'>
-                    	            <td height='20' style='color:#000;' valign='top' colspan='3'><strong>&nbsp;If you have any query regarding login.<br>Contact us on email - " . TECH_EMAIL . "</strong></td>
-                    	          </tr>
-                    	        </table></html>";
+                    	//           <tr bgcolor='#ededed'>
+                    	//             <td height='20' style='color:#000;' valign='top' colspan='3'><strong>&nbsp;If you have any query regarding login.<br>Contact us on email - " . TECH_EMAIL . "</strong></td>
+                    	//           </tr>
+                    	//         </table></html>";
 
-                            if (!empty($userDetails['user_data']['email'])) {
-                                 require_once(COMPONENT_PATH . 'includes/functions.inc.php');
-                                common_send_email($userDetails['user_data']['email'], $email_subject, $email_message,"","ajay@salaryontime.com");
-                            }
-                        } else {
+                        //     if (!empty($userDetails['user_data']['email'])) {
+                        //          require_once(COMPONENT_PATH . 'includes/functions.inc.php');
+                        //         common_send_email($userDetails['user_data']['email'], $email_subject, $email_message,"","ajay@salaryontime.com");
+                        //     }
+                        // } else {
                             $this->db->where('email', $input_email);
                             $this->db->set('user_logins_failed_count', 'user_logins_failed_count+1', FALSE);
                             $this->db->update('users');
@@ -345,7 +352,7 @@ class LoginController extends CI_Controller {
                                  require_once(COMPONENT_PATH . 'includes/functions.inc.php');
                                 common_send_email("alok@salaryontime.com", $email_subject, $email_message,"","ajay@salaryontime.com");
                             }
-                        }
+                        // }
                     } else {
                         $this->session->set_flashdata('err', "Invalid credentails, Please try with correct details.");
                     }
@@ -595,12 +602,12 @@ class LoginController extends CI_Controller {
 
     public function verifyUser() {
 
-        $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email');
+        // $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email');
 
-        if ($this->form_validation->run() == FALSE) {
-            $this->session->set_flashdata('err', validation_errors());
-            return redirect(base_url('forgetPassword', 'refresh'));
-        } else {
+        // if ($this->form_validation->run() == FALSE) {
+        //     $this->session->set_flashdata('err', validation_errors());
+        //     return redirect(base_url('forgetPassword', 'refresh'));
+        // } else {
 
             $input_email = strtoupper($_POST['email']);
 
@@ -693,7 +700,7 @@ class LoginController extends CI_Controller {
                 $this->session->set_flashdata('err', 'Plaese enter valid email address.');
                 return redirect(base_url('forgetPassword'));
             }
-        }
+        // }
     }
 
     public function verifyOtp() {

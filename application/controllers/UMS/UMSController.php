@@ -85,6 +85,9 @@ class UMSController extends CI_Controller {
 
                     $RoleIdByType = $this->umsModel->getUmsRoleIDByType($user_id, null);
                     $supervisor_list = $this->umsModel->getUmsSuperVisorList($user_id);
+                    // $view_data['RoleIdByType'] = $RoleIdByType;
+                    // $view_data['getMappedcredit'] = $this->umsModel->getMappedCredit($RoleIdByType);
+
                     if ($return_array['status'] == 1) {
                         $user_role_data = $return_array['role_list'];
                     }
@@ -539,6 +542,7 @@ class UMSController extends CI_Controller {
         $view_data['master_user_status'] = $this->umsModel->getUserStatus();
         $view_data['get_scm'] = $this->umsModel->getSCM($user_role_id);
         $view_data['getMappedSCM'] = $this->umsModel->getSCMSelectedvalue($user_role_id);
+        $view_data['getMappedRoleLevel'] = $this->umsModel->getSCMSelectedvalue($user_role_id);
         $view_data['getMappedCreditHead'] = $this->umsModel->getMappedCreditHead($user_role_id);
         $view_data['getCreditHead'] = $this->umsModel->getCreditHeadList($user_role_id);
 

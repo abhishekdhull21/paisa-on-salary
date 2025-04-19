@@ -39,8 +39,10 @@ class Task_Model extends CI_Model {
 
     public function index($conditions = null, $limit = null, $start = null, $search_input_array = array(), $where_in = array()) {
 
-        $orderByS['sOrderBy'] = $conditions['sOrderBy'];
-        unset($conditions['sOrderBy']);
+        if (isset($conditions['sOrderBy'])) {
+            $orderByS['sOrderBy'] = $conditions['sOrderBy'];
+            unset($conditions['sOrderBy']);
+        }
 
         if (!empty($search_input_array['slid'])) {
             $conditions['LD.lead_id'] = intval($search_input_array['slid']);
@@ -156,7 +158,7 @@ class Task_Model extends CI_Model {
         $select .= ' CAM.repayment_date, CAM.cam_sanction_letter_esgin_on,';
         $select .= ' MRT.m_marital_status_name as marital_status, MOC.m_occupation_name as occupation, MQ.m_qualification_name as qualification';
 
-        if (in_array($conditions["LD.stage"], array("S13", "S21", "S22", "S25"))) {
+        if (isset($conditions["LD.stage"]) && in_array($conditions["LD.stage"], array("S13", "S21", "S22", "S25"))) {
             $select .= ',user_disbursal.name as disbursalAssignTo, DATE_FORMAT(LD.lead_disbursal_recommend_datetime, "%d-%m-%Y %H:%i:%s") as disbursal_recommend';
         }
 
@@ -184,7 +186,7 @@ class Task_Model extends CI_Model {
         $this->db->join($this->table_users . ' user_screener', 'user_screener.user_id = LD.lead_screener_assign_user_id', 'left');
         $this->db->join($this->table_users . ' user_sanction', 'user_sanction.user_id = LD.lead_credit_assign_user_id', 'left');
 
-        if (in_array($conditions["LD.stage"], array("S13", "S21", "S22", "S25"))) {
+        if (isset($conditions["LD.stage"]) && in_array($conditions["LD.stage"], array("S13", "S21", "S22", "S25"))) {
             $this->db->join($this->table_users . ' user_disbursal', 'user_disbursal.user_id = LD.lead_disbursal_assign_user_id', 'left');
         }
 
@@ -208,13 +210,13 @@ class Task_Model extends CI_Model {
             $this->db->where($conditions);
         }
 
-        if (in_array($conditions["LD.stage"], ['S1']) && $this->uri->segment(1) == 'enquires') {
+        if (isset($conditions["LD.stage"]) && in_array($conditions["LD.stage"], ['S1']) && $this->uri->segment(1) == 'enquires') {
             unset($conditions["LD.stage"]);
             $conditions["LD.lead_status_id"] = 1;
             $this->db->where('LD.first_name IS NULL');
         }
 
-        if (in_array($conditions["LD.stage"], array("S1", "S2"))) {
+        if (isset($conditions["LD.stage"]) && in_array($conditions["LD.stage"], array("S1", "S2"))) {
             $this->db->where('LD.lead_is_mobile_verified', 1);
             $this->db->where('LD.first_name IS NOT NULL', null, false);
         }
@@ -248,31 +250,31 @@ class Task_Model extends CI_Model {
         $order_by_name = "LD.lead_id";
         $order_by_type = "DESC";
 
-        if ($conditions['LD.stage'] == "S2") {
+        if (isset($conditions["LD.stage"]) && $conditions['LD.stage'] == "S2") {
             $order_by_name = "LD.lead_screener_assign_datetime";
             $order_by_type = "DESC";
-        } else if ($conditions['LD.stage'] == "S5") {
+        } else if (isset($conditions["LD.stage"]) && $conditions['LD.stage'] == "S5") {
             $order_by_name = "LD.lead_credit_assign_datetime";
             $order_by_type = "DESC";
-        } else if ($conditions['LD.stage'] == "S3") {
+        } else if (isset($conditions["LD.stage"]) &&  $conditions['LD.stage'] == "S3") {
             $order_by_name = "LD.scheduled_date";
             $order_by_type = "DESC";
-        } else if ($conditions['LD.stage'] == "S6") {
+        } else if (isset($conditions["LD.stage"]) &&  $conditions['LD.stage'] == "S6") {
             $order_by_name = "LD.scheduled_date";
             $order_by_type = "DESC";
-        } else if (in_array($conditions['LD.stage'], array("S12"))) {
+        } else if (isset($conditions["LD.stage"]) && in_array($conditions['LD.stage'], array("S12"))) {
             $order_by_name = "sanctionedOn";
             $order_by_type = "ASC";
-        } else if (in_array($conditions['LD.stage'], array("S10"))) {
+        } else if (isset($conditions["LD.stage"]) && in_array($conditions['LD.stage'], array("S10"))) {
             $order_by_name = "LD.lead_credit_recommend_datetime";
             $order_by_type = "ASC";
-        } else if (in_array($conditions['LD.stage'], array("S20"))) {
+        } else if (isset($conditions["LD.stage"]) && in_array($conditions['LD.stage'], array("S20"))) {
             $order_by_name = "CAM.cam_sanction_letter_esgin_on";
             $order_by_type = "ASC";
-        } else if (in_array($conditions['LD.stage'], array("S13"))) {
+        } else if (isset($conditions["LD.stage"]) && in_array($conditions['LD.stage'], array("S13"))) {
             $order_by_name = "lead_disbursal_recommend_datetime";
             $order_by_type = "ASC";
-        } else if (in_array($conditions['LD.stage'], array("S14"))) {
+        } else if (isset($conditions["LD.stage"]) && in_array($conditions['LD.stage'], array("S14"))) {
             $order_by_name = "lead_disbursal_approve_datetime";
             $order_by_type = "DESC";
         }
@@ -3782,13 +3784,13 @@ Capitalized terms used herein but not defined shall have the same meanings given
             $this->db->where($conditions);
         }
 
-        if (in_array($conditions["LD.stage"], ['S1']) && $this->uri->segment(1) == 'enquires') {
+        if (isset($conditions["LD.stage"]) && in_array($conditions["LD.stage"], ['S1']) && $this->uri->segment(1) == 'enquires') {
             unset($conditions["LD.stage"]);
             $conditions["LD.lead_status_id"] = 1;
             $this->db->where('LD.first_name IS NULL');
         }
 
-        if (in_array($conditions["LD.stage"], array("S1", "S2"))) {
+        if (isset($conditions["LD.stage"]) && in_array($conditions["LD.stage"], array("S1", "S2"))) {
             $this->db->where('LD.lead_is_mobile_verified', 1);
             $this->db->where('LD.first_name IS NOT NULL', null, false);
         }
@@ -3945,7 +3947,7 @@ Capitalized terms used herein but not defined shall have the same meanings given
             $this->db->join('loan_collection_visit LCV', 'LCV.col_lead_id = LD.lead_id AND LCV.col_visit_active=1', 'left');
         }
 
-        if (in_array($conditions["LD.stage"], array("S1", "S2"))) {
+        if (isset($conditions["LD.stage"]) && in_array($conditions["LD.stage"], array("S1", "S2"))) {
 
             $this->db->where('LD.lead_is_mobile_verified', 1);
             $this->db->where('LD.first_name IS NOT NULL', null, false);

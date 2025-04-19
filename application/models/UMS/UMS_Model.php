@@ -328,7 +328,7 @@ class UMS_Model extends CI_Model {
         $conditions['U.user_status_id'] = 1;
         $conditions['UR.user_role_active'] = 1;
 
-        if (!empty($user_id) && $Sanction_head['user_is_loanwalle'] == 0) {
+        if (!empty($user_id) && $Sanction_head && $Sanction_head['user_is_loanwalle'] == 0) {
             $conditions['UR.user_role_user_id !='] = $user_id;
         }
 
@@ -427,7 +427,6 @@ class UMS_Model extends CI_Model {
             $this->db->join('users U', 'U.user_id = UR.user_role_user_id');
             $this->db->where($conditions);
             $query = $this->db->get();
-
             if ($query->num_rows() > 0) {
                 return $query->row_array();
             } else {
@@ -440,10 +439,9 @@ class UMS_Model extends CI_Model {
 
     public function getcreditSelectedvalue($user_role_id) {
         $query = $this->db->select('user_role_supervisor_role_id')->where('user_role_id', $user_role_id)->where_in('user_role_type_id', [2, 3, 4])->from('user_roles')->get();
-
         if ($query->num_rows() > 0) {
             $result = $query->row();
-            $credit_role_id = $result->user_role_supervisor_role_id;
+            $credit_role_id = $result->user_role_supervisor_role_id || $user_role_id;
             $conditions['UR.user_role_id'] = $credit_role_id;
 
             $this->db->select(' UR.user_role_id, UR.user_role_user_id, UR.user_role_type_id, UR.user_role_supervisor_role_id, U.user_id, U.name');
@@ -533,7 +531,6 @@ class UMS_Model extends CI_Model {
 
     public function getSCMSelectedvalue($user_role_id) {
         $query = $this->db->select('user_role_supervisor_role_id')->where('user_role_id', $user_role_id)->where_in('user_role_type_id', [13])->from('user_roles')->get();
-
         if ($query->num_rows() > 0) {
             $result = $query->row();
             $scm_role_id = $result->user_role_supervisor_role_id;

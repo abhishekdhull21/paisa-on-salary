@@ -84,10 +84,9 @@ class SearchController extends CI_Controller {
             $querySearch .= " ORDER BY LD.created_on ASC";
 
             $query = $this->db->query($querySearch);
+            $role = isset($this->session->userdata['isUserSession']['role']) ? $this->session->userdata['isUserSession']['role'] : null;
 
-            if ($this->session->userdata['isUserSession']['role'] == 'Recovery' ||
-                    $this->session->userdata['isUserSession']['role'] == 'MIS' ||
-                    $this->session->userdata['isUserSession']['role'] == 'Admin') {
+            if ($role == 'Recovery' || $role == 'MIS' || $role == 'Admin') {
                 $url = 'leads';
             } else {
                 $url = 'leadDetails';

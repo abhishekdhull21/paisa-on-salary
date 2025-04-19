@@ -32,7 +32,7 @@ if (empty($_SESSION['isUserSession']['user_id'])) {
     <html>
 
     <head>
-        <title>Kasar Credit & Capital LOS | LMS</title>
+        <title><?= getenv('SITE_TITLE') ?></title>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">

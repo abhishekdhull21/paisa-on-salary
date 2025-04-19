@@ -531,7 +531,7 @@
 
     function getLeadsDetails(lead_id) {
         $('.approval-button').hide();
-        window.location.href = "<?= base_url('getleadDetails_new/' . $this->encrypt->encode($leadDetails->lead_id)) ?>";
+        window.location.href = "<?= isset($leadDetails) && isset($leadDetails) ? base_url('getleadDetails_new/' . $this->encrypt->encode($leadDetails->lead_id)) : "" ?>";
     }
 
     function setSendLink(lead_id, customer_id, link_type) {
@@ -845,7 +845,7 @@
         $('#divExpendApproval').hide();
         $('#divExpendReason').toggle();
 
-        <?php if ($_SESSION['isUserSession']['role'] == "Disbursal") { ?>
+        <?php if (isset($this->session->userdata['isUserSession']['role']) &&  $_SESSION['isUserSession']['role'] == "Disbursal") { ?>
             // $("#ResonBoxForRejectDisbursalLoan").html(prependFormDuplicateLead);
         <?php } else { ?>
             // $("#ResonBoxForrejectLoan").html(prependFormDuplicateLead);
@@ -1666,7 +1666,7 @@
                 <?php } ?>
 
                 html += '</thead></table>';
-                <?php if (in_array(agent, array("CR2", "CO1", "CO2", "CO3", "CO4", "CA")) && in_array($leadDetails->lead_status_id, array(14, 19))) { ?>
+                <?php if (isset($leadDetails) && in_array(agent, array("CR2", "CO1", "CO2", "CO3", "CO4", "CA")) && in_array($leadDetails->lead_status_id, array(14, 19))) { ?>
                     html += '<table class="table"><tbody>';
                     html += '<tr><th class="thbg">Generate Repayment Link</th><td colspan="4">';
 
@@ -1733,10 +1733,10 @@
             success: function(response) {
 
                 if (response.errSession) {
-                    window.location.href = "<?= base_url() ?>";
+                    window.location.href = "<?= base_url(); ?>";
                 } else if (response.msg) {
                     catchSuccess(response.msg);
-                    collectionHistory('<?= $this->encrypt->encode($leadDetails->lead_id) ?>', '<?= user_id ?>');
+                      collectionHistory('<?= isset($leadDetails) ? $this->encrypt->encode($leadDetails->lead_id) : "" ?>', '<?= user_id ?>');
                 } else {
                     catchError(response.err);
                 }
@@ -1826,16 +1826,16 @@
     $('#divExpendReason3').hide();
 
     function addRemarksToggle(lead_id) {
-        <?php if (in_array($leadDetails->lead_status_id, array(30, 35, 37))) { ?>
+        <?php if (isset($leadDetails) && in_array($leadDetails->lead_status_id, array(30, 35, 37))) { ?>
             $('#btn_own_reason').html('<button class="btn btn-success" id="DisburseRecommend" onclick="disburseRecommend(&quot;' + lead_id + '&quot;)">Recommend</button>');
-        <?php } else if ((agent == "AC2" || agent == "CA") && in_array($leadDetails->lead_status_id, array(14))) { ?>
+        <?php } else if ((agent == "AC2" || agent == "CA") && isset($leadDetails) && in_array($leadDetails->lead_status_id, array(14))) { ?>
             $('#btn_own_reason').html('<button class="btn btn-success lead-sanction-button" id="DisburseWaived" onclick="disburseWaived(&quot;' + lead_id + '&quot;)">Waived</button>');
         <?php } ?>
         $('#divExpendReason3').toggle();
     }
 
     function disburseRecommend(lead_id) {
-        var customer_id = "<?= strval($leadDetails->customer_id) ?>";
+        var customer_id = "<?= isset($leadDetails) && strval($leadDetails->customer_id) ?>";
         var own_remark = $("#own_remark").val();
 
         $.ajax({
@@ -1868,7 +1868,7 @@
     }
 
     function disburseWaived(lead_id) {
-        var customer_id = "<?= strval($leadDetails->customer_id) ?>";
+        var customer_id = "<?= isset($leadDetails) && strval($leadDetails->customer_id) ?>";
         var own_remark = $("#own_remark").val();
 
         $.ajax({
@@ -2230,7 +2230,7 @@
                 dataType: "json",
                 success: function(response) {
                     var i = 1;
-                    var html = '<table class="table" ><thead><tr><th class="whitespace data-fixed-columns"><b>Sno.</b></th><th class="whitespace data-fixed-columns"><b>Name</th><th class="whitespace"><b>Reference.</b></th><th class="whitespace"><b>Mobile.</b></th><?php if ((agent == "CR2" || agent == "CA" || agent == "SA") && ($leadDetails->stage == "S5" || $leadDetails->stage == "S6" || $leadDetails->stage == "S11")) { ?><th class="whitespace"><b>Action</b></th><?php } ?></tr></thead>';
+                    var html = '<table class="table" ><thead><tr><th class="whitespace data-fixed-columns"><b>Sno.</b></th><th class="whitespace data-fixed-columns"><b>Name</th><th class="whitespace"><b>Reference.</b></th><th class="whitespace"><b>Mobile.</b></th><?php if ((agent == "CR2" || agent == "CA" || agent == "SA") && isset($leadDetails) && ($leadDetails->stage == "S5" || $leadDetails->stage == "S6" || $leadDetails->stage == "S11")) { ?><th class="whitespace"><b>Action</b></th><?php } ?></tr></thead>';
                     html += '<tbody>';
 
                     if (response['refrence'] != "No") {
@@ -2240,7 +2240,7 @@
                             html += '<td class="whitespace">' + myarr.lcr_name + '</td>';
                             html += '<td class="whitespace">' + myarr.mrt_name + '</td>';
                             html += '<td class="whitespace">' + myarr.lcr_mobile + '</td>';
-                            <?php if (in_array(agent, ["CR2", "CA", "SA"]) && in_array($leadDetails->stage, ["S5", "S6", "S11"])) { ?>
+                            <?php if (isset($leadDetails) && in_array(agent, ["CR2", "CA", "SA"]) && in_array($leadDetails->stage, ["S5", "S6", "S11"])) { ?>
                                 html += '<td class="whitespace"> <span onclick="updateReference(' + myarr.lcr_id + ', ' + myarr.lcr_relationType + ', ' + myarr.lcr_mobile + ', \'' + myarr.lcr_name + '\')" class="fa fa-pencil-square-o"></span> &nbsp;/ &nbsp; <span onclick="deleterefrence(' + myarr.lcr_id + ')" class="fa fa-trash"></span></td>';
                             <?php } ?>
                             html += '</tr>';
@@ -2583,7 +2583,7 @@
         $('#end_use').val((res.end_use) ? res.end_use : res.purpose);
         $('#eligible_foir_percentage').val((res.eligible_foir_percentage) ? res.eligible_foir_percentage : "0");
         $('#eligible_loan').val((res.eligible_loan) ? res.eligible_loan : "0");
-        $('#loan_recommended').val(Math.round(res.loan_recommended) ? Math.round(res.loan_recommended) : '<?= round($leadDetails->loan_amount) ?>');
+        $('#loan_recommended').val(Math.round(res.loan_recommended) ? Math.round(res.loan_recommended) : '<?= isset($leadDetails) && round($leadDetails->loan_amount) ?>');
         $('#final_foir_percentage').val((res.final_foir_percentage) ? res.final_foir_percentage : "0");
         $('#foir_enhanced_by').val((res.foir_enhanced_by) ? res.foir_enhanced_by : "0");
         $('#processing_fee_percent').val((res.processing_fee_percent) ? res.processing_fee_percent : "10");
@@ -2624,7 +2624,7 @@
         html += '<tr><th>Borrower Age (years)</th><td>' + ((res.borrower_age) ? res.borrower_age : "-") + '</td><th>End Use</th><td>' + ((res.end_use) ? res.end_use : "-") + '</td></tr>';
         html += '<tr><th>LW Score</th><td>-</td><th>Scheme</th><td>-</td></tr>';
         html += '<tr><th>Eligible FOIR (%)</th><td>' + ((res.eligible_foir_percentage) ? res.eligible_foir_percentage : "-") + '</td><th>Eligible Loan</th><td>' + ((res.eligible_loan) ? res.eligible_loan : "-") + '</td></tr>';
-        html += '<tr><th>Loan Applied (Rs.)</th><td><?= ($leadDetails->loan_amount) ? round($leadDetails->loan_amount) : '-' ?></td><th>Loan Recommended (Rs.)</th><td>' + res.loan_recommended + '</td></tr>';
+        html += '<tr><th>Loan Applied (Rs.)</th><td><?= isset($leadDetails) && ($leadDetails->loan_amount) ?  round($leadDetails->loan_amount) : '-' ?></td><th>Loan Recommended (Rs.)</th><td>' + res.loan_recommended + '</td></tr>';
         html += '<tr><th>Final FOIR (%)</th><td>' + ((res.final_foir_percentage) ? res.final_foir_percentage : "-") + '</td><th>FOIR ENHANCED BY (%)</th><td>' + ((res.foir_enhanced_by) ? res.foir_enhanced_by : "-") + '</td></tr>';
         html += '<tr><th>Admin Fee (%)</th><td>' + ((res.processing_fee_percent) ? res.processing_fee_percent : "-") + '</td><th>ROI (%)</th><td>' + ((res.roi) ? res.roi : "-") + '</td></tr>';
         html += '<tr><th>Total Admin Fee (Rs.)</th><td>' + ((res.admin_fee) ? res.admin_fee : "-") + '</td><th>Disbursal Date</th><td>' + ((res.disbursal_date) ? res.disbursal_date : "-") + '</td></tr>';
@@ -4016,7 +4016,7 @@
                     $('#saveReference').html('<span class="spinner-border spinner-border-sm mr-2" role="status"></span>Processing...').prop('disabled', true);
                 },
                 success: function(response) {
-                    getReferenceDetails('<?= $this->encrypt->encode($leadDetails->lead_id) ?>');
+                    getReferenceDetails('<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>');
                     if (response.msg) {
                         $("#insertReference")[0].reset();
                         catchSuccess(response.msg);
@@ -4043,7 +4043,7 @@
                 },
                 success: function(response) {
                     if (response.msg) {
-                        getCustomerBanking('<?= $this->encrypt->encode($leadDetails->lead_id) ?>');
+                        getCustomerBanking('<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>');
                         $("#addBeneficiary")[0].reset();
                         catchSuccess(response.msg);
                     } else {
@@ -4068,7 +4068,7 @@
                 },
                 success: function(response) {
                     if (response.msg) {
-                        getCustomerBanking('<?= $this->encrypt->encode($leadDetails->lead_id) ?>');
+                        getCustomerBanking('<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>');
                         $("#FormverifyDisbursalBank")[0].reset();
                         catchSuccess(response.msg);
                     } else {
@@ -4101,7 +4101,7 @@
                         if (response.errSession) {
                             window.location.href = "<?= base_url() ?>";
                         } else if (response.msg) {
-                            disbursalDetails('<?= $this->encrypt->encode($leadDetails->lead_id) ?>');
+                            disbursalDetails('<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>');
                             catchSuccess(response.msg);
                         } else {
                             catchError(response.err);
@@ -4193,7 +4193,7 @@
                     } else if (response.msg) {
                         $('#col_visit_id').empty();
                         $('#FormRequestForCollectionVisit')[0].reset();
-                        get_Visit_Request_lists('<?= $this->encrypt->encode($leadDetails->lead_id) ?>');
+                        get_Visit_Request_lists('<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>');
                         catchSuccess(response.msg);
                     } else {
                         catchError(response.err);
@@ -4227,7 +4227,7 @@
                 $('#saveReference').html('<span class="spinner-border spinner-border-sm mr-2" role="status"></span>Processing...').prop('disabled', true);
             },
             success: function(response) {
-                getReferenceDetails('<?= $this->encrypt->encode($leadDetails->lead_id) ?>');
+                getReferenceDetails('<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>');
                 if (response.msg) {
 
                     // $("#insertReference").load(location.href + " #insertReference");
@@ -4260,7 +4260,7 @@
             if (status == 'success') {
                 catchSuccess('Successfully Deleted');
                 $("#remove" + id).fadeOut("slow");
-                getReferenceDetails('<?= $this->encrypt->encode($leadDetails->lead_id) ?>');
+                getReferenceDetails('<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>');
             }
 
         });
@@ -4452,7 +4452,7 @@
                 if (response.errSession) {
                     window.location.href = "<?= base_url() ?>";
                 } else if (response.success_msg) {
-                    getVerificationDetails("<?= $this->encrypt->encode($leadDetails->lead_id) ?>");
+                    getVerificationDetails("<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>");
                     catchSuccess(response.success_msg);
                 } else {
                     ((email_verification_type == 1) ? $('#personalEmailVerification').prop('checked', false) : '');
@@ -4488,7 +4488,7 @@
 
                     catchSuccess(response.success_msg);
                     $('#api_download_bank_statement').html('Download Cart API Data').prop('disabled', true);
-                    getDataBankingAnalysis("<?= $this->encrypt->encode($leadDetails->lead_id) ?>");
+                    getDataBankingAnalysis("<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>");
 
 
                     var i = 30;
@@ -4551,7 +4551,7 @@
                 if (response.errSession) {
                     window.location.href = "<?= base_url() ?>";
                 } else if (response.success_msg) {
-                    getVerificationDetails("<?= $this->encrypt->encode($leadDetails->lead_id) ?>");
+                    getVerificationDetails("<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>");
                     catchSuccess(response.success_msg);
                 } else {
                     ((ocr_verification_type == 1) ? $('#aadhaarOcrVerification').prop('checked', false) : '');
@@ -4606,7 +4606,7 @@
                 } else if (response.success_msg) {
                     catchSuccess(response.success_msg);
                     $('#api_download_bank_statement').html('Download Cart API Data').prop('disabled', true);
-                    getDataBankingAnalysis("<?= $this->encrypt->encode($leadDetails->lead_id) ?>");
+                    getDataBankingAnalysis("<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>");
                 } else {
                     catchError(response.error_msg);
                 }
@@ -4728,7 +4728,7 @@
                 } else if (response.success_msg) {
                     catchSuccess(response.success_msg);
                     $('#api_download_finbox_bank_statement').html('Download Finbox API Data').prop('disabled', true);
-                    getFinBoxBankingDeviceData("<?= $this->encrypt->encode($leadDetails->lead_id) ?>");
+                    getFinBoxBankingDeviceData("<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>");
                 } else {
 
                     catchError(response.error_msg);
@@ -4762,7 +4762,7 @@
                     // alert(response.success_msg);
                     catchSuccess(response.success_msg);
                     $('#api_download_finbox_bank_statement').html('Download Finbox API Data').prop('disabled', true);
-                    getFinBoxBankingDeviceData("<?= $this->encrypt->encode($leadDetails->lead_id) ?>");
+                    getFinBoxBankingDeviceData("<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>");
 
                     var i = 10;
                     var timer = '';
@@ -4771,7 +4771,7 @@
                             return;
                         setTimeout(function() {
                             if (i == 0) {
-                                $('#div_finbox_bank_statement_analysis').html('<button class="btn btn-info" id="api_download_finbox_bank_statement" onclick="api_download_finbox_bank_statement(<?= $leadDetails->lead_id ?>)">Download Finbox API Data</button>').prop('disabled', false);
+                                $('#div_finbox_bank_statement_analysis').html('<button class="btn btn-info" id="api_download_finbox_bank_statement" onclick="api_download_finbox_bank_statement(<?= isset($leadDetails) && $leadDetails->lead_id ?>)">Download Finbox API Data</button>').prop('disabled', false);
                             } else {
                                 $('#div_finbox_bank_statement_analysis').html('<div class="alert alert-success" role="alert">Please wait for a moment to call api download...<strong> ' + i + ' Secs </strong></div>').prop('disabled', true);
                                 timer = i;
@@ -4832,7 +4832,7 @@
                 } else if (response.success_msg) {
                     catchSuccess(response.success_msg);
                     $('#api_download_finbox_bank_statement').html('Download Cart API Data').prop('disabled', true);
-                    getFinBoxBankingDeviceData("<?= $this->encrypt->encode($leadDetails->lead_id) ?>");
+                    getFinBoxBankingDeviceData("<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>");
                 } else {
                     catchError(response.error_msg);
                 }
@@ -5445,8 +5445,8 @@
         } else if (input.col_visit_address_type == 2) {
             $('#FormRequestForCollectionVisit #visit_type_id_1').attr('disabled', true);
         }
-        get_Visit_Request_user_lists('<?= $this->encrypt->encode($leadDetails->lead_id) ?>', input.col_visit_id);
-        get_Visit_Request_lists('<?= $this->encrypt->encode($leadDetails->lead_id) ?>');
+        get_Visit_Request_user_lists('<?= isset($leadDetails) &&  $this->encrypt->encode($leadDetails->lead_id) ?>', input.col_visit_id);
+        get_Visit_Request_lists('<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>');
         var visit_btn_name = "Save";
         var tab_btn_name = "Visit";
 
@@ -5538,7 +5538,7 @@
                 } else if (response.msg) {
                     $(field_blank).val("");
                     get_collection_followup_master_lists();
-                    getCollectionDetails('<?= $this->encrypt->encode($leadDetails->lead_id) ?>');
+                    getCollectionDetails('<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>');
                     get_collection_followup_master_lists();
                     catchSuccess(response.msg);
                 } else {
@@ -5678,7 +5678,7 @@
                     if (response.errSession) {
                         window.location.href = "<?= base_url() ?>";
                     } else if (response.msg) {
-                        get_Visit_Request_lists("<?= $this->encrypt->encode($leadDetails->lead_id) ?>");
+                        get_Visit_Request_lists("<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>");
                         catchSuccess(response.msg);
                     } else {
                         catchError(response.err);
@@ -5702,7 +5702,7 @@
                 type: 'POST',
                 dataType: "json",
                 data: {
-                    enc_lead_id: "<?= $this->encrypt->encode($leadDetails->lead_id) ?>",
+                    enc_lead_id: "<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>",
                     csrf_token
                 },
                 beforeSend: function() {
@@ -5732,7 +5732,7 @@
             url: '<?= base_url("get-bre-rule-result") ?>',
             type: 'POST',
             data: {
-                enc_lead_id: "<?= $this->encrypt->encode($leadDetails->lead_id) ?>",
+                enc_lead_id: "<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>",
                 csrf_token
             },
             dataType: "json",
@@ -5761,7 +5761,7 @@
             url: '<?= base_url("bre-edit-application") ?>',
             type: 'POST',
             data: {
-                enc_lead_id: "<?= $this->encrypt->encode($leadDetails->lead_id) ?>",
+                enc_lead_id: "<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>",
                 csrf_token
             },
             dataType: "json",
@@ -5792,7 +5792,7 @@
                 url: '<?= base_url("save-bre-manual-decision") ?>',
                 type: 'POST',
                 data: {
-                    enc_lead_id: "<?= $this->encrypt->encode($leadDetails->lead_id) ?>",
+                    enc_lead_id: "<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>",
                     trans_rule_id: rule_id,
                     deviation_decision: deviation_decision,
                     deviation_remark: deviation_remark,

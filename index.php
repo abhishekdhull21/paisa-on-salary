@@ -99,6 +99,25 @@ switch (ENVIRONMENT) {
 }
  //error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED & ~E_STRICT & ~E_USER_NOTICE & ~E_USER_DEPRECATED);
  //ini_set('display_errors', 1);
+
+ $envFile = __DIR__ . '/.' . ENVIRONMENT . '.env';
+
+if (file_exists($envFile)) {
+    $lines = file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
+    foreach ($lines as $line) {
+        if (strpos(trim($line), '#') === 0) {
+            continue; // Skip comments
+        }
+
+        list($key, $value) = array_pad(explode('=', $line, 2), 2, null);
+        if ($key !== null && $value !== null && getenv($key) === false) {
+            putenv(trim($key) . '=' . trim($value));
+            $_ENV[trim($key)] = trim($value);
+            $_SERVER[trim($key)] = trim($value);
+        }
+    }
+}
 /*
  * ---------------------------------------------------------------
  * SYSTEM DIRECTORY NAME
