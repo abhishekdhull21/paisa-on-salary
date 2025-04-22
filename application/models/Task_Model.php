@@ -4321,7 +4321,7 @@ Capitalized terms used herein but not defined shall have the same meanings given
     }
 
     public function getDepartmentMaster() {
-        return $this->db->select($select)->where(['department_active' => 1, 'department_deleted' => 0])->from('master_department')->get()->result();
+        return $this->db->select("*")->where(['department_active' => 1, 'department_deleted' => 0])->from('master_department')->get()->result();
     }
 
     public function getEmpOccupation() {

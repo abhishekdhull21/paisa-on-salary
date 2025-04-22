@@ -91,7 +91,7 @@
 
     <div class="col-md-6">
         <label class="labelField">Salary&nbsp; <strong class="required_Fields">*</strong></label>
-        <input type="text" class="form-control inputField" id="monthly_income" name="monthly_income" onchange="monthlyIncome(this)" autocomplete="off" value="<?= !empty($leadDetails->monthly_income) ? round($leadDetails->monthly_income) : !empty($leadDetails->monthly_salary_amount) ? $leadDetails->monthly_salary_amount : '' ?>" required="required">
+        <input type="text" class="form-control inputField" id="monthly_income" name="monthly_income" onchange="monthlyIncome(this)" autocomplete="off" value="<?= !empty($leadDetails->monthly_income) ? round($leadDetails->monthly_income) : (!empty($leadDetails->monthly_salary_amount) ? $leadDetails->monthly_salary_amount : '') ?>" required="required">
     </div>
 
     <div class="col-md-6">

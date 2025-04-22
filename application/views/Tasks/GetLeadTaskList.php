@@ -41,7 +41,7 @@ $stage = $this->uri->segment(2);
 //    $userlist = getuserCOllData('user_roles', $_SESSION['isUserSession']['user_id']);
 //}
 
- $leadDetail = $leadDetails->result();
+ $leadDetail = $leadsDetails->result();
     $rowCount = 0;
     foreach ($leadDetail as $row) {
         if (!empty($row->lead_final_disbursed_date)) {
@@ -476,7 +476,7 @@ $stage = $this->uri->segment(2);
 
                                                                             if ($totalcount > 0) {
                                                                                 $sn = 1;
-                                                                                foreach ($leadDetails->result() as $row) {
+                                                                                foreach ($leadsDetails->result() as $row) {
                                                                                     $doc_upload = $row_class = '';
                                                                                     if ((in_array($stage, array("S1")) && $row->utm_source == "pre-approved-offeremail")) {
                                                                                         $row_class = 'class="info"';
@@ -501,8 +501,8 @@ $stage = $this->uri->segment(2);
                                                                                     <tr  <?= $row_class ?>>
 																						<?php if (in_array(agent, array('CO1', 'CO3')) && $uri == "collection") { ?>
                                                                                                 <td class="whitespace data-fixed-columns">
-																									 <!--<a href="<?=base_url('search/getleadDetails/'.$this->encrypt->encode($row->lead_id))?>" target="_blank"><?= $row->lead_id ?></a>-->
-																									 <a href="<?=base_url('getleadDetails/'.$this->encrypt->encode($row->lead_id))?>" target="_blank"><?= $row->lead_id ?></a>
+																									 <!--<a href="<?=base_url('search/getleadsDetails/'.$this->encrypt->encode($row->lead_id))?>" target="_blank"><?= $row->lead_id ?></a>-->
+																									 <a href="<?=base_url('getleadsDetails/'.$this->encrypt->encode($row->lead_id))?>" target="_blank"><?= $row->lead_id ?></a>
 																								</td>
 																								<td class="whitespace data-fixed-columns">
 																									 <?php echo $row->status; ?>

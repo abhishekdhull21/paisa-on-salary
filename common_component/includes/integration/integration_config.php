@@ -142,6 +142,110 @@ function integration_config($api_type = "", $api_sub_type = "") {
             }
             break;
 
+            CASE "DIGITAP_API" :
+
+            $config_arr['Status'] = 1;
+            $config_arr['Provider'] = "digitap";
+            $config_arr['UserName'] = "";
+            $config_arr['UserPassword'] = "";
+            $config_arr['RPMiddleWareUrl'] = "";
+            $config_arr['ApiUserId'] = "ajay@salaryontime.com";
+            $config_arr['ApiPassword'] = "A1UrUUHE3ezATzr2C3u0";
+            $config_arr['RPMiddleWareUrl'] = "";
+           // $envSet = "production";
+            if ($envSet == "production") {
+                $config_arr['RPMiddleWareUrl'] = "";
+                $config_arr['ApiUserId'] = "ajay@salaryontime.com";
+                $config_arr['ApiPassword'] = "A1UrUUHE3ezATzr2C3u0";
+            }
+
+            if ($api_sub_type == "GET_TOKEN") {
+                if ($envSet == "development") {
+                    $config_arr['ApiUrl'] = "https://signzy.tech/api/v2/patrons/login";
+                } else if ($envSet == "production") {
+                    $config_arr['ApiUrl'] = "https://signzy.tech/api/v2/patrons/login";
+                }
+            } else if ($api_sub_type == "GET_IDENTITIY_OBJECT") {
+                if ($envSet == "development") {
+                    $config_arr['ApiUrl'] = "https://signzy.tech/api/v2/patrons/<patron-id>/identities";
+                } else if ($envSet == "production") {
+                    $config_arr['ApiUrl'] = "https://signzy.tech/api/v2/patrons/<patron-id>/identities";
+                }
+            } else if ($api_sub_type == "PAN_FETCH") {
+                if ($envSet == "development") {
+                    $config_arr['ApiUrl'] = "https://api.signzy.app/api/v3/pan/fetchV2";
+                } else if ($envSet == "production") {
+                    $config_arr['ApiUrl'] = "https://api.signzy.app/api/v3/pan/fetchV2";
+                }
+            } else if ($api_sub_type == "PAN_OCR") {
+                if ($envSet == "development") {
+                    $config_arr['ApiUrl'] = "https://api.signzy.app/api/v3/pan/fetch";
+                } else if ($envSet == "production") {
+                    $config_arr['ApiUrl'] = "https://api.signzy.app/api/v3/pan/fetch";
+                }
+            } else if ($api_sub_type == "AADHAAR_OCR") {
+                if ($envSet == "development") {
+                    $config_arr['ApiUrl'] = "https://api.signzy.app/api/v3/aadhaar/extraction-masking";
+                } else if ($envSet == "production") {
+                    $config_arr['ApiUrl'] = "https://signzy.tech/api/v2/snoops";
+                }
+            } else if ($api_sub_type == "AADHAAR_MASK") {
+                if ($envSet == "development") {
+                    $config_arr['ApiUrl'] = "https://api.signzy.app/api/v3/aadhaar/extraction-masking";
+                } else if ($envSet == "production") {
+                    $config_arr['ApiUrl'] = "https://signzy.tech/api/v2/snoops";
+                }
+            } else if ($api_sub_type == "GET_ESIGN_TOKEN") {
+                if ($envSet == "development") {
+                    $config_arr['ApiUrl'] = "https://esign-preproduction.signzy.tech/api/customers/login";
+                } else if ($envSet == "production") {
+                    $config_arr['ApiUrl'] = "https://esign.signzy.tech/api/customers/login";
+                }
+            } else if ($api_sub_type == "UPLOAD_ESIGN_DOCUMENT") {
+                if ($envSet == "development") {
+                    $config_arr['ApiUrl'] = "https://persist.signzy.tech/api/base64";
+                } else if ($envSet == "production") {
+                    $config_arr['ApiUrl'] = "https://persist.signzy.tech/api/base64";
+                }
+            } else if ($api_sub_type == "AADHAAR_ESIGN") {
+                if ($envSet == "development") {
+                    $config_arr['ApiUrl'] = "https://esign.signzy.tech/api/customers/customerid/aadhaaresigns";
+                } else if ($envSet == "production") {
+                    $config_arr['ApiUrl'] = "https://esign.signzy.tech/api/customers/customerid/aadhaaresigns";
+                }
+            } else if ($api_sub_type == "DOWNLOAD_ESIGN_DOCUMENT") {
+                if ($envSet == "development") {
+                    $config_arr['ApiUrl'] = "https://esign-preproduction.signzy.tech/api/callbacks";
+                } else if ($envSet == "production") {
+                    $config_arr['ApiUrl'] = "https://esign.signzy.tech/api/callbacks";
+                }
+            } else if ($api_sub_type == "DIGILOCKER") {
+                if ($envSet == "development") {
+                    $config_arr['ApiUrl'] = "https://signzy.tech/api/v2/patrons/customerid/digilockers";
+                } else if ($envSet == "production") {
+                    $config_arr['ApiUrl'] = "https://signzy.tech/api/v2/patrons/customerid/digilockers";
+                }
+            } else if ($api_sub_type == "OFFICE_EMAIL_VERIFICATION") {
+                if ($envSet == "development") {
+                    $config_arr['ApiUrl'] = "https://signzy.tech/api/v2/patrons/customerid/emailverificationsv2";
+                } else if ($envSet == "production") {
+                    $config_arr['ApiUrl'] = "https://signzy.tech/api/v2/patrons/customerid/emailverificationsv2";
+                }
+            } else if ($api_sub_type == "BANK_ACCOUNT_VERIFICATION") {
+                if ($envSet == "development") {
+                    $config_arr['ApiUrl'] = "https://api.digitap.ai/penny-drop/v2/check-valid";
+                } else if ($envSet == "production") {
+                    $config_arr['ApiUrl'] = "https://api.digitap.ai/penny-drop/v2/check-valid";
+                }
+            } else if ($api_sub_type == "PERSONAL_EMAIL_VERIFICATION") {
+                if ($envSet == "development") {
+                    $config_arr['ApiUrl'] = "https://signzy.tech/api/v2/patrons/customerid/emailvalidations";
+                } else if ($envSet == "production") {
+                    $config_arr['ApiUrl'] = "https://signzy.tech/api/v2/patrons/customerid/emailvalidations";
+                }
+            }
+            break;
+
         CASE "REPAY_API" :
             $config_arr['Status'] = 1;
             $config_arr['Provider'] = "ICICI_EAZYPAY";

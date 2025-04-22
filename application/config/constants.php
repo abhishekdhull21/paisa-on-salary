@@ -120,8 +120,8 @@ defined('SERVER_API_URL') OR define('SERVER_API_URL', "https://api.salaryontime.
 
 // ********** LMS DEFINED VARIABLE *****
 
-define("LMS_URL", getenv("WEBSITE_URL") || "http://localhost/suryalms-main/");
-define("WEBSITE_URL", getenv("WEBSITE_URL") || "http://localhost/suryalms-main/");
+define("LMS_URL", getenv("WEBSITE_URL") ?? "http://localhost/pos/");
+define("WEBSITE_URL", getenv("WEBSITE_URL") ?? "http://localhost/pos/");
 define("WEBSITE", getenv("WEBSITE"));
 define("WEBSITE_UTM_SOURCE", WEBSITE_URL . "apply-now?utm_source=");
 

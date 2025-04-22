@@ -78,7 +78,7 @@ if (!empty($enc_user_role_id) && $user_data['user_role_type_id'] == 13) {
                                                 <div class="widget-head clearfix">
 
                                                     <span class="h-icon"><i class="fa fa-th"></i></span>
-                                                    <?php if ($udpate_flag == true) { ?>
+                                                    <?php if ($update_flag == true) { ?>
                                                         <h4>Update Role</h4>
                                                     <?php } else { ?>
                                                         <h4>Add Role</h4>

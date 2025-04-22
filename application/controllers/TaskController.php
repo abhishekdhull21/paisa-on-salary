@@ -243,7 +243,7 @@ class TaskController extends CI_Controller {
         if (isset($_REQUEST['sOrderBy']) && !empty($_REQUEST['sOrderBy'])) {
             $conditions["sOrderBy"] = $_REQUEST['sOrderBy'];
         }
-        $data['leadDetails'] = $this->Tasks->index($conditions, $config["per_page"], $page, $search_input_array, $where_in);
+        $data['leadsDetails'] = $this->Tasks->index($conditions, $config["per_page"], $page, $search_input_array, $where_in);
 
         $data["totalDisbursePendingAmount"] = 0;
 
@@ -1005,6 +1005,10 @@ class TaskController extends CI_Controller {
 
     public function getDocsUsingAjax($lead_id) {
         $lead_id =  $this->encrypt->decode($lead_id);
+        $leadDetails = $this->Tasks->getLeadDetails("LD.lead_id = $lead_id");
+        $leadDetails = $leadDetails->row();
+        // echo "lead Details: <br>";
+        // print_r($leadDetails);
 
         $sql = $this->db->select('leads.pancard')->where('lead_id', $lead_id)->from('leads')->get()->row();
 
@@ -1252,8 +1256,8 @@ class TaskController extends CI_Controller {
         $sub_docs_type_id = $this->input->post('document_name');
 
         $tmpDocsDetails = $this->Docs->getDocumentMasterById($sub_docs_type_id);
-
         $documentMasterDetails = $tmpDocsDetails->row_array();
+        // echo "tmpDocsDetails".print_r($documentMasterDetails);
 
         $docs_type = $documentMasterDetails['docs_type'];
         $sub_docs_type = $documentMasterDetails['docs_sub_type'];
@@ -1279,7 +1283,8 @@ class TaskController extends CI_Controller {
                 //                    return;
                 //                }
                 $config['file_name'] = $new_name;
-                $config['upload_path'] = 'upload/';
+                $config['upload_path'] = FCPATH.'upload/';
+                // echo $config['upload_path'];
                 $config['allowed_types'] = 'pdf|jpg|png|jpeg';
                 $config['file_ext_tolower'] = true;
                 $this->upload->initialize($config);
@@ -2200,18 +2205,18 @@ class TaskController extends CI_Controller {
             $lead_id = $this->input->post('lead_id');
             $lead_id =  $this->encrypt->decode($lead_id);
 
-            if (agent != "CR1") {
-                $json['err'] = "You are not authrized to take this action.[U01]";
-                echo json_encode($json);
-                return false;
-            }
+            // if (agent != "CR1") {
+            //     $json['err'] = "You are not authrized to take this action.[U01]";
+            //     echo json_encode($json);
+            //     return false;
+            // }
 
             $query = $this->db->query("SELECT LD.first_name, LD.lead_id, LD.lead_status_id, LD.lead_screener_assign_user_id, LD.lead_branch_id, LD.user_type, C.pancard, C.aadhar_no, LD.lead_data_source_id, C.alternate_email,C.alternate_email_verified_status,C.pancard_verified_status FROM leads LD INNER JOIN lead_customer C ON(LD.lead_id = C.customer_lead_id) WHERE LD.lead_id = " . $lead_id);
             $leadDetails = $query->row_array();
 
             $pan_query = $this->db->query("SELECT * FROM `api_poi_verification_logs` WHERE poi_veri_lead_id=" . $lead_id . " AND poi_veri_api_status_id=1 ORDER BY `poi_veri_id` DESC LIMIT 1");
             $pan_Data = $pan_query->row_array();
-            $pan_Details = json_decode($pan_Data['poi_veri_response'], true);
+            $pan_Details = isset($pan_Data) ? json_decode($pan_Data['poi_veri_response'], true) : null;
 
 
             // if (empty($pan_Details)) {
@@ -2228,17 +2233,17 @@ class TaskController extends CI_Controller {
                 return false;
             }
 
-            if ($user_id != $leadDetails['lead_screener_assign_user_id']) {
-                $json['err'] = "You are not authrized to take this action.[U02]";
-                echo json_encode($json);
-                return false;
-            }
+            // if ($user_id != $leadDetails['lead_screener_assign_user_id']) {
+            //     $json['err'] = "You are not authrized to take this action.[U02]";
+            //     echo json_encode($json);
+            //     return false;
+            // }
 
-            if (!in_array($leadDetails['lead_status_id'], array(2, 3))) {
-                $json['err'] = "You are not authrized to take this action.[S01]";
-                echo json_encode($json);
-                return false;
-            }
+            // if (!in_array($leadDetails['lead_status_id'], array(2, 3))) {
+            //     $json['err'] = "You are not authrized to take this action.[S01]";
+            //     echo json_encode($json);
+            //     return false;
+            // }
 
             // if (empty($leadDetails['lead_branch_id'])) {
             //     $json['err'] = "Lead branch is not available. Please check your city is map with branch?.[S02]";
@@ -2260,7 +2265,7 @@ class TaskController extends CI_Controller {
 
             $isBlackListed = $this->Tasks->checkBlackListedCustomer($lead_id);
 
-            if ($isBlackListed['status'] == 1) {
+            if ( isset($isBlackListed['status']) && $isBlackListed['status'] == 1) {
                 $json['err'] = $isBlackListed['error_msg'];
                 echo json_encode($json);
                 return false;
@@ -2282,7 +2287,7 @@ class TaskController extends CI_Controller {
 
             $isBlackListed = $this->Tasks->checkBlackListedCustomer($lead_id);
 
-            if ($isBlackListed['status'] == 1) {
+            if (isset($isBlackListed['status']) && $isBlackListed['status'] == 1) {
                 $json['err'] = $isBlackListed['error_msg'];
                 echo json_encode($json);
                 return false;
@@ -2303,6 +2308,8 @@ class TaskController extends CI_Controller {
             require_once(COMPONENT_PATH . 'CommonComponent.php');
 
             $CommonComponent = new CommonComponent();
+            // echo "fghj".$leadDetails['pancard_verified_status'];
+            
             //production
             if (ENVIRONMENT == 'production') {
 
@@ -2353,6 +2360,8 @@ class TaskController extends CI_Controller {
                 $lead_remark .= "<br/>PAN Verified";
             }
 
+            $by_pass_pan_verification = true;
+            if(!$by_pass_pan_verification) {
             $panDocsDetails = $this->Docs->getLeadDocumentWithTypeDetails($lead_id, 4);
 
             if ($leadDetails['user_type'] != "REPEAT" || $panDocsDetails['status'] == 1) {
@@ -2420,6 +2429,7 @@ class TaskController extends CI_Controller {
                 return false;
             }
         }
+    }   
 
 
         $conditions_user_roles = array();
@@ -2619,7 +2629,7 @@ class TaskController extends CI_Controller {
 
         $json['msg'] = $lead_remark;
 
-        if ($update_data_lead_customer['customer_digital_ekyc_flag'] == 0) {
+        if (!$by_pass_pan_verification && $update_data_lead_customer['customer_digital_ekyc_flag'] == 0) {
             $this->Tasks->sent_ekyc_request_email($lead_id);
         }
 

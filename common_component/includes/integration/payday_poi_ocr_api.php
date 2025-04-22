@@ -165,7 +165,7 @@ function pan_ocr_api_call($method_id, $lead_id = 0, $request_array = array()) {
             $request_array['ocr_file_1'] = $doc_data['file'];
             $request_array['ocr_file_2'] = "";
 
-            $panImage ="https://salaryontime.in/upload/".$doc_data['file'];
+            $panImage =getenv("WEBSITE_URL")."upload/".$doc_data['file'];
 
             // print_r("FILE==>$panImage");die;
 

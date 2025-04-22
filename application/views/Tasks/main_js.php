@@ -10,6 +10,51 @@
     console.log("Function is triggered");
 </script>
 <script>
+    $(function() {
+        $('#allocate').click(function() {
+            
+            var checkList = [];
+            $('.duplicate_id:checked').each(function() {
+                checkList.push($(this).val());
+            });
+            if (checkList.length > 0) {
+                var user_id = $('#user_id').val();
+                var customer_id = $('#customer_id').val();
+                $.ajax({
+                    url: '<?= base_url("allocateLeads") ?>',
+                    type: 'POST',
+                    dataType: "json",
+                    data: {
+                        checkList: checkList,
+                        user_id: user_id,
+                        customer_id: customer_id,
+                        csrf_token
+                    },
+
+                    beforeSend: function() {
+                        $('#allocate').html('<span class="spinner-border spinner-border-sm" role="status"></span>Processing...').addClass('disabled');
+                    },
+                    success: function(response) {
+                        if (response.err) {
+                            catchError(response.err);
+                        } else {
+                            $('.duplicate_id,#selectAllDomainList').removeAttr('checked');
+                            catchSuccess("Leads added in Your Bucket.");
+                            window.location.reload();
+                        }
+                    },
+                    complete: function() {
+                        $('#allocate').html('Allocate').removeClass('disabled');
+                    }
+                });
+            } else {
+                $('#allocate').html('<span class="spinner-border spinner-border-sm" role="status"></span>Processing...').addClass('disabled');
+                catchError("Please select Leads to Assign Yourself.");
+                $('#allocate').html('Allocate').removeClass('disabled');
+            }
+        });
+    });
+
     function sendAAconsentRequest(lead_id, btn) {
         $(btn).css('display', 'none');
         $(".btnLoading").css('display', 'inline-block');
@@ -275,50 +320,6 @@
     ////////////////////////////////////////// Allocate Leads ////////////////////////////////////////
 
     $(function() {
-        $('#allocate').click(function() {
-            var checkList = [];
-            $('.duplicate_id:checked').each(function() {
-                checkList.push($(this).val());
-            });
-            if (checkList.length > 0) {
-                var user_id = $('#user_id').val();
-                var customer_id = $('#customer_id').val();
-                $.ajax({
-                    url: '<?= base_url("allocateLeads") ?>',
-                    type: 'POST',
-                    dataType: "json",
-                    data: {
-                        checkList: checkList,
-                        user_id: user_id,
-                        customer_id: customer_id,
-                        csrf_token
-                    },
-
-                    beforeSend: function() {
-                        $('#allocate').html('<span class="spinner-border spinner-border-sm" role="status"></span>Processing...').addClass('disabled');
-                    },
-                    success: function(response) {
-                        if (response.err) {
-                            catchError(response.err);
-                        } else {
-                            $('.duplicate_id,#selectAllDomainList').removeAttr('checked');
-                            catchSuccess("Leads added in Your Bucket.");
-                            window.location.reload();
-                        }
-                    },
-                    complete: function() {
-                        $('#allocate').html('Allocate').removeClass('disabled');
-                    }
-                });
-            } else {
-                $('#allocate').html('<span class="spinner-border spinner-border-sm" role="status"></span>Processing...').addClass('disabled');
-                catchError("Please select Leads to Assign Yourself.");
-                $('#allocate').html('Allocate').removeClass('disabled');
-            }
-        });
-    });
-
-    $(function() {
         $('#sync_data').click(function() {
             var checkList = [];
             $('#duplicate_id:checked').each(function() {
@@ -531,8 +532,9 @@
 
     function getLeadsDetails(lead_id) {
         $('.approval-button').hide();
-        window.location.href = "<?= isset($leadDetails) && isset($leadDetails) ? base_url('getleadDetails_new/' . $this->encrypt->encode($leadDetails->lead_id)) : "" ?>";
-    }
+        <?php if (isset($leadDetails) && isset($leadDetails->lead_id)): ?>
+    window.location.href = "<?= base_url('getleadDetails_new/' . $this->encrypt->encode($leadDetails->lead_id)) ?>";
+<?php endif; ?>    }
 
     function setSendLink(lead_id, customer_id, link_type) {
         if (lead_id == "") {
@@ -1666,7 +1668,11 @@
                 <?php } ?>
 
                 html += '</thead></table>';
-                <?php if (isset($leadDetails) && in_array(agent, array("CR2", "CO1", "CO2", "CO3", "CO4", "CA")) && in_array($leadDetails->lead_status_id, array(14, 19))) { ?>
+                <?php
+if (isset($leadDetails) && isset($leadDetails->lead_status_id) && isset($agent)) {
+    if (in_array($agent, array("CR2", "CO1", "CO2", "CO3", "CO4", "CA")) &&
+        in_array($leadDetails->lead_status_id, array(14, 19))) {
+        ?>
                     html += '<table class="table"><tbody>';
                     html += '<tr><th class="thbg">Generate Repayment Link</th><td colspan="4">';
 
@@ -1681,7 +1687,7 @@
                     html += '</div>';
                     html += '</td></tr>';
                     html += '</thead></table>';
-                <?php } ?>
+                <?php  } } ?>
                 $('#received_amount').val(response.total_due_amount);
 
                 $('#loanStatus').html(html);
@@ -5693,16 +5699,17 @@
 
 
     function call_bre_rule_engine() {
-
         if (!confirm("Are you sure to run the BRE?")) {
             return false;
-        } else {
+        } else {        
             $.ajax({
                 url: '<?= base_url("call-bre-rule-engine") ?>',
                 type: 'POST',
                 dataType: "json",
                 data: {
-                    enc_lead_id: "<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>",
+                    enc_lead_id: "<?= (isset($leadDetails) && is_object($leadDetails) && isset($leadDetails->lead_id))
+    ? $this->encrypt->encode($leadDetails->lead_id)
+    : null; ?>",
                     csrf_token
                 },
                 beforeSend: function() {
@@ -5732,7 +5739,7 @@
             url: '<?= base_url("get-bre-rule-result") ?>',
             type: 'POST',
             data: {
-                enc_lead_id: "<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>",
+                enc_lead_id: "<?= isset($leadDetails) ? $this->encrypt->encode($leadDetails->lead_id) :'' ?>",
                 csrf_token
             },
             dataType: "json",

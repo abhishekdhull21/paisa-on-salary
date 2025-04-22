@@ -214,6 +214,7 @@ class ImportController extends CI_Controller {
                                     'utm_source' => $utm_source,
                                     'utm_campaign' => $utm_campaign,
                                     'promocode' => $coupon,
+                                    'lead_is_mobile_verified' => 1,
                                 );
 
                                 if (strtoupper(trim($utm_source)) == "C4C") {
