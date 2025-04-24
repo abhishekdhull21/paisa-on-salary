@@ -293,10 +293,13 @@ function unformatMoney($str) {
 
 if (!function_exists('lw_send_email')) {
 
-    function lw_send_email($to_email, $subject, $message, $bcc_email = "", $cc_email = "", $from_email = "", $reply_to = getenv("MAIN_EMAIL"), $attchement_path = "", $attachement_name = "", $file_name="") {
+    function lw_send_email($to_email, $subject, $message, $bcc_email = "", $cc_email = "", $from_email = "", $reply_to = null, $attchement_path = "", $attachement_name = "", $file_name="") {
         $status = 0;
         $error = "";
         $active_id = 5;
+        if ($reply_to === null) {
+            $reply_to = getenv("MAIN_EMAIL");
+        }
 
         if (empty($to_email) || empty($subject) || empty($message)) {
             $error = "Please check email id, subject and message when sent email";

@@ -670,7 +670,7 @@ alt="CRIF HighMark Credit Information Services Pvt. Ltd." align="left" width="16
 															<td valign="top">
 															<table width="200px" cellpadding="0" cellspacing="0">
 																<tr>
-																	<td class="dataValue"> JAVED.ALI@surya.COM </td>
+																	<td class="dataValue"> <?= INFO_EMAIL ?> </td>
 																</tr>
 																<tr>
 																	<td class="dataValue"></td>
