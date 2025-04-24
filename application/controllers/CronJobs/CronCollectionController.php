@@ -167,7 +167,7 @@ class CronCollectionController extends CI_Controller {
                 }
 
                 $email_data = array();
-                $email_data['email'] = "shubham.agrawal@loanwalle.com";
+                $email_data['email'] = INFO_EMAIL;
                 $email_data['subject'] = "PROD-COLLECTION PENDING 1-30 DAYS DEFAULT - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
                 $email_data['message'] = "update_record=" . $email_counter['update_record'] . " | update_failed=" . $email_counter['update_failed'];
 
@@ -179,7 +179,7 @@ class CronCollectionController extends CI_Controller {
             }
         } else {
             $email_data = array();
-            $email_data['email'] = "shubham.agrawal@loanwalle.com";
+            $email_data['email'] = INFO_EMAIL;
             $email_data['subject'] = "PROD-COLLECTION PENDING 1-30 DAYS DEFAULT - " . date("d-m-Y");
             $email_data['message'] = "Unauthorized";
 
@@ -221,7 +221,7 @@ class CronCollectionController extends CI_Controller {
                 }
 
                 $email_data = array();
-                $email_data['email'] = "shubham.agrawal@loanwalle.com";
+                $email_data['email'] = INFO_EMAIL;
                 $email_data['subject'] = "PROD-RECOVERY PENDING 31-60 DAYS DEFAULT - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
                 $email_data['message'] = "update_record=" . $email_counter['update_record'] . " | update_failed=" . $email_counter['update_failed'];
 
@@ -233,7 +233,7 @@ class CronCollectionController extends CI_Controller {
             }
         } else {
             $email_data = array();
-            $email_data['email'] = "shubham.agrawal@loanwalle.com";
+            $email_data['email'] = INFO_EMAIL;
             $email_data['subject'] = "PROD-RECOVERY PENDING 31-60 DAYS DEFAULT - " . date("d-m-Y");
             $email_data['message'] = "Unauthorized";
 
@@ -275,7 +275,7 @@ class CronCollectionController extends CI_Controller {
                 }
 
                 $email_data = array();
-                $email_data['email'] = "shubham.agrawal@loanwalle.com";
+                $email_data['email'] = INFO_EMAIL;
                 $email_data['subject'] = "PROD-LEGAL 60 PLUS DAYS DEFAULT - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
                 $email_data['message'] = "update_record=" . $email_counter['update_record'] . " | update_failed=" . $email_counter['update_failed'];
 
@@ -287,7 +287,7 @@ class CronCollectionController extends CI_Controller {
             }
         } else {
             $email_data = array();
-            $email_data['email'] = "shubham.agrawal@loanwalle.com";
+            $email_data['email'] = INFO_EMAIL;
             $email_data['subject'] = "PROD-LEGAL 60 PLUS DAYS DEFAULT - " . date("d-m-Y");
             $email_data['message'] = "Unauthorized";
 
@@ -328,7 +328,7 @@ class CronCollectionController extends CI_Controller {
             }
 
             $email_data = array();
-            $email_data['email'] = "shubham.agrawal@loanwalle.com";
+            $email_data['email'] = INFO_EMAIL;
             $email_data['subject'] = "PROD-ALL CASES CALCULATION - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
             $email_data['message'] = count($loan_no_array);
 
@@ -381,7 +381,7 @@ class CronCollectionController extends CI_Controller {
             }
 
             $email_data = array();
-            $email_data['email'] = "shubham.agrawal@loanwalle.com";
+            $email_data['email'] = INFO_EMAIL;
             $email_data['subject'] = "PROD-$cron_name - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
             $email_data['message'] = count($loan_no_array);
 
@@ -406,7 +406,7 @@ class CronCollectionController extends CI_Controller {
         } else {
 
             $to_email = $email;
-            $from_email = "info@loanwalle.com";
+            $from_email = INFO_EMAIL;
 
             $provider_name = "MAILGUN";
 

@@ -107,7 +107,7 @@ class CronMiscellaneousController extends CI_Controller {
             }
         }
 
-        $email = "shubham.agrawal@loanwalle.com";
+        $email = INFO_EMAIL;
         $subject = "PROD-KYC DOCS - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
         $message = "total loans : $total_loans | kyc_success = " . $counter;
 
@@ -160,7 +160,7 @@ class CronMiscellaneousController extends CI_Controller {
         }
 
 
-        $email = "shubham.agrawal@loanwalle.com";
+        $email = INFO_EMAIL;
         $subject = "PROD-AADHAAR MASKED - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
         $message = "masked_success=" . $masked_counter['masked_success'] . " | masked_failed=" . $masked_counter['masked_failed'];
 
@@ -289,7 +289,7 @@ class CronMiscellaneousController extends CI_Controller {
         //     $this->MiscellaneousModel->update_cron_logs($cron_insert_id, $masked_counter['masked_success'], $masked_counter['masked_failed']);
         // }
 
-        // $email = "shubham.agrawal@loanwalle.com";
+        // $email = INFO_EMAIL;
         // $subject = "PROD-$cron_name - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
         // $message = "masked_success=" . $masked_counter['masked_success'] . " | masked_failed=" . $masked_counter['masked_failed'];
 
@@ -351,7 +351,7 @@ class CronMiscellaneousController extends CI_Controller {
             }
         }
 
-        $email = "shubham.agrawal@loanwalle.com";
+        $email = INFO_EMAIL;
         $subject = "PROD-Advance Salary KYC DOCS - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
         echo $message = "total loans : $total_loans | counter = " . $counter;
 
@@ -414,7 +414,7 @@ class CronMiscellaneousController extends CI_Controller {
             }
         }
 
-        $email = "shubham.agrawal@loanwalle.com";
+        $email = INFO_EMAIL;
         $subject = "PROD-Advance Collection KYC DOCS - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
         echo $message = "total loans : $total_loans | counter = " . $counter;
 
@@ -473,7 +473,7 @@ class CronMiscellaneousController extends CI_Controller {
             }
         }
 
-        $email = "shubham.agrawal@loanwalle.com";
+        $email = INFO_EMAIL;
         $subject = "PROD-Collection PAYMENT DOCS - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
         echo $message = "total loans : $total_loans | counter = " . $counter;
 
@@ -522,7 +522,7 @@ class CronMiscellaneousController extends CI_Controller {
             }
         }
 
-        $email = "shubham.agrawal@loanwalle.com";
+        $email = INFO_EMAIL;
         $subject = "PROD-Father name - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
         echo $message = "total loans : $total_loans | counter = " . $counter;
 

@@ -5668,6 +5668,7 @@ Capitalized terms used herein but not defined shall have the same meanings given
     }
 
     public function gererateSanctionLetter($lead_id) {
+    // TODO: check the function call 
 
         $return_array = array("status" => 0, "errors" => "");
 
@@ -5909,8 +5910,8 @@ Capitalized terms used herein but not defined shall have the same meanings given
                                     <p><strong>Kasar Credit & Capital Private Limited</strong><br>
                                     G -51, Krishna Apra Business Square,Netaji Subhash Place, New Delhi - 110034,<br>
                                     +91-88000 02890,<br>
-                                    info@salaryontime.com,<br>
-                                    <a href="https://salaryontime.com">https://www.salaryontime.com</a><br>
+                                    info@paisaonsalary.com,<br>
+                                    <a href="https://paisaonsalary.com">https://www.paisaonsalary.com</a><br>
                                     Date : ' . $sanction_date . ' </p>
                                 </div>
                             <div class="customer">
@@ -5930,7 +5931,7 @@ Capitalized terms used herein but not defined shall have the same meanings given
                                     <li>Repayment Amount: ' . number_format(round($camDetails->repayment_amount, 0), 2) . '/-</li>
                                 </ul>
                                 <p>Your loan has been sanctioned with the above-mentioned terms and conditions. The loan amount will be disbursed directly to your designated bank account within ' . $sanction_date . ', subject to the completion of any remaining formalities.</p>
-                                <p>Please carefully review the loan agreement, including the terms, conditions, and repayment schedule. Should you have any questions or require clarification regarding the loan terms, feel free to contact our customer service team at +91-88000 02890 or email us at info@salaryontime.com .</p>
+                                <p>Please carefully review the loan agreement, including the terms, conditions, and repayment schedule. Should you have any questions or require clarification regarding the loan terms, feel free to contact our customer service team at +91-88000 02890 or email us at info@paisaonsalary.com .</p>
                                 <p>Kindly ensure that you adhere to the repayment schedule to avoid any unnecessary penalties or charges. Timely repayment will also help you maintain a positive credit history with our institution.</p>
                                 <p>We appreciate your trust in Kasar Credit & Capital Private Limited, and we assure you of our dedicated support in meeting your financial requirements.</p>
                                 <p>Thank you for choosing Kasar Credit & Capital Private Limited. We look forward to a mutually beneficial relationship.</p>
@@ -6004,7 +6005,7 @@ Capitalized terms used herein but not defined shall have the same meanings given
                             <div class="loan-terms">
                                 <p>Kindly Note:</p>
                                 <p>Non-payment of loan on time will adversely affect your Credit score, further reducing your chances of getting Re loan again. Upon approval, the processing fee will be deducted from your Sanction amount and the balance amount will be disbursed to your account.</p>
-                                <p>This Sanction letter is valid for 24 Hours only. You can Prepay/Repay the loan amount using our link <br> <a href="https://salaryontime.com/repay-loan"target="_blank"style="color: #4447fd; text-decoration: blink">Payment Link</a>
+                                <p>This Sanction letter is valid for 24 Hours only. You can Prepay/Repay the loan amount using our link <br> <a href="https://paisaonsalary.com/repay-loan"target="_blank"style="color: #4447fd; text-decoration: blink">Payment Link</a>
                                 </td>.</p>
 
                                 <h2>Agreed Terms and Conditions:</h2>
@@ -6067,6 +6068,7 @@ Capitalized terms used herein but not defined shall have the same meanings given
                         </div>
                     </body>
                     </html>';
+                    // TODO: TEMPLATE SHOULD BE UPDATED TO MATCH THE FINAL TEMPLATE
             $file_name = "sanction_letter_" . $lead_id . "_" . rand(1000, 9999) . ".pdf";
 
             if (LMS_DOC_S3_FLAG == true) {
@@ -6689,7 +6691,7 @@ Capitalized terms used herein but not defined shall have the same meanings given
         $sql = $this->db->query($sql)->row();
 
         $to = $sql->email;
-        //$to = 'ajay@salaryontime.com';
+        //$to = 'ajay@paisaonsalary.com';
 
         if (!empty($to)) {
             $query = $this->db->select_sum('received_amount')->where(['payment_verification' => 1, 'collection_active' => 1, 'collection_deleted' => 0])->where('lead_id', $lead_id)->from('collection')->get()->row();
@@ -6799,8 +6801,8 @@ Capitalized terms used herein but not defined shall have the same meanings given
                                         </tr>
                                         <tr>
                                           <td><span style="font-size:17px;line-height: 25px;padding-bottom: 6px; text-align:justify; margin:25px 0px;">
-                                            <a href="https://apps.apple.com/app/salaryontime-sot/id6503283983" target="_blank"><img style="width: 10%;margin-left: 0%;" src="https://salaryontime.com/public/images/appleLogo.jpeg"></a></span>
-                	                        <span style="font-size:17px;line-height: 25px;padding-bottom: 6px; text-align:justify; margin:10px 0px;"><a href="https://play.google.com/store/apps/details?id=com.salaryontime.salaryontime" target="_blank"><img style="width: 10%;margin-left: 0%;" src="https://salaryontime.com/public/images/playLogo.jpeg"></a></span>
+                                            <a href="https://apps.apple.com/app/paisaonsalary-sot/id6503283983" target="_blank"><img style="width: 10%;margin-left: 0%;" src="https://paisaonsalary.com/public/images/appleLogo.jpeg"></a></span>
+                	                        <span style="font-size:17px;line-height: 25px;padding-bottom: 6px; text-align:justify; margin:10px 0px;"><a href="https://play.google.com/store/apps/details?id=com.paisaonsalary.paisaonsalary" target="_blank"><img style="width: 10%;margin-left: 0%;" src="https://paisaonsalary.com/public/images/playLogo.jpeg"></a></span>
                 	                        </td>
                                         </tr>
 
@@ -6822,7 +6824,7 @@ Capitalized terms used herein but not defined shall have the same meanings given
 
             $mpdf->WriteHTML($message);
 
-            $mpdf->Output('https://salaryontime.in/upload/' . $file_name, 'F');
+            $mpdf->Output('https://paisaonsalary.in/upload/' . $file_name, 'F');
             $mpdf->Output($file_path_with_name, 'F'); */
             try {
                 $mpdf = new \Mpdf\Mpdf();
@@ -7154,7 +7156,7 @@ Capitalized terms used herein but not defined shall have the same meanings given
                                             <td width = "800" colspan = "2" style = "background:url(' . EKYC_HEADER_BACK . ');" >
                                                 <table width = "100%" border = "0" cellpadding = "0" cellspacing = "0">
                                                     <tr>
-                                                        <td width = "25%" valign = "top"><a href = "' . WEBSITE_URL . '" target = "_blank"><img src = "https://www.salaryontime.in/public/images/final_logo.png" alt = "logo" width = "200" height = "50" style = "margin-top:10px;margin-left:12px;"></a></td>
+                                                        <td width = "25%" valign = "top"><a href = "' . WEBSITE_URL . '" target = "_blank"><img src = "https://www.paisaonsalary.in/public/images/final_logo.png" alt = "logo" width = "200" height = "50" style = "margin-top:10px;margin-left:12px;"></a></td>
                                                         <td width = "64%" align = "center" valign = "middle"><strong style = "color:#fff; font-size:20px;">DIGITAL E-KYC</strong></td>
                                                         <!-- <td width = "11%" align = "right"><img src = "' . EKYC_LINES . '" width = "26" height = "147" /></td> -->
                                                     </tr>
@@ -7277,17 +7279,17 @@ Capitalized terms used herein but not defined shall have the same meanings given
                                         </tr>
                                         <tr>
                                             <td colspan = "4" align = "center" valign = "middle" style = "border-top:solid 1px #ddd; padding-top:5px;">
-                                                <a href = "' . LINKEDIN_LINK . '" target = "_blank"> <img src = "https://salaryontime.com/public/images/linkedin.png" alt = "linkdin" width = "32" height = "32" /></a>
-                                                <a href = "' . INSTAGRAM_LINK . '" target = "_blank"> <img src = "https://salaryontime.com/public/images/instagram.png" alt = "instagram" width = "32" height = "32" /></a>
-                                                <a href = "' . FACEBOOK_LINK . '" target = "_blank"> <img src = "https://salaryontime.com/public/images/facebook.png" alt = "facebook" width = "32" height = "32" /></a>
-                                                <a href = "' . TWITTER_LINK . '" target = "_blank" style = "color:#fff;"> <img src = "https://salaryontime.com/public/images/twitter.png" alt = "twitter" width = "32" height = "32" /> </a>
-                                                <a href = "' . YOUTUBE_LINK . '" target = "_blank" style = "color:#fff;"> <img src = "https://salaryontime.com/public/images/youtube.png" alt = "youtube" width = "32" height = "32" /> </a>
-                                                <!-- <a href = "' . APPLE_STORE_LINK . '" target = "_blank"> <img src = "https://salaryontime.com/public/images/googleplay.png" alt = "google_play" width = "100" height = "30" style = "border-radius: 50px;"></a> -->
+                                                <a href = "' . LINKEDIN_LINK . '" target = "_blank"> <img src = "https://paisaonsalary.com/public/images/linkedin.png" alt = "linkdin" width = "32" height = "32" /></a>
+                                                <a href = "' . INSTAGRAM_LINK . '" target = "_blank"> <img src = "https://paisaonsalary.com/public/images/instagram.png" alt = "instagram" width = "32" height = "32" /></a>
+                                                <a href = "' . FACEBOOK_LINK . '" target = "_blank"> <img src = "https://paisaonsalary.com/public/images/facebook.png" alt = "facebook" width = "32" height = "32" /></a>
+                                                <a href = "' . TWITTER_LINK . '" target = "_blank" style = "color:#fff;"> <img src = "https://paisaonsalary.com/public/images/twitter.png" alt = "twitter" width = "32" height = "32" /> </a>
+                                                <a href = "' . YOUTUBE_LINK . '" target = "_blank" style = "color:#fff;"> <img src = "https://paisaonsalary.com/public/images/youtube.png" alt = "youtube" width = "32" height = "32" /> </a>
+                                                <!-- <a href = "' . APPLE_STORE_LINK . '" target = "_blank"> <img src = "https://paisaonsalary.com/public/images/googleplay.png" alt = "google_play" width = "100" height = "30" style = "border-radius: 50px;"></a> -->
                                             </td>
                                         </tr>
 
                                         <tr>
-                                            <td colspan = "4" align = "center" valign = "middle" bgcolor = "#8180e0" style = "padding:10px; color:#fff; font-weight:normal; font-size:16px;"><a href = "tel:' . REGISTED_MOBILE . '" style = "color:#fff; text-decoration:blink;"><img src = "https://salaryontime.in/public/images/phone.jpg" width = "16" height = "16" alt = "phone-icon" style = "margin-bottom: -2px;margin-right:3px"> ' . REGISTED_MOBILE . ' </a> <a href = "' . WEBSITE_URL . '" target = "_blank" style = "color:#fff; text-decoration:blink;"><img src = "https://salaryontime.com/public/images/favicon.png" width = "16" height = "16" alt = "web-icon" style = "margin-bottom: -2px;"> ' . WEBSITE . ' </a> <img src = "https://salaryontime.com/public/images/email.jpg" width = "16" height = "16" alt = "email-icon" style = "margin-bottom: -2px;"><a href = "mailto:' . INFO_EMAIL . '" style = "color:#fff; text-decoration:blink;">' . INFO_EMAIL . ' </a></td>
+                                            <td colspan = "4" align = "center" valign = "middle" bgcolor = "#8180e0" style = "padding:10px; color:#fff; font-weight:normal; font-size:16px;"><a href = "tel:' . REGISTED_MOBILE . '" style = "color:#fff; text-decoration:blink;"><img src = "https://paisaonsalary.in/public/images/phone.jpg" width = "16" height = "16" alt = "phone-icon" style = "margin-bottom: -2px;margin-right:3px"> ' . REGISTED_MOBILE . ' </a> <a href = "' . WEBSITE_URL . '" target = "_blank" style = "color:#fff; text-decoration:blink;"><img src = "https://paisaonsalary.com/public/images/favicon.png" width = "16" height = "16" alt = "web-icon" style = "margin-bottom: -2px;"> ' . WEBSITE . ' </a> <img src = "https://paisaonsalary.com/public/images/email.jpg" width = "16" height = "16" alt = "email-icon" style = "margin-bottom: -2px;"><a href = "mailto:' . INFO_EMAIL . '" style = "color:#fff; text-decoration:blink;">' . INFO_EMAIL . ' </a></td>
                                         </tr>
                                     </table>
                                 </body>

@@ -1515,7 +1515,7 @@
                 success: function(response) {
 
                     if (response.status) {
-                        window.open("https://salaryontime.in/upload/disburse_letter/" + response['file_name']);
+                        window.open("https://paisaonsalary.in/upload/disburse_letter/" + response['file_name']);
 
                     } else {
                         catchError(response.err);
@@ -1539,7 +1539,7 @@
                 dataType: "json",
                 success: function(response) {
                     if (response.status) {
-                        window.open("https://salaryontime.in/upload/sanction_letter/" + response['file_name']);
+                        window.open("https://paisaonsalary.in/upload/sanction_letter/" + response['file_name']);
 
                     } else {
                         catchError(response.err);
@@ -1712,7 +1712,7 @@ if (isset($leadDetails) && isset($leadDetails->lead_status_id) && isset($agent))
                 dataType: "json",
                 success: function(response) {
                     if (response.status) {
-                        window.open("https://salaryontime.in/upload/settlement/" + response['file_name']);
+                        window.open("https://paisaonsalary.in/upload/settlement/" + response['file_name']);
 
                     } else {
                         catchError(response.err);
@@ -3358,7 +3358,7 @@ if (isset($leadDetails) && isset($leadDetails->lead_status_id) && isset($agent))
                 dataType: "json",
                 success: function(response) {
                     if (response.status) {
-                        window.open("https://salaryontime.in/upload/" + response['file_name']);
+                        window.open("https://paisaonsalary.in/upload/" + response['file_name']);
 
                     } else {
                         catchError(response.err);
@@ -3381,7 +3381,7 @@ if (isset($leadDetails) && isset($leadDetails->lead_status_id) && isset($agent))
                 dataType: "json",
                 success: function(response) {
                     if (response.status) {
-                        window.open("https://salaryontime.in/upload/legal/" + response['file_name']);
+                        window.open("https://paisaonsalary.in/upload/legal/" + response['file_name']);
 
                     } else {
                         catchError(response.err);
@@ -3404,7 +3404,7 @@ if (isset($leadDetails) && isset($leadDetails->lead_status_id) && isset($agent))
                 dataType: "json",
                 success: function(response) {
                     if (response.status) {
-                        window.open("https://salaryontime.in/upload/legal/" + response['file_name']);
+                        window.open("https://paisaonsalary.in/upload/legal/" + response['file_name']);
 
                     } else {
                         catchError(response.err);

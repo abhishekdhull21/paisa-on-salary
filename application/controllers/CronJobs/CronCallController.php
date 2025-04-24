@@ -50,22 +50,22 @@ class CronCallController extends CI_Controller {
                 }
 
                 $email_data = array();
-                $email_data['email'] = "ajay@salaryontime.com";
+                $email_data['email'] = INFO_EMAIL;
                 $email_data['subject'] = "PROD-VOICE BLAST $cron_name REMINDER CALL - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
                 $email_data['message'] = $return_status;
-                $email_data['message'] .= "<br/><br/>Toal Calls : " . count($mobile_number_array);
+                $email_data['message'] .= "<br/><br/>Total Calls : " . count($mobile_number_array);
                 $email_data['message'] .= "<br/><br/>LOAN NO : ";
                 $email_data['message'] .= implode(", ", $loan_number_array);
 
                 lw_send_email($email_data['email'], $email_data['subject'], $email_data['message']);
 
-                echo "Toal Calls :" . count($mobile_number_array);
+                echo "Total Calls :" . count($mobile_number_array);
             } else {
                 echo "No Data";
             }
         } else {
             $email_data = array();
-            $email_data['email'] = "ajay@salaryontime.com";
+            $email_data['email'] = INFO_EMAIL;
             $email_data['subject'] = "PROD-VOICE BLAST $cron_name REMINDER CALL - start time - " . date("d-m-Y");
             $email_data['message'] = "Unauthorized";
 
@@ -111,22 +111,22 @@ class CronCallController extends CI_Controller {
                 }
 
                 $email_data = array();
-                $email_data['email'] = "ajay@salaryontime.com";
+                $email_data['email'] = INFO_EMAIL;
                 $email_data['subject'] = "PROD-VOICE BLAST $cron_name REMINDER CALL - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
                 $email_data['message'] = $return_status;
-                $email_data['message'] .= "<br/><br/>Toal Calls : " . count($mobile_number_array);
+                $email_data['message'] .= "<br/><br/>Total Calls : " . count($mobile_number_array);
                 $email_data['message'] .= "<br/><br/>LOAN NO : ";
                 $email_data['message'] .= implode(", ", $loan_number_array);
 
                 lw_send_email($email_data['email'], $email_data['subject'], $email_data['message']);
 
-                echo "Toal Calls :" . count($mobile_number_array);
+                echo "Total Calls :" . count($mobile_number_array);
             } else {
                 echo "No Data";
             }
         } else {
             $email_data = array();
-            $email_data['email'] = "ajay@salaryontime.com";
+            $email_data['email'] = INFO_EMAIL;
             $email_data['subject'] = "PROD-VOICE BLAST $cron_name REMINDER CALL - start time - " . date("d-m-Y");
             $email_data['message'] = "Unauthorized";
 
@@ -171,22 +171,22 @@ class CronCallController extends CI_Controller {
                 }
 
                 $email_data = array();
-                $email_data['email'] = "ajay@salaryontime.com";
+                $email_data['email'] = INFO_EMAIL;
                 $email_data['subject'] = "PROD-VOICE BLAST $cron_name Outstanding CALL - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
                 $email_data['message'] = $return_status;
-                $email_data['message'] .= "<br/><br/>Toal Calls : " . count($mobile_number_array);
+                $email_data['message'] .= "<br/><br/>Total Calls : " . count($mobile_number_array);
                 $email_data['message'] .= "<br/><br/>LOAN NO : ";
                 $email_data['message'] .= implode(", ", $loan_number_array);
 
                 lw_send_email($email_data['email'], $email_data['subject'], $email_data['message']);
 
-                echo "Toal Calls :" . count($mobile_number_array);
+                echo "Total Calls :" . count($mobile_number_array);
             } else {
                 echo "No Data";
             }
         } else {
             $email_data = array();
-            $email_data['email'] = "ajay@salaryontime.com";
+            $email_data['email'] = INFO_EMAIL;
             $email_data['subject'] = "PROD-VOICE BLAST $cron_name Outstanding CALL - start time - " . date("d-m-Y");
             $email_data['message'] = "Unauthorized";
 
@@ -231,22 +231,22 @@ class CronCallController extends CI_Controller {
                 }
 
                 $email_data = array();
-                $email_data['email'] = "ajay@salaryontime.com";
+                $email_data['email'] = INFO_EMAIL;
                 $email_data['subject'] = "PROD-VOICE BLAST $cron_name Defaulter CALL - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
                 $email_data['message'] = $return_status;
-                $email_data['message'] .= "<br/><br/>Toal Calls : " . count($mobile_number_array);
+                $email_data['message'] .= "<br/><br/>Total Calls : " . count($mobile_number_array);
                 $email_data['message'] .= "<br/><br/>LOAN NO : ";
                 $email_data['message'] .= implode(", ", $loan_number_array);
 
                 lw_send_email($email_data['email'], $email_data['subject'], $email_data['message']);
 
-                echo "Toal Calls :" . count($mobile_number_array);
+                echo "Total Calls :" . count($mobile_number_array);
             } else {
                 echo "No Data";
             }
         } else {
             $email_data = array();
-            $email_data['email'] = "ajay@salaryontime.com";
+            $email_data['email'] = INFO_EMAIL;
             $email_data['subject'] = "PROD-VOICE BLAST $cron_name Defaulter CALL - start time - " . date("d-m-Y");
             $email_data['message'] = "Unauthorized";
 
@@ -443,13 +443,13 @@ class CronCallController extends CI_Controller {
         } else {
 
             $to_email = $email;
-            $from_email = "info@salaryontime.com";
+            $from_email = INFO_EMAIL;
 
             if ($email_type_id == 10) {
-                $from_email = "legal@salaryontime.com";
+                $from_email = getenv('LEGAL_EMAIL');
                 $provider_name = "MAILGUN";
             } else if ($email_type_id == 12) {
-                $from_email = "collection@salaryontime.com";
+                $from_email = getenv('COLLECTION_EMAIL');
                 $provider_name = "MAILGUN";
             }
 
@@ -477,8 +477,9 @@ class CronCallController extends CI_Controller {
                 } else if (in_array($email_type_id, array(11))) {
                     $template = "happyholi";
                 }
-
-                $apiUrl = "https://api.mailgun.net/v3/loanwalle.com/messages";
+                $apiKey = getenv('MAILGUN_API_KEY');
+                $domain = getenv('MAILGUN_DOMAIN');
+                $apiUrl = "https://api.mailgun.net/v3/$domain/messages";
 
                 $request_array = array(
                     "from" => $from_email,
@@ -488,7 +489,7 @@ class CronCallController extends CI_Controller {
                 );
 
                 $apiHeaders = array(
-                    "Authorization: Basic " . base64_encode("api:ada7804cae9740db5c62abd5b2ae5d62-8ed21946-b133e0ab"),
+                    "Authorization: Basic " . base64_encode("api:$apiKey"),
                     "Content-Type:multipart/form-data",
                 );
                 $curl = curl_init($apiUrl);

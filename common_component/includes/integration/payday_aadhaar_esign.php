@@ -254,8 +254,8 @@ function esign_document_upload_api_call($method_id, $lead_id = 0, $request_array
             "pdf": "'.$base64String.'",
             "contractName": "Esign Letter",
             "contractExecuterName": "Signzy",
-            "successRedirectUrl": "https://salaryontime.in/sanction-esign-response?lead_id='.$lead_id.'",
-            "failureRedirectUrl": "https://salaryontime.in/",
+            "successRedirectUrl": "https://paisaonsalary.com/sanction-esign-response?lead_id='.$lead_id.'",
+            "failureRedirectUrl": "https://paisaonsalary.com/",
             "contractTtl": 10000,
             "eSignProvider": "nsdl",
             "nameMatchThreshold": "0.50",
@@ -308,7 +308,7 @@ function esign_document_upload_api_call($method_id, $lead_id = 0, $request_array
             "initiationEmailSubject": "Please sign the document received on your email",
             "customerMailList": [
                 "'.$email.'",
-                "info@salaryontime.com"
+                "info@paisaonsalary.com"
             ],
 
             "emailPdfCustomNameFormat": "SIGNERNAME"

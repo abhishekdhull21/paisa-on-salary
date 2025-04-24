@@ -69,7 +69,7 @@ function whatsapp_api_call($templete_type_id, $lead_id = 0, $request_array = arr
                 "apiKey" => "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2ZWU3ZDQ4YjJlNjRjMGI3ODU2NDJiMiIsIm5hbWUiOiIgS2FzYXIgQ3JlZGl0ICYgQ2FwaXRhbCBQcml2YXRlIExpbWl0ZWQiLCJhcHBOYW1lIjoiQWlTZW5zeSIsImNsaWVudElkIjoiNjZlZTdkNDdiMmU2NGMwYjc4NTY0MmFjIiwiYWN0aXZlUGxhbiI6IkJBU0lDX01PTlRITFkiLCJpYXQiOjE3Mjc2Nzg2NDR9.aDH__mf-dbvXhMZv0W6Q9dbnA8T0ONrBeBxhLHy8ves",
                 "campaignName" => "Repayment_reminder",
                 "destination" => "+91" . trim($mobile),
-                "userName" => "rohtash@salaryontime.com",
+                "userName" => INFO_EMAIL,
                 "source" => "any",
                 "templateParams" => [
                     $customer_full_name,

@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class CronSanctionController extends CI_Controller {
 
-    var $cron_notification_email = 'ajay@salaryontime.com';
+    var $cron_notification_email = INFO_EMAIL;
     var $cron_repeat_utm_sources = array('LWREPEAT', 'REPEATNF', 'NFREPEATSMS', 'LWREPEATDB');
 
     public function __construct() {
@@ -16,7 +16,7 @@ class CronSanctionController extends CI_Controller {
     }
 
     public function index() {
-//        $email_return = $this->lead_allocation_email_notification("ajay@salaryontime.com", "Ajay Kumar", "Rohit Kumar", 9319062592, 'Rohit.kumar@salaryontime.com');
+//        $email_return = $this->lead_allocation_email_notification(INFO_EMAIL, "Ajay Kumar", "Rohit Kumar", 9319062592, 'INFO_EMAIL');
 //        print_r($email_return);
     }
 
@@ -1003,7 +1003,7 @@ class CronSanctionController extends CI_Controller {
         } else {
 
             $to_email = $email;
-            $from_email = "info@salaryontime.com";
+            $from_email = INFO_EMAIL;
 
             $provider_name = "SENDGRID";
 

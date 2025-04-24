@@ -442,7 +442,7 @@ class TaskController extends CI_Controller {
         }
 
         //$email_to = "sandeeptech2contact@gmail.com";
-        $cc_mail = "collection@salaryontime.com";
+        $cc_mail = getenv('COLLECTION_EMAIL');
         $subject = "Legal Notice Letter";
         $message = '
     <!DOCTYPE html>
@@ -507,37 +507,38 @@ class TaskController extends CI_Controller {
 <body>
     <div class="container" style="font-family: Courier,arial;">
         <header>
-            <img src="https://crm.salaryontime.in/public/images/legal-header.jpg" width="800"> <!-- Adjust width to match container -->
+            <img src="'.WEBSITE_URL.'public/images/legal-header.jpg" width="800"> <!-- Adjust width to match container -->
         </header>
         <section class="legal-notice">
 			<p style="color:#000;"><strong>DELHI</strong><br/><span style="float: right;">' . $current_date . '</span></p>
 			<p style="color:#000;">TO ,<br>SHRI/SMT <b> ' . $firstname . ' </b><br>R/O - <b>' . $current_house . ' </b></p><br/>
 			<h2 style="color:#000;">Legal Notice (without prejudice)</h2>
 			<p style="color:#000;">Sir/Ma\'am</p>
-			<p style="color:#000;">Under instructions from and on behalf of my client <strong style="background:#FFFF00;">KASAR CREDIT AND CAPITAL PRIVATE LIMITED</strong> with the brand name <strong style="background:#FFFF00;">“SalaryOnTime(SOT)”</strong> having its office G-51 Ground Floor Krishna Apra Business Square Netaji Subhash Palace Pitampura New Delhi-110034, I address you as under.</p>
+			<p style="color:#000;">Under instructions from and on behalf of my client <strong style="background:#FFFF00;">'.BRAND_NAME.' PRIVATE LIMITED</strong> with the brand name <strong style="background:#FFFF00;">“PaisaOnSalary(POS)”</strong> having its office G-51 Ground Floor Krishna Apra Business Square Netaji Subhash Palace Pitampura New Delhi-110034, I address you as under.</p>
 			<ol>
 				<li style="color:#000;">That you had approached my client for a short-term loan as you were in dire need of money on <strong>' . date('d, M Y', strtotime($final_disbursed_date)) . '</strong>.</li>
 				<li style="color:#000;">That pursuant to the terms and conditions of the Loan agreement form as agreed by you, you were provided the short-term loan of Rs. <strong>' . $loan_recommended . '</strong> with Loan No.<strong> ' . $loan_no . '</strong> at a mutually agreed rate of interest.</li>
-				<li style="color:#000;">That you had promised and agreed to repay the said loan amount with applicable interest rate but you did not repay the total amount of Rs.<strong>' . $totalinterest . '</strong> till date. You have breached the loan contract that you entered into with my client namely <strong>KASAR CREDIT AND CAPITAL PRIVATE LIMITED</strong> with the brand name <strong>“SalaryOnTime(SOT)”</strong>.</li>
+				<li style="color:#000;">That you had promised and agreed to repay the said loan amount with applicable interest rate but you did not repay the total amount of Rs.<strong>' . $totalinterest . '</strong> till date. You have breached the loan contract that you entered into with my client namely <strong>KASAR CREDIT AND CAPITAL PRIVATE LIMITED</strong> with the brand name <strong>“PaisaOnSalary(POS)”</strong>.</li>
 				<li style="color:#000;">That thus by your act and conduct it is evident that since the time of availing such loan you had malafide intention.</li>
 				<li style="color:#000;background:#FFFF00;">That as on date an amount of Rs.<strong>' . $totalinterest . ' </strong> is due and payable by you in the aforesaid connection to our client.</li>
 			</ol>
 			<p style="color:#000;">I therefore by means of the present legal notice call upon you the notice to make the payment of the aforesaid amount Rs <strong>' . $totalinterest . '</strong> to my client immediately after receipt of this notice by you, failing which my client shall be constrained to initiate legal proceedings against you under the provisions of section 318, 337 & 338 of THE Bhartiya Nyaya Sanhita 2023 entirely at your cost, risk, and responsibility.</p>
 			<p style="color:#000;">A copy of this notice has been retained in my office for further reference, record, and action.</p><br/>
 			<p style="color:#000;" class="signature">Yours faithfully</p>
-			<img src="https://crm.salaryontime.in/public/images/sign.png" style="float: right;width: 100px;margin-right: 31px;"/><br/><br/>
+			<img src="https://crm.paisaonsalary.com/public/images/sign.png" style="float: right;width: 100px;margin-right: 31px;"/><br/><br/>
 			<p style="color:#000;clear: both;" class="signature"><strong>(HARSH TRIKHA)<br>Advocate</strong></p>
 		</section>
     </div>
 </body>
 </html>
 ';
+// TODO: THIS EMAIL TEMPLATE SHOULD BE CHANGED ACCORDING TO YOUR NEEDS
         //echo $message; die;
         $file_name = "legal_letter_" . $lead_id . "_" . date('Ymd') . ".pdf";
         $file_path_with_name = UPLOAD_LEGAL_PATH . $file_name;
 
         $file_url_path = LMS_URL . $file_name;
-        $from_email = "legal@salaryontime.com";
+        $from_email = getenv('LEGAL_EMAIL');
 
         require_once __DIR__ . '/../../vendor/autoload.php';
         $mpdf = new \Mpdf\Mpdf();
@@ -4402,7 +4403,7 @@ class TaskController extends CI_Controller {
             $firstname = $return_sms['first_name'];
             $lead_id = $return_sms['lead_id'];
             //$email_to = $return_sms['email'];
-            $email_to = 'tech.lead@salaryontime.com';
+            $email_to = 'tech.lead@paisaonsalary.com';
             $mobile = $return_sms['mobile'];
             $address = $return_sms['current_house'];
             $loan_recommended = $return_sms['loan_recommended'];

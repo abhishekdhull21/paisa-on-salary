@@ -13,9 +13,9 @@ $xco_path = FCPATH . 'common_component/';
 
 define("COMP_PATH", $xco_path);
 define("COMP_ENVIRONMENT", 'development'); //production
-define("COMP_DOC_URL", 'https://salaryontime.in/direct-document-file/'); //production
-define("COMP_CRM_URL", 'https://salaryontime.in/');
-define("COMP_WEBSITE_URL", 'https://salaryontime.in/');
+define("COMP_DOC_URL", 'https://paisaonsalary.com/direct-document-file/'); //production
+define("COMP_CRM_URL", 'https://paisaonsalary.com/');
+define("COMP_WEBSITE_URL", 'https://paisaonsalary.com/');
 define("COMP_DOC_S3_FLAG", true); //true=> Store in S3 bucket , false=> Physical store.
 define("COMP_DOC_PATH", FCPATH . 'upload' . DIRECTORY_SEPARATOR);
 require_once(COMP_PATH . "/includes/functions.inc.php");

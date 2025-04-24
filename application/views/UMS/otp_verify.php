@@ -123,7 +123,7 @@
 
                         <form method="post" action="<?= base_url('verifyotp'); ?>" id="formData" autocomplete="off">
                             <p class="text-center">
-                                <img class="img-rounded" src="<?= LMS_COMPANY_LOGO ?>" alt="brand-logo">
+                                <img class="img-rounded" style="width:70%;" src="<?= LMS_COMPANY_LOGO ?>" alt="brand-logo">
                             </p>
                             <p class="text-center mb-4">
                                 <!--<div class="titleSignin text-center"></div>-->

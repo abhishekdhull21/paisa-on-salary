@@ -117,8 +117,10 @@ die();
                         }
                     }
                 }
+                    // TODO: check the function call 
+
                 $email_data = array();
-                $email_data['email'] = "rohit@salaryontime.com";
+                $email_data['email'] = INFO_EMAIL;
                 $email_data['subject'] = "PROD-Birthday Email Counter - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
                 $email_data['message'] = "email_sent=" . $email_counter['email_sent'] . " | email_failed=" . $email_counter['email_failed'];
 
@@ -148,7 +150,7 @@ die();
                         if (!empty($customer_data['user_email_id'])) {
                             $email_data = array();
                             $email_data['email'] = $customer_data['user_email_id'];
-                            $email_data['subject'] = "LOANWALLE.COM Offers - Festive Treats";
+                            $email_data['subject'] = "PAISAONSALARY.COM Offers - Festive Treats";
                             $email_data['message'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
                         <html xmlns="http://www.w3.org/1999/xhtml">
                             <head>
@@ -202,7 +204,7 @@ die();
                         }
                     }
                     $email_data = array();
-                    $email_data['email'] = "rohit@salaryontime.com";
+                    $email_data['email'] = INFO_EMAIL;
                     $email_data['subject'] = "PROD-Festive Existing Customer Email Counter - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
                     $email_data['message'] = "email_sent=" . $email_counter['email_sent'] . " | email_failed=" . $email_counter['email_failed'];
 
@@ -214,7 +216,7 @@ die();
                 }
             } else {
                 $email_data = array();
-                $email_data['email'] = "rohit@salaryontime.com";
+                $email_data['email'] = INFO_EMAIL;
                 $email_data['subject'] = "PROD-Festive Existing Customer - " . date("d-m-Y");
                 $email_data['message'] = "Unauthorized";
 
@@ -237,7 +239,7 @@ die();
                         if (!empty($customer_data['user_email_id'])) {
                             $email_data = array();
                             $email_data['email'] = $customer_data['user_email_id'];
-                            $email_data['subject'] = "LOANWALLE.COM Offers - Festive Treats";
+                            $email_data['subject'] = "PAISAONSALARY.COM Offers - Festive Treats";
                             $email_data['message'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
                         <html xmlns="http://www.w3.org/1999/xhtml">
                             <head>
@@ -291,7 +293,7 @@ die();
                         }
                     }
                     $email_data = array();
-                    $email_data['email'] = "rohit@salaryontime.com";
+                    $email_data['email'] = INFO_EMAIL;
                     $email_data['subject'] = "PROD-Festive Settlement Existing Customer Email Counter - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
                     $email_data['message'] = "email_sent=" . $email_counter['email_sent'] . " | email_failed=" . $email_counter['email_failed'];
 
@@ -303,7 +305,7 @@ die();
                 }
             } else {
                 $email_data = array();
-                $email_data['email'] = "rohit@salaryontime.com";
+                $email_data['email'] = INFO_EMAIL;
                 $email_data['subject'] = "PROD-Festive Settlement Existing Customer - " . date("d-m-Y");
                 $email_data['message'] = "Unauthorized";
 
@@ -326,7 +328,7 @@ die();
                         if (!empty($customer_data['user_email_id'])) {
                             $email_data = array();
                             $email_data['email'] = $customer_data['user_email_id'];
-                            $email_data['subject'] = "LOANWALLE.COM Offers - Festive Treats";
+                            $email_data['subject'] = "PAISAONSALARY.COM Offers - Festive Treats";
                             $email_data['message'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
                         <html xmlns="http://www.w3.org/1999/xhtml">
                             <head>
@@ -380,7 +382,7 @@ die();
                         }
                     }
                     $email_data = array();
-                    $email_data['email'] = "rohit@salaryontime.com";
+                    $email_data['email'] = INFO_EMAIL;
                     $email_data['subject'] = "PROD-Festive New Customer Email Counter - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
                     $email_data['message'] = "email_sent=" . $email_counter['email_sent'] . " | email_failed=" . $email_counter['email_failed'];
 
@@ -392,7 +394,7 @@ die();
                 }
             } else {
                 $email_data = array();
-                $email_data['email'] = "rohit@salaryontime.com";
+                $email_data['email'] = INFO_EMAIL;
                 $email_data['subject'] = "PROD-Festive New Customer - " . date("d-m-Y");
                 $email_data['message'] = "Unauthorized";
 
@@ -430,13 +432,13 @@ die();
                     if (!empty($customer_data['user_email_id'])) {
                         $email_data = array();
                         $email_data['email'] = $customer_data['user_email_id'];
-                        //$email_data['email'] = 'ajay@salaryontime.com';
-                        $email_data['subject'] = "salaryontime.COM Offers - Instant Personal Loan In Just 30 Minutes*";
+                        //$email_data['email'] = INFO_EMAIL;
+                        $email_data['subject'] = "paisaonsalary.COM Offers - Instant Personal Loan In Just 30 Minutes*";
                         $email_data['message'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
                                                     <html xmlns="http://www.w3.org/1999/xhtml">
                                                         <head>
                                                             <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-                                                            <title>salaryontime.com Offers - Instant Personal Loan In Just 30 Minutes*</title>
+                                                            <title>paisaonsalary.com Offers - Instant Personal Loan In Just 30 Minutes*</title>
                                                         </head>
 
                                                         <body>
@@ -524,12 +526,12 @@ die();
                 //}
                 }
                 $email_data = array();
-                $email_data['email'] = "rohit@salaryontime.com";
+                $email_data['email'] = INFO_EMAIL;
                 $email_data['subject'] = "PROD-Not Contactable Customer Emailer - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
                 $email_data['message'] = "email_sent=" . $email_counter['email_sent'] . " | email_failed=" . $email_counter['email_failed'] . " <br/> Campaign Name : " . $campaign_name;
 
                 $this->middlewareEmail($email_data['email'], $email_data['subject'], $email_data['message'], '', 99);
-                lw_send_email('ajay.singh@loanwalle.com', $email_data['subject'], $email_data['message']);
+                lw_send_email(INFO_EMAIL, $email_data['subject'], $email_data['message']);
                 echo "email_sent=" . $email_counter['email_sent'] . " | email_failed=" . $email_counter['email_failed'];
             } else {
                 echo "No Data";
@@ -569,7 +571,7 @@ die();
 
                         $lead_id = $customer_data['lead_id'];
                         //$customer_email = $customer_data['email'];
-                        $customer_email='ajay@salaryontime.com';
+                        $customer_email=INFO_EMAIL;
                         $loan_no = $customer_data['loan_no'];
                         $cust_full_name = ucwords(strtolower($customer_data['cust_full_name']));
 
@@ -605,8 +607,8 @@ die();
 
                         $email_data = array();
                         //$email_data['email'] = $customer_email;
-                    $email_data['email'] = 'ajay@salaryontime.com';
-                        $email_data['subject'] = "salaryontime.com | Loan Outstanding Delay $due_past_date days | $loan_no";
+                    $email_data['email'] = INFO_EMAIL;
+                        $email_data['subject'] = "paisaonsalary.com | Loan Outstanding Delay $due_past_date days | $loan_no";
                         $email_data['message'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
                                                 <html xmlns="http://www.w3.org/1999/xhtml">
                                                     <head>
@@ -676,7 +678,7 @@ die();
                                         </body>
                                         </html>';
 
-                        $return_array = $this->middlewareEmail($email_data['email'], $email_data['subject'], $email_data['message'], '', 21, '', 'delay@loanwalle.com');
+                        $return_array = $this->middlewareEmail($email_data['email'], $email_data['subject'], $email_data['message'], '', 21, '', INFO_EMAIL);
 
                         if ($return_array['status'] == 1) {
                             $email_counter['email_sent'] = $email_counter['email_sent'] + 1;
@@ -687,7 +689,7 @@ die();
                 }
 
                 $email_data = array();
-                $email_data['email'] = "rohit@salaryontime.com";
+                $email_data['email'] = INFO_EMAIL;
                 $email_data['subject'] = "PROD - Loan Outstanding Customer 1To60 Days Emailer - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
                 $email_data['message'] = "email_sent=" . $email_counter['email_sent'] . " | email_failed=" . $email_counter['email_failed'];
 
@@ -767,8 +769,8 @@ die();
 
                         $email_data = array();
                         $email_data['email'] = $customer_email;
-//                    $email_data['email'] = 'rohit@salaryontime.com';
-                        $email_data['subject'] = "Loanwalle.com | Loan Outstanding | $loan_no";
+//                    $email_data['email'] = INFO_EMAIL;
+                        $email_data['subject'] = "paisaonsalary.com | Loan Outstanding | $loan_no";
                         $email_data['message'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
                         <html xmlns = "http://www.w3.org/1999/xhtml">
                         <head>
@@ -780,27 +782,27 @@ die();
 
                         <table style = "font-family:Arial, Helvetica, sans-serif; background:#202121; color:#fff; padding:0px;" width = "750" cellspacing = "0" cellpadding = "0" border = "0" align = "center">
                         <tbody><tr>
-                        <td width = "366" valign = "top" height = "420"><img src = "https://www.loanwalle.com/public/emailimages/Higher_Outstanding/images/Higher_Outstanding.png" alt = "Higher Outstanding" width = "366" height = "420"></td>
+                        <td width = "366" valign = "top" height = "420"><img src = "https://www.paisaonsalary.com/public/emailimages/Higher_Outstanding/images/Higher_Outstanding.png" alt = "Higher Outstanding" width = "366" height = "420"></td>
                         <td width = "384" valign = "top"><table style = "padding:0px;" width = "100%" cellspacing = "0" cellpadding = "0" border = "0">
                         <tbody><tr>
-                        <td colspan = "2" align = "right"><a href = "' . WEBSITE_URL . '" target = "_blank"><img src = "https://www.loanwalle.com/public/emailimages/Higher_Outstanding/images/lw_logo.png" alt = "logo" style = "padding-top:10px;margin-right: 5px" width = "196" height = "46"></a></td>
+                        <td colspan = "2" align = "right"><a href = "' . WEBSITE_URL . '" target = "_blank"><img src = "https://www.paisaonsalary.com/public/emailimages/Higher_Outstanding/images/lw_logo.png" alt = "logo" style = "padding-top:10px;margin-right: 5px" width = "196" height = "46"></a></td>
                         </tr>
 
                         <tr>
                         <td colspan = "2"><strong>Dear ' . $cust_full_name . '</strong></td>
                         </tr>
                         <tr>
-                        <td colspan = "2"><span style = "font-size:14px; line-height:10px;"><img src = "https://www.loanwalle.com/public/emailimages/Higher_Outstanding/images/line.png" alt = "line" width = "15" height = "10"></span></td>
+                        <td colspan = "2"><span style = "font-size:14px; line-height:10px;"><img src = "https://www.paisaonsalary.com/public/emailimages/Higher_Outstanding/images/line.png" alt = "line" width = "15" height = "10"></span></td>
                         </tr>
                         <tr>
-                        <td colspan = "2" style = "font-size:14px; line-height:20px; padding-right:10px;">Overdue Of <strong><img src = "https://www.loanwalle.com/public/emailimages/Higher_Outstanding/images/inr.png" alt = "inr" style = "position:relative; bottom:-2px; right:3px; left:0px; width:10px;">' . $final_amount . '/-</strong> on your Loan Account <strong>' . $loan_no . '</strong> is unpaid.</td>
+                        <td colspan = "2" style = "font-size:14px; line-height:20px; padding-right:10px;">Overdue Of <strong><img src = "https://www.paisaonsalary.com/public/emailimages/Higher_Outstanding/images/inr.png" alt = "inr" style = "position:relative; bottom:-2px; right:3px; left:0px; width:10px;">' . $final_amount . '/-</strong> on your Loan Account <strong>' . $loan_no . '</strong> is unpaid.</td>
                         </tr>
                         <tr>
                         <td colspan = "2" style = "font-size:14px; line-height:20px; padding-right:10px;">You need to repay your loan outstanding amount in the below Bank Account to close your loan asap.</td>
                         </tr>
 
                         <tr>
-                        <td colspan = "2" style = "font-size:14px; line-height:20px;"><img src = "https://www.loanwalle.com/public/emailimages/Higher_Outstanding/images/line.png" alt = "line" width = "15" height = "10"/></td>
+                        <td colspan = "2" style = "font-size:14px; line-height:20px;"><img src = "https://www.paisaonsalary.com/public/emailimages/Higher_Outstanding/images/line.png" alt = "line" width = "15" height = "10"/></td>
                         </tr>
                         <tr><td style = "color: #fff;" colspan = "0"><table style = "padding:10PX;border: solid 1px #ddd;width: 90%;background: #525353;border-radius: 3px;" width = "100%" cellspacing = "0" cellpadding = "0" border = "0">
                         <tbody>
@@ -816,34 +818,34 @@ die();
                         </td>
                         </tr>
                         <tr>
-                        <td colspan = "2" style = "font-size:14px; line-height:20px;"><img src = "https://www.loanwalle.com/public/emailimages/Higher_Outstanding/images/line.png" alt = "line" width = "15" height = "10"/></td>
+                        <td colspan = "2" style = "font-size:14px; line-height:20px;"><img src = "https://www.paisaonsalary.com/public/emailimages/Higher_Outstanding/images/line.png" alt = "line" width = "15" height = "10"/></td>
                         </tr>
                         <tr>
                         <td colspan = "2" style = "font-size:14px; line-height:20px; padding-right:10px;">Please pay now to get eligible for RE-LOAN.</td>
                         </tr>
                         <tr>
-                        <td colspan = "2" style = "font-size:14px; line-height:20px;"><img src = "https://www.loanwalle.com/public/emailimages/Higher_Outstanding/images/line.png" alt = "line" width = "15" height = "10"/></td>
+                        <td colspan = "2" style = "font-size:14px; line-height:20px;"><img src = "https://www.paisaonsalary.com/public/emailimages/Higher_Outstanding/images/line.png" alt = "line" width = "15" height = "10"/></td>
                         </tr>
                         <tr>
                         <td colspan = "2" style = "font-size:14px;font-weight:bold; line-height:20px; padding-right:10px;">APPLY FOR RE-LOAN NOW - <a href = "https://www.loanwalle.in/?utm_source=EMAILFY2122DEF" style = "color: inherit;">Click Here</a>.</td>
                         </tr>
                         <tr>
-                        <td colspan = "2" style = "font-size:14px; line-height:20px;"><img src = "https://www.loanwalle.com/public/emailimages/Higher_Outstanding/images/line.png" alt = "line" width = "15" height = "10"/></td>
+                        <td colspan = "2" style = "font-size:14px; line-height:20px;"><img src = "https://www.paisaonsalary.com/public/emailimages/Higher_Outstanding/images/line.png" alt = "line" width = "15" height = "10"/></td>
                         </tr>
                         <tr>
                         <td colspan = "2" align = "center">
-                        <a href = "' . APPLE_STORE_LINK . '" target = "_blank"><img src = "https://www.loanwalle.com/public/emailimages/Higher_Outstanding/images/app-store.png" alt = "app_store" style = "position: relative;width:60px;bottom: 4px;right:3px;"></a>
-                        <a href = "' . LINKEDIN_LINK . '/?originalSubdomain=in" target = "_blank"><img src = "https://www.loanwalle.com/public/emailimages/Higher_Outstanding/images/linkdin.png" alt = "linkdin" width = "25" height = "25"></a>
-                        <a href = "' . INSTAGRAM_LINK . '" target = "_blank"><img src = "https://www.loanwalle.com/public/emailimages/Higher_Outstanding/images/instagram.png" alt = "instagram" width = "25" height = "25"></a>
-                        <a href = "' . FACEBOOK_LINK . '" target = "_blank"><img src = "https://www.loanwalle.com/public/emailimages/Higher_Outstanding/images/facebook.png" alt = "facebook" width = "25" height = "25"></a>
-                        <a href = "' . TWITTER_LINK . '" target = "_blank"><img src = "https://www.loanwalle.com/public/emailimages/Higher_Outstanding/images/twitter.png" alt = "twitter" width = "25" height = "25"></a>
-                        <a href = "' . YOUTUBE_LINK . '" target = "_blank"><img src = "https://www.loanwalle.com/public/emailimages/Higher_Outstanding/images/youtube.png" alt = "youtube" width = "25" height = "25"></a>
-                        <a href = "' . ANDROID_STORE_LINK . '" target = "_blank"><img src = "https://www.loanwalle.com/public/emailimages/Higher_Outstanding/images/google-play.png" alt = "goolge_play" style = "position: relative;bottom: 5px;width:60px;left:3px;"></a>
+                        <a href = "' . APPLE_STORE_LINK . '" target = "_blank"><img src = "https://www.paisaonsalary.com/public/emailimages/Higher_Outstanding/images/app-store.png" alt = "app_store" style = "position: relative;width:60px;bottom: 4px;right:3px;"></a>
+                        <a href = "' . LINKEDIN_LINK . '/?originalSubdomain=in" target = "_blank"><img src = "https://www.paisaonsalary.com/public/emailimages/Higher_Outstanding/images/linkdin.png" alt = "linkdin" width = "25" height = "25"></a>
+                        <a href = "' . INSTAGRAM_LINK . '" target = "_blank"><img src = "https://www.paisaonsalary.com/public/emailimages/Higher_Outstanding/images/instagram.png" alt = "instagram" width = "25" height = "25"></a>
+                        <a href = "' . FACEBOOK_LINK . '" target = "_blank"><img src = "https://www.paisaonsalary.com/public/emailimages/Higher_Outstanding/images/facebook.png" alt = "facebook" width = "25" height = "25"></a>
+                        <a href = "' . TWITTER_LINK . '" target = "_blank"><img src = "https://www.paisaonsalary.com/public/emailimages/Higher_Outstanding/images/twitter.png" alt = "twitter" width = "25" height = "25"></a>
+                        <a href = "' . YOUTUBE_LINK . '" target = "_blank"><img src = "https://www.paisaonsalary.com/public/emailimages/Higher_Outstanding/images/youtube.png" alt = "youtube" width = "25" height = "25"></a>
+                        <a href = "' . ANDROID_STORE_LINK . '" target = "_blank"><img src = "https://www.paisaonsalary.com/public/emailimages/Higher_Outstanding/images/google-play.png" alt = "goolge_play" style = "position: relative;bottom: 5px;width:60px;left:3px;"></a>
                         </td>
                         </tr>
 
                         <tr>
-                        <td colspan = "2" align = "right"><img src = "https://www.loanwalle.com/public/emailimages/Higher_Outstanding/images/footer.png" alt = "footer" usemap = "#Map" width = "100%" border = "0"></td>
+                        <td colspan = "2" align = "right"><img src = "https://www.paisaonsalary.com/public/emailimages/Higher_Outstanding/images/footer.png" alt = "footer" usemap = "#Map" width = "100%" border = "0"></td>
                         </tr>
                         </tbody></table></td>
                         </tr>
@@ -857,7 +859,7 @@ die();
                         </body>
                         </html>';
 
-                        $return_array = $this->middlewareEmail($email_data['email'], $email_data['subject'], $email_data['message'], '', 22, '', 'delay@loanwalle.com');
+                        $return_array = $this->middlewareEmail($email_data['email'], $email_data['subject'], $email_data['message'], '', 22, '', INFO_EMAIL);
 
                         if ($return_array['status'] == 1) {
                             $email_counter['email_sent'] = $email_counter['email_sent'] + 1;
@@ -868,7 +870,7 @@ die();
                 }
 
                 $email_data = array();
-                $email_data['email'] = "rohit@salaryontime.com";
+                $email_data['email'] = INFO_EMAIL;
                 $email_data['subject'] = "PROD - Loan Outstanding FY 2021-22 Emailer - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
                 $email_data['message'] = "email_sent=" . $email_counter['email_sent'] . " | email_failed=" . $email_counter['email_failed'];
 
@@ -900,24 +902,24 @@ die();
                         if (!empty($customer_data['user_email_id'])) {
                             $email_data = array();
                             $email_data['email'] = $customer_data['user_email_id'];
-                            $email_data['subject'] = "LOANWALLE.COM Offers - Festive Special";
+                            $email_data['subject'] = "PAISAONSALARY.COM Offers - Festive Special";
                             $email_data['message'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
                         <html xmlns = "http://www.w3.org/1999/xhtml">
                         <head>
                         <meta http-equiv = "Content-Type" content = "text/html; charset=utf-8" />
-                        <title>LOANWALLE.COM Offers - Festive Special</title>
+                        <title>PAISAONSALARY.COM Offers - Festive Special</title>
                         </head>
 
                         <body>
-                        <table width = "667" border = "0" align = "center" cellpadding = "0" cellspacing = "0" style = "background:url(https://www.loanwalle.com/public/emailimages/makar-sankranti/images/loanwalle-email-marketing-back.png); font-family:Arial, Helvetica, sans-serif;">
+                        <table width = "667" border = "0" align = "center" cellpadding = "0" cellspacing = "0" style = "background:url(https://www.paisaonsalary.com/public/emailimages/makar-sankranti/images/loanwalle-email-marketing-back.png); font-family:Arial, Helvetica, sans-serif;">
                         <tr>
-                        <td><img src = "https://www.loanwalle.com/public/emailimages/makar-sankranti/images/loanwalle-logo.png" width = "667" height = "67" border = "0" usemap = "#Map" /></td>
+                        <td><img src = "https://www.paisaonsalary.com/public/emailimages/makar-sankranti/images/loanwalle-logo.png" width = "667" height = "67" border = "0" usemap = "#Map" /></td>
                         </tr>
                         <tr>
-                        <td valign = "top"><img src = "https://www.loanwalle.com/public/emailimages/makar-sankranti/images/loanwalle-email-line.png" width = "10" height = "412" /></td>
+                        <td valign = "top"><img src = "https://www.paisaonsalary.com/public/emailimages/makar-sankranti/images/loanwalle-email-line.png" width = "10" height = "412" /></td>
                         </tr>
                         <tr>
-                        <td align = "center"><img src = "https://www.loanwalle.com/public/emailimages/makar-sankranti/images/loanwalle-email-marketing-3.png" alt = "loanwalle-email-marketing" /></td>
+                        <td align = "center"><img src = "https://www.paisaonsalary.com/public/emailimages/makar-sankranti/images/loanwalle-email-marketing-3.png" alt = "loanwalle-email-marketing" /></td>
                         </tr>
                         <tr>
                         <td align = "center" style = "color:#fff; font-size:15px; font-weight:500;">&nbsp;
@@ -927,23 +929,23 @@ die();
                         <td align = "center" style = "color:#fff; font-size:15px; font-weight:500;"><a href = "https://bit.ly/3Gqd0YV" style = "background: #fff;border-radius: 50px;padding: 10px 30px;color: #034369;font-weight: bold;text-decoration: blink;border: solid 2px #034369;">Apply Now</a></td>
                         </tr>
                         <tr>
-                        <td align = "center" style = "color:#fff; font-size:15px; font-weight:500;"><img src = "https://www.loanwalle.com/public/emailimages/makar-sankranti/images/loanwalle-email-line.png" alt = "line" width = "25" height = "20" /></td>
+                        <td align = "center" style = "color:#fff; font-size:15px; font-weight:500;"><img src = "https://www.paisaonsalary.com/public/emailimages/makar-sankranti/images/loanwalle-email-line.png" alt = "line" width = "25" height = "20" /></td>
                         </tr>
                         <tr>
-                        <td align = "center" style = "color:#fff; font-size:14px; font-weight:600;"><a href = "tel:+919999999330" style = "color:#fff; text-decoration:blink;">+91-9999999-330</a> | <a href = "' . WEBSITE_URL . '" target = "_blank" style = "color:#fff; text-decoration:blink;">www.loanwalle.com</a> | <a href = "mailto:' . INFO_EMAIL . '" style = "color:#fff; text-decoration:blink;">' . INFO_EMAIL . '</a></td>
+                        <td align = "center" style = "color:#fff; font-size:14px; font-weight:600;"><a href = "tel:+919999999330" style = "color:#fff; text-decoration:blink;">+91-9999999-330</a> | <a href = "' . WEBSITE_URL . '" target = "_blank" style = "color:#fff; text-decoration:blink;">www.paisaonsalary.com</a> | <a href = "mailto:' . INFO_EMAIL . '" style = "color:#fff; text-decoration:blink;">' . INFO_EMAIL . '</a></td>
                         </tr>
                         <tr>
-                        <td align = "center" style = "color:#fff; font-size:17px; font-weight:500;"><img src = "https://www.loanwalle.com/public/emailimages/makar-sankranti/images/loanwalle-email-line.png" alt = "line" width = "25" height = "10" /></td>
+                        <td align = "center" style = "color:#fff; font-size:17px; font-weight:500;"><img src = "https://www.paisaonsalary.com/public/emailimages/makar-sankranti/images/loanwalle-email-line.png" alt = "line" width = "25" height = "10" /></td>
                         </tr>
                         <tr>
                         <td><table width = "100%" border = "0">
                         <tr>
-                        <td width = "36%" align = "right"><img src = "https://www.loanwalle.com/public/emailimages/makar-sankranti/images/loanwalle-email-hr.png" alt = "hr" width = "180" height = "1" /></td>
-                        <td width = "31%" align = "center"><a href = "' . FACEBOOK_LINK . '" target = "_blank"><img src = "https://www.loanwalle.com/public/emailimages/makar-sankranti/images/loanwalle-email-facebook.png" alt = "facebbok" width = "30" height = "30" /></a> <a href = "' . LINKEDIN_LINK . '" target = "_blank"><img src = "https://www.loanwalle.com/public/emailimages/makar-sankranti/images/loanwalle-email-linkdin.png" alt = "linkdin" width = "30" height = "30" /></a> <a href = "' . TWITTER_LINK . '" target = "_blank"><img src = "https://www.loanwalle.com/public/emailimages/makar-sankranti/images/loanwalle-email-twitter.png" alt = "twitter" width = "30" height = "30" /></a> <a href = "' . INSTAGRAM_LINK . '" target = "_blank"><img src = "https://www.loanwalle.com/public/emailimages/makar-sankranti/images/loanwalle-email-instagram.png" alt = "instagram" width = "30" height = "30" /></a> <a href = "' . YOUTUBE_LINK . '" target = "_blank"><img src = "https://www.loanwalle.com/public/emailimages/makar-sankranti/images/loanwalle-email-you-tube.png" alt = "youtube" width = "30" height = "30" /></a></td>
-                        <td width = "33%" align = "left"><img src = "https://www.loanwalle.com/public/emailimages/makar-sankranti/images/loanwalle-email-hr.png" alt = "hr" width = "180" height = "1" /></td>
+                        <td width = "36%" align = "right"><img src = "https://www.paisaonsalary.com/public/emailimages/makar-sankranti/images/loanwalle-email-hr.png" alt = "hr" width = "180" height = "1" /></td>
+                        <td width = "31%" align = "center"><a href = "' . FACEBOOK_LINK . '" target = "_blank"><img src = "https://www.paisaonsalary.com/public/emailimages/makar-sankranti/images/loanwalle-email-facebook.png" alt = "facebbok" width = "30" height = "30" /></a> <a href = "' . LINKEDIN_LINK . '" target = "_blank"><img src = "https://www.paisaonsalary.com/public/emailimages/makar-sankranti/images/loanwalle-email-linkdin.png" alt = "linkdin" width = "30" height = "30" /></a> <a href = "' . TWITTER_LINK . '" target = "_blank"><img src = "https://www.paisaonsalary.com/public/emailimages/makar-sankranti/images/loanwalle-email-twitter.png" alt = "twitter" width = "30" height = "30" /></a> <a href = "' . INSTAGRAM_LINK . '" target = "_blank"><img src = "https://www.paisaonsalary.com/public/emailimages/makar-sankranti/images/loanwalle-email-instagram.png" alt = "instagram" width = "30" height = "30" /></a> <a href = "' . YOUTUBE_LINK . '" target = "_blank"><img src = "https://www.paisaonsalary.com/public/emailimages/makar-sankranti/images/loanwalle-email-you-tube.png" alt = "youtube" width = "30" height = "30" /></a></td>
+                        <td width = "33%" align = "left"><img src = "https://www.paisaonsalary.com/public/emailimages/makar-sankranti/images/loanwalle-email-hr.png" alt = "hr" width = "180" height = "1" /></td>
                         </tr>
                         <tr>
-                        <td colspan = "3" align = "right"><img src = "https://www.loanwalle.com/public/emailimages/makar-sankranti/images/loanwalle-email-marketing-tc-apply.png" alt = "loanwalle-email-marketing-tc-apply" width = "13" height = "60" style = "margin-top:-100px;"></td>
+                        <td colspan = "3" align = "right"><img src = "https://www.paisaonsalary.com/public/emailimages/makar-sankranti/images/loanwalle-email-marketing-tc-apply.png" alt = "loanwalle-email-marketing-tc-apply" width = "13" height = "60" style = "margin-top:-100px;"></td>
                         </tr>
                         </table></td>
                         </tr>
@@ -967,7 +969,7 @@ die();
                         }
                     }
                     $email_data = array();
-                    $email_data['email'] = "rohit@salaryontime.com";
+                    $email_data['email'] = INFO_EMAIL;
                     $email_data['subject'] = "PROD-Lohari Festival special - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
                     $email_data['message'] = "email_sent=" . $email_counter['email_sent'] . " | email_failed=" . $email_counter['email_failed'];
 
@@ -979,7 +981,7 @@ die();
                 }
             } else {
                 $email_data = array();
-                $email_data['email'] = "rohit@salaryontime.com";
+                $email_data['email'] = INFO_EMAIL;
                 $email_data['subject'] = "PROD-Lohari Festival special - " . date("d-m-Y");
                 $email_data['message'] = "Unauthorized";
 
@@ -996,7 +998,7 @@ die();
             $time_close = intval(date("Hi"));
 
             if ($time_close > 1155) {
-//            $this->middlewareEmail("rohit@salaryontime.com", "CRON CALL EMAIL | freshLoan26Jan22NewCustEmailer", "cron was called again | ".date("Y-m-d H:i:s"), '', 99);
+//            $this->middlewareEmail(INFO_EMAIL, "CRON CALL EMAIL | freshLoan26Jan22NewCustEmailer", "cron was called again | ".date("Y-m-d H:i:s"), '', 99);
                 die;
             }
 
@@ -1011,27 +1013,27 @@ die();
                         if (!empty($customer_data['user_email_id'])) {
                             $email_data = array();
                             $email_data['email'] = $customer_data['user_email_id'];
-//                        $email_data['email'] = "rohit@salaryontime.com";
-                            $email_data['subject'] = "LOANWALLE.COM Celebrate - Republic Day 2022";
+//                        $email_data['email'] = INFO_EMAIL;
+                            $email_data['subject'] = "PAISAONSALARY.COM Celebrate - Republic Day 2022";
                             $email_data['message'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
                         <html xmlns = "http://www.w3.org/1999/xhtml">
                         <head>
                         <meta http-equiv = "Content-Type" content = "text/html; charset=utf-8" />
-                        <title>Loanwalle.com Celebrate Republic Day</title>
+                        <title>paisaonsalary.com Celebrate Republic Day</title>
                         </head>
 
                         <body>
                         <table width = "100" border = "0" align = "center" cellpadding = "0" cellspacing = "0" style = "font-family:Arial, Helvetica, sans-serif; color:#fff; border:solid 1px #ddd; font-size:13px; font-weight:bold;">
                         <tr>
-                        <td colspan = "3"><img src = "https://www.loanwalle.com/public/emailimages/republic-day/images/loanwalle-republic-day-2022-header.jpg" width = "667" height = "114" border = "0" usemap = "#Map" alt = "loanwalle-republic-day-2022-header" /></td>
+                        <td colspan = "3"><img src = "https://www.paisaonsalary.com/public/emailimages/republic-day/images/loanwalle-republic-day-2022-header.jpg" width = "667" height = "114" border = "0" usemap = "#Map" alt = "loanwalle-republic-day-2022-header" /></td>
                         </tr>
                         <tr>
-                        <td colspan = "3"><img src = "https://www.loanwalle.com/public/emailimages/republic-day/images/loanwalle-republic-day-2022-center.jpg" alt = "loanwalle-republic-day-2022-center" width = "667" height = "513" border = "0" usemap = "#Map2" /></td>
+                        <td colspan = "3"><img src = "https://www.paisaonsalary.com/public/emailimages/republic-day/images/loanwalle-republic-day-2022-center.jpg" alt = "loanwalle-republic-day-2022-center" width = "667" height = "513" border = "0" usemap = "#Map2" /></td>
                         </tr>
                         <tr>
-                        <td width = "404" align = "center" bgcolor = "#0463a3" style = "padding:10px 1px;"><a href = "tel:+91-9999999341" style = "color:#fff; text-decoration:blink;">' . REGISTED_MOBILE . '</a> | <a href = "mailto:' . INFO_EMAIL . '" style = "color:#fff; text-decoration:blink;">' . INFO_EMAIL . '</a> | <a href = "' . WEBSITE_URL . '" target = "_blank" style = "color:#fff; text-decoration:blink;">www.loanwalle.com</a></td>
-                        <td width = "141" align = "center" bgcolor = "#0463a3"><a href = "' . FACEBOOK_LINK . '" target = "_blank"><img src = "https://www.loanwalle.com/public/emailimages/republic-day/images/facebook.png" alt = "loanwalle-facebook" width = "25" height = "25" /></a> <a href = "' . TWITTER_LINK . '" target = "_blank"><img src = "https://www.loanwalle.com/public/emailimages/republic-day/images/twitter.png" alt = "loanwalle-twiiter" width = "25" height = "25" /></a> <a href = "' . LINKEDIN_LINK . '" target = "_blank"><img src = "https://www.loanwalle.com/public/emailimages/republic-day/images/linkdin.png" alt = "loanwalle-linkdin" width = "25" height = "25" /></a> <a href = "' . INSTAGRAM_LINK . '" target = "_blank"><img src = "https://www.loanwalle.com/public/emailimages/republic-day/images/instagram.png" alt = "loanwalle-instagram" width = "25" height = "25" /></a> <a href = "' . YOUTUBE_LINK . '" target = "_blank"><img src = "https://www.loanwalle.com/public/emailimages/republic-day/images/you-tube.png" alt = "loanwalle-youtube" width = "25" height = "25" /></a> </td>
-                        <td width = "122" align = "center" bgcolor = "#0463a3"><a href = "' . ANDROID_STORE_LINK . '" target = "_blank"><img src = "https://www.loanwalle.com/public/emailimages/republic-day/images/loanwalle-republic-day-center-mobile-app.png" alt = "loanwalle-republic-day-center-mobile-app"/></a></td>
+                        <td width = "404" align = "center" bgcolor = "#0463a3" style = "padding:10px 1px;"><a href = "tel:+91-9999999341" style = "color:#fff; text-decoration:blink;">' . REGISTED_MOBILE . '</a> | <a href = "mailto:' . INFO_EMAIL . '" style = "color:#fff; text-decoration:blink;">' . INFO_EMAIL . '</a> | <a href = "' . WEBSITE_URL . '" target = "_blank" style = "color:#fff; text-decoration:blink;">www.paisaonsalary.com</a></td>
+                        <td width = "141" align = "center" bgcolor = "#0463a3"><a href = "' . FACEBOOK_LINK . '" target = "_blank"><img src = "https://www.paisaonsalary.com/public/emailimages/republic-day/images/facebook.png" alt = "loanwalle-facebook" width = "25" height = "25" /></a> <a href = "' . TWITTER_LINK . '" target = "_blank"><img src = "https://www.paisaonsalary.com/public/emailimages/republic-day/images/twitter.png" alt = "loanwalle-twiiter" width = "25" height = "25" /></a> <a href = "' . LINKEDIN_LINK . '" target = "_blank"><img src = "https://www.paisaonsalary.com/public/emailimages/republic-day/images/linkdin.png" alt = "loanwalle-linkdin" width = "25" height = "25" /></a> <a href = "' . INSTAGRAM_LINK . '" target = "_blank"><img src = "https://www.paisaonsalary.com/public/emailimages/republic-day/images/instagram.png" alt = "loanwalle-instagram" width = "25" height = "25" /></a> <a href = "' . YOUTUBE_LINK . '" target = "_blank"><img src = "https://www.paisaonsalary.com/public/emailimages/republic-day/images/you-tube.png" alt = "loanwalle-youtube" width = "25" height = "25" /></a> </td>
+                        <td width = "122" align = "center" bgcolor = "#0463a3"><a href = "' . ANDROID_STORE_LINK . '" target = "_blank"><img src = "https://www.paisaonsalary.com/public/emailimages/republic-day/images/loanwalle-republic-day-center-mobile-app.png" alt = "loanwalle-republic-day-center-mobile-app"/></a></td>
                         </tr>
                         </table>
 
@@ -1056,7 +1058,7 @@ die();
                         }
                     }
                     $email_data = array();
-                    $email_data['email'] = "rohit@salaryontime.com";
+                    $email_data['email'] = INFO_EMAIL;
                     $email_data['subject'] = "PROD-Republic Day 2022 - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
                     $email_data['message'] = "email_sent=" . $email_counter['email_sent'] . " | email_failed=" . $email_counter['email_failed'];
 
@@ -1068,7 +1070,7 @@ die();
                 }
             } else {
                 $email_data = array();
-                $email_data['email'] = "rohit@salaryontime.com";
+                $email_data['email'] = INFO_EMAIL;
                 $email_data['subject'] = "PROD-Celebrate - Republic Day 2022 - " . date("d-m-Y");
                 $email_data['message'] = "Unauthorized";
 
@@ -1082,7 +1084,7 @@ die();
             $time_close = intval(date("Hi"));
 
             if ($time_close > 1537) {
-//            $this->middlewareEmail("rohit@salaryontime.com", "CRON CALL EMAIL | freshLoan26Jan22NewCustEmailer", "cron was called again | ".date("Y-m-d H:i:s"), '', 99);
+//            $this->middlewareEmail(INFO_EMAIL, "CRON CALL EMAIL | freshLoan26Jan22NewCustEmailer", "cron was called again | ".date("Y-m-d H:i:s"), '', 99);
                 die;
             }
 
@@ -1097,8 +1099,8 @@ die();
                         if (!empty($customer_data['user_email_id'])) {
                             $email_data = array();
                             $email_data['email'] = $customer_data['user_email_id'];
-//                        $email_data['email'] = 'rohit@salaryontime.com';
-                            $email_data['subject'] = "LOANWALLE.COM Limited Offer on Repay Loan";
+//                        $email_data['email'] = INFO_EMAIL;
+                            $email_data['subject'] = "PAISAONSALARY.COM Limited Offer on Repay Loan";
                             $email_data['message'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
                         <html xmlns = "http://www.w3.org/1999/xhtml">
                         <head>
@@ -1107,16 +1109,16 @@ die();
                         </head>
 
                         <body>
-                        <table width = "667" border = "0" align = "center" cellpadding = "0" cellspacing = "0" style = "background:#fff url(https://www.loanwalle.com/public/emailimages/31-Jan/images/background.jpg) no-repeat top; font-family:Arial, Helvetica, sans-serif;">
+                        <table width = "667" border = "0" align = "center" cellpadding = "0" cellspacing = "0" style = "background:#fff url(https://www.paisaonsalary.com/public/emailimages/31-Jan/images/background.jpg) no-repeat top; font-family:Arial, Helvetica, sans-serif;">
                         <tr>
                         <td>&nbsp;
                         </td>
                         </tr>
                         <tr>
-                        <td align = "left"><a href = "' . WEBSITE_URL . '" target = "_blank"><img src = "https://www.loanwalle.com/public/emailimages/31-Jan/images/loanwalle-logo.png" alt = "loanwalle-logo" width = "234" height = "50" style = "padding-left:9px;"></a></td>
+                        <td align = "left"><a href = "' . WEBSITE_URL . '" target = "_blank"><img src = "https://www.paisaonsalary.com/public/emailimages/31-Jan/images/loanwalle-logo.png" alt = "loanwalle-logo" width = "234" height = "50" style = "padding-left:9px;"></a></td>
                         </tr>
                         <tr>
-                        <td><img src = "https://www.loanwalle.com/public/emailimages/31-Jan/images/line.png" alt = "line" width = "6" height = "350" /></td>
+                        <td><img src = "https://www.paisaonsalary.com/public/emailimages/31-Jan/images/line.png" alt = "line" width = "6" height = "350" /></td>
                         </tr>
                         <tr>
                         <td><p style = "padding: 0px 20px; text-align:right;font-size: 31px;line-height: 41px;font-weight: 500;">
@@ -1129,10 +1131,10 @@ die();
                         <td align = "center" style = "padding:0px 0px 20px 0px;"><a href = "' . LOAN_REPAY_LINK . '" style = "background: #004aa1;border: solid 1px #004aa1;border-radius: 20px;padding: 8px 20px;text-decoration: blink;font-weight: bold;font-size: 14px;color: #fff;margin-left: 217px;">Repay Loan</a></td>
                         </tr>
                         <tr>
-                        <td align = "center" style = "background:#004aa1; color:#fff; font-size:17px; line-height:30px;"><a href = "tel:+91-9999999341" style = "color:#fff; text-decoration:blink;">' . REGISTED_MOBILE . '</a> | <a href = "' . WEBSITE_URL . '" target = "_blank" style = "color:#fff; text-decoration:blink;">www.loanwalle.com</a> | <a href = "info@' . INFO_EMAIL . '" style = "color:#fff; text-decoration:blink; ">' . INFO_EMAIL . '</a></td>
+                        <td align = "center" style = "background:#004aa1; color:#fff; font-size:17px; line-height:30px;"><a href = "tel:+91-9999999341" style = "color:#fff; text-decoration:blink;">' . REGISTED_MOBILE . '</a> | <a href = "' . WEBSITE_URL . '" target = "_blank" style = "color:#fff; text-decoration:blink;">www.paisaonsalary.com</a> | <a href = "info@' . INFO_EMAIL . '" style = "color:#fff; text-decoration:blink; ">' . INFO_EMAIL . '</a></td>
                         </tr>
                         <tr>
-                        <td align = "center" style = "padding:10px;"><a href = "' . FACEBOOK_LINK . '" target = "_blank"><img src = "https://www.loanwalle.com/public/emailimages/31-Jan/images/facebook.png" alt = "loanwalle-facebook" width = "30" height = "30" /></a> <a href = "' . TWITTER_LINK . '" target = "_blank"><img src = "https://www.loanwalle.com/public/emailimages/31-Jan/images/twitter.png" alt = "loanwalle-twiiter" width = "30" height = "30" /></a> <a href = "' . LINKEDIN_LINK . '" target = "_blank"><img src = "https://www.loanwalle.com/public/emailimages/31-Jan/images/linkdin.png" alt = "loanwalle-linkdin" width = "30" height = "30" /></a> <a href = "' . INSTAGRAM_LINK . '" target = "_blank"><img src = "https://www.loanwalle.com/public/emailimages/31-Jan/images/instagram.png" alt = "loanwalle-instagram" width = "30" height = "30" /></a> <a href = "' . YOUTUBE_LINK . '" target = "_blank"><img src = "https://www.loanwalle.com/public/emailimages/31-Jan/images/you-tube.png" alt = "loanwalle-youtube" width = "30" height = "30" /></a> <a href = "' . ANDROID_STORE_LINK . '" target = "_blank"><img src = "https://www.loanwalle.com/public/emailimages/31-Jan/images/loanwalle-mobile-app.png" width = "105" height = "33" /></a></td>
+                        <td align = "center" style = "padding:10px;"><a href = "' . FACEBOOK_LINK . '" target = "_blank"><img src = "https://www.paisaonsalary.com/public/emailimages/31-Jan/images/facebook.png" alt = "loanwalle-facebook" width = "30" height = "30" /></a> <a href = "' . TWITTER_LINK . '" target = "_blank"><img src = "https://www.paisaonsalary.com/public/emailimages/31-Jan/images/twitter.png" alt = "loanwalle-twiiter" width = "30" height = "30" /></a> <a href = "' . LINKEDIN_LINK . '" target = "_blank"><img src = "https://www.paisaonsalary.com/public/emailimages/31-Jan/images/linkdin.png" alt = "loanwalle-linkdin" width = "30" height = "30" /></a> <a href = "' . INSTAGRAM_LINK . '" target = "_blank"><img src = "https://www.paisaonsalary.com/public/emailimages/31-Jan/images/instagram.png" alt = "loanwalle-instagram" width = "30" height = "30" /></a> <a href = "' . YOUTUBE_LINK . '" target = "_blank"><img src = "https://www.paisaonsalary.com/public/emailimages/31-Jan/images/you-tube.png" alt = "loanwalle-youtube" width = "30" height = "30" /></a> <a href = "' . ANDROID_STORE_LINK . '" target = "_blank"><img src = "https://www.paisaonsalary.com/public/emailimages/31-Jan/images/loanwalle-mobile-app.png" width = "105" height = "33" /></a></td>
                         </tr>
                         </table>
                         </body>
@@ -1148,7 +1150,7 @@ die();
                         }
                     }
                     $email_data = array();
-                    $email_data['email'] = "rohit@salaryontime.com";
+                    $email_data['email'] = INFO_EMAIL;
                     $email_data['subject'] = "PROD-Repay Loan Email Counter - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
                     $email_data['message'] = "email_sent=" . $email_counter['email_sent'] . " | email_failed=" . $email_counter['email_failed'];
 
@@ -1160,7 +1162,7 @@ die();
                 }
             } else {
                 $email_data = array();
-                $email_data['email'] = "rohit@salaryontime.com";
+                $email_data['email'] = INFO_EMAIL;
                 $email_data['subject'] = "PROD-Repay Loan Email- " . date("d-m-Y");
                 $email_data['message'] = "Unauthorized";
 
@@ -1174,7 +1176,7 @@ die();
             $time_close = intval(date("Hi"));
 
             if ($time_close > 1956) {
-//            $this->middlewareEmail("rohit@salaryontime.com", "CRON CALL EMAIL | freshLoan26Jan22NewCustEmailer", "cron was called again | ".date("Y-m-d H:i:s"), '', 99);
+//            $this->middlewareEmail(INFO_EMAIL, "CRON CALL EMAIL | freshLoan26Jan22NewCustEmailer", "cron was called again | ".date("Y-m-d H:i:s"), '', 99);
                 die;
             }
 
@@ -1196,17 +1198,17 @@ die();
 
                             $email_data = array();
                             $email_data['email'] = $customer_data['user_email_id'];
-//                        $email_data['email'] = "rohit@salaryontime.com";
+//                        $email_data['email'] = INFO_EMAIL;
                             $email_data['subject'] = "Valentine’s Day ahead and Pocket in debt?";
                             $email_data['message'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
                         <html xmlns = "http://www.w3.org/1999/xhtml">
                         <head>
                         <meta http-equiv = "Content-Type" content = "text/html; charset=utf-8" />
-                        <title>LOANWALLE.COM - Valentine Week Special</title>
+                        <title>PAISAONSALARY.COM - Valentine Week Special</title>
                         </head>
 
                         <body>
-                        <table width = "667" border = "0" align = "center" cellpadding = "0" cellspacing = "0" style = "background:url(https://www.loanwalle.com/public/emailimages/valentine/images/loanwalle-email-marketing-back.png); font-family:Arial, Helvetica, sans-serif; border:solid 2px #d40005;">
+                        <table width = "667" border = "0" align = "center" cellpadding = "0" cellspacing = "0" style = "background:url(https://www.paisaonsalary.com/public/emailimages/valentine/images/loanwalle-email-marketing-back.png); font-family:Arial, Helvetica, sans-serif; border:solid 2px #d40005;">
                         <tr>
                         <td align = "center">&nbsp;
                         </td>
@@ -1216,7 +1218,7 @@ die();
                         </td>
                         </tr>
                         <tr>
-                        <td align = "center"><a href = "' . WEBSITE_URL . '" target = "_blank"><img src = "https://www.loanwalle.com/public/emailimages/valentine/images/loanwalle-logo.png" width = "289" height = "60" /></a></td>
+                        <td align = "center"><a href = "' . WEBSITE_URL . '" target = "_blank"><img src = "https://www.paisaonsalary.com/public/emailimages/valentine/images/loanwalle-logo.png" width = "289" height = "60" /></a></td>
                         </tr>
                         <tr>
                         <td align = "center">&nbsp;
@@ -1227,28 +1229,28 @@ die();
                         </td>
                         </tr>
                         <tr>
-                        <td align = "center"><img src = "https://www.loanwalle.com/public/emailimages/valentine/images/loanwalle-valentine.png" alt = "loanwalle-valentine" width = "574" height = "353" /></td>
+                        <td align = "center"><img src = "https://www.paisaonsalary.com/public/emailimages/valentine/images/loanwalle-valentine.png" alt = "loanwalle-valentine" width = "574" height = "353" /></td>
                         </tr>
                         <tr>
                         <td align = "center">&nbsp;
                         </td>
                         </tr>
                         <tr>
-                        <td align = "center"><img src = "https://www.loanwalle.com/public/emailimages/valentine/images/loanwalle-be-valentine.png" alt = "loanwalle-be-valentine" width = "411" height = "40" /></td>
+                        <td align = "center"><img src = "https://www.paisaonsalary.com/public/emailimages/valentine/images/loanwalle-be-valentine.png" alt = "loanwalle-be-valentine" width = "411" height = "40" /></td>
                         </tr>
                         <tr>
                         <td align = "center">&nbsp;
                         </td>
                         </tr>
                         <tr>
-                        <td align = "center"><img src = "https://www.loanwalle.com/public/emailimages/valentine/images/loanwalle-small-loan.png" alt = "loanwalle-small-loan" width = "620" height = "53" /></td>
+                        <td align = "center"><img src = "https://www.paisaonsalary.com/public/emailimages/valentine/images/loanwalle-small-loan.png" alt = "loanwalle-small-loan" width = "620" height = "53" /></td>
                         </tr>
                         <tr>
                         <td align = "center">&nbsp;
                         </td>
                         </tr>
                         <tr>
-                        <td align = "center"><img src = "https://www.loanwalle.com/public/emailimages/valentine/images/loanwalle-get-instant.png" alt = "loanwalle-get-instant" width = "648" height = "55" /></td>
+                        <td align = "center"><img src = "https://www.paisaonsalary.com/public/emailimages/valentine/images/loanwalle-get-instant.png" alt = "loanwalle-get-instant" width = "648" height = "55" /></td>
                         </tr>
                         <tr>
                         <td valign = "top">&nbsp;
@@ -1266,24 +1268,24 @@ die();
                         </td>
                         </tr>
                         <tr>
-                        <td align = "center" style = "color:#fff; font-size:15px; font-weight:500;"><img src = "https://www.loanwalle.com/public/emailimages/valentine/images/loanwalle-email-line.png" alt = "line" width = "25" height = "20" /></td>
+                        <td align = "center" style = "color:#fff; font-size:15px; font-weight:500;"><img src = "https://www.paisaonsalary.com/public/emailimages/valentine/images/loanwalle-email-line.png" alt = "line" width = "25" height = "20" /></td>
                         </tr>
                         <tr>
-                        <td align = "center" style = "color:#cb1222; font-size:14px; font-weight:600;"><a href = "tel:+9999999341" style = "color:#cb1222; text-decoration:blink;">' . REGISTED_MOBILE . '</a> | <a href = "' . WEBSITE_URL . '" target = "_blank" style = "color:#cb1222; text-decoration:blink;">www.loanwalle.com</a> | <a href = "mailto:' . INFO_EMAIL . '" style = "color:#cb1222; text-decoration:blink;">' . INFO_EMAIL . '</a></td>
+                        <td align = "center" style = "color:#cb1222; font-size:14px; font-weight:600;"><a href = "tel:+9999999341" style = "color:#cb1222; text-decoration:blink;">' . REGISTED_MOBILE . '</a> | <a href = "' . WEBSITE_URL . '" target = "_blank" style = "color:#cb1222; text-decoration:blink;">www.paisaonsalary.com</a> | <a href = "mailto:' . INFO_EMAIL . '" style = "color:#cb1222; text-decoration:blink;">' . INFO_EMAIL . '</a></td>
                         </tr>
                         <tr>
                         <td align = "center" style = "color:#cb1222; font-size:14px; font-weight:600;">&nbsp;
                         </td>
                         </tr>
                         <tr>
-                        <td align = "center" style = "color:#fff; font-size:17px; font-weight:500;"><img src = "https://www.loanwalle.com/public/emailimages/valentine/images/loanwalle-email-line.png" alt = "line2" width = "25" height = "10" /></td>
+                        <td align = "center" style = "color:#fff; font-size:17px; font-weight:500;"><img src = "https://www.paisaonsalary.com/public/emailimages/valentine/images/loanwalle-email-line.png" alt = "line2" width = "25" height = "10" /></td>
                         </tr>
                         <tr>
                         <td><table width = "100%" border = "0">
                         <tr>
-                        <td width = "25%" align = "right"><img src = "https://www.loanwalle.com/public/emailimages/valentine/images/loanwalle-left.png" width = "165" height = "16" alt = "left" /></td>
-                        <td width = "50%" align = "center"><a href = "' . FACEBOOK_LINK . '" target = "_blank"><img src = "https://www.loanwalle.com/public/emailimages/valentine/images/loanwalle-email-facebook.png" alt = "facebbok" width = "30" height = "30" /></a> <a href = "' . LINKEDIN_LINK . '" target = "_blank"><img src = "https://www.loanwalle.com/public/emailimages/valentine/images/loanwalle-email-linkdin.png" alt = "linkdin" width = "30" height = "30" /></a> <a href = "' . TWITTER_LINK . '" target = "_blank"><img src = "https://www.loanwalle.com/public/emailimages/valentine/images/loanwalle-email-twitter.png" alt = "twitter" width = "30" height = "30" /></a> <a href = "' . INSTAGRAM_LINK . '" target = "_blank"><img src = "https://www.loanwalle.com/public/emailimages/valentine/images/loanwalle-email-instagram.png" alt = "instagram" width = "30" height = "30" /></a> <a href = "' . YOUTUBE_LINK . '" target = "_blank"><img src = "https://www.loanwalle.com/public/emailimages/valentine/images/loanwalle-email-you-tube.png" alt = "youtube" width = "30" height = "30" /></a> <a href = "' . ANDROID_STORE_LINK . '" target = "_blank"><img src = "https://www.loanwalle.com/public/emailimages/valentine/images/loanwalle-get-it-on.png" align = "mobile-app"></a></td>
-                        <td width = "25%" align = "left"><img src = "https://www.loanwalle.com/public/emailimages/valentine/images/loanwalle-right.png" width = "165" height = "16" alt = "right"/></td>
+                        <td width = "25%" align = "right"><img src = "https://www.paisaonsalary.com/public/emailimages/valentine/images/loanwalle-left.png" width = "165" height = "16" alt = "left" /></td>
+                        <td width = "50%" align = "center"><a href = "' . FACEBOOK_LINK . '" target = "_blank"><img src = "https://www.paisaonsalary.com/public/emailimages/valentine/images/loanwalle-email-facebook.png" alt = "facebbok" width = "30" height = "30" /></a> <a href = "' . LINKEDIN_LINK . '" target = "_blank"><img src = "https://www.paisaonsalary.com/public/emailimages/valentine/images/loanwalle-email-linkdin.png" alt = "linkdin" width = "30" height = "30" /></a> <a href = "' . TWITTER_LINK . '" target = "_blank"><img src = "https://www.paisaonsalary.com/public/emailimages/valentine/images/loanwalle-email-twitter.png" alt = "twitter" width = "30" height = "30" /></a> <a href = "' . INSTAGRAM_LINK . '" target = "_blank"><img src = "https://www.paisaonsalary.com/public/emailimages/valentine/images/loanwalle-email-instagram.png" alt = "instagram" width = "30" height = "30" /></a> <a href = "' . YOUTUBE_LINK . '" target = "_blank"><img src = "https://www.paisaonsalary.com/public/emailimages/valentine/images/loanwalle-email-you-tube.png" alt = "youtube" width = "30" height = "30" /></a> <a href = "' . ANDROID_STORE_LINK . '" target = "_blank"><img src = "https://www.paisaonsalary.com/public/emailimages/valentine/images/loanwalle-get-it-on.png" align = "mobile-app"></a></td>
+                        <td width = "25%" align = "left"><img src = "https://www.paisaonsalary.com/public/emailimages/valentine/images/loanwalle-right.png" width = "165" height = "16" alt = "right"/></td>
                         </tr>
                         <tr>
                         <td colspan = "3" align = "right">&nbsp;
@@ -1305,7 +1307,7 @@ die();
                         }
                     }
                     $email_data = array();
-                    $email_data['email'] = "rohit@salaryontime.com";
+                    $email_data['email'] = INFO_EMAIL;
                     $email_data['subject'] = "PROD-Valentine Week Special - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
                     $email_data['message'] = "email_sent=" . $email_counter['email_sent'] . " | email_failed=" . $email_counter['email_failed'];
 
@@ -1317,7 +1319,7 @@ die();
                 }
             } else {
                 $email_data = array();
-                $email_data['email'] = "rohit@salaryontime.com";
+                $email_data['email'] = INFO_EMAIL;
                 $email_data['subject'] = "PROD-Valentine Week Special - " . date("d-m-Y");
                 $email_data['message'] = "Unauthorized";
 
@@ -1331,7 +1333,7 @@ die();
             $time_close = intval(date("Hi"));
 
             if ($time_close > 2005) {
-//            $this->middlewareEmail("rohit@salaryontime.com", "CRON CALL EMAIL | freshLoan26Jan22NewCustEmailer", "cron was called again | ".date("Y-m-d H:i:s"), '', 99);
+//            $this->middlewareEmail(INFO_EMAIL, "CRON CALL EMAIL | freshLoan26Jan22NewCustEmailer", "cron was called again | ".date("Y-m-d H:i:s"), '', 99);
                 die;
             }
 
@@ -1353,8 +1355,8 @@ die();
 
                             $email_data = array();
                             $email_data['email'] = $customer_data['user_email_id'];
-//                        $email_data['email'] = "rohit@salaryontime.com";
-                            $email_data['subject'] = "HAPPY HOLI | LOANWALLE.COM";
+//                        $email_data['email'] = INFO_EMAIL;
+                            $email_data['subject'] = "HAPPY HOLI | PAISAONSALARY.COM";
                             $email_data['message'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
                         <html xmlns = "http://www.w3.org/1999/xhtml">
                         <head>
@@ -1363,12 +1365,12 @@ die();
                         </head>
 
                         <body>
-                        <table width = "667" border = "0" align = "center" cellpadding = "0" cellspacing = "0" style = "background:url(https://www.loanwalle.com/public/emailimages/holi/images/loanwalle-email-marketing-back.png); font-family:Arial, Helvetica, sans-serif;">
+                        <table width = "667" border = "0" align = "center" cellpadding = "0" cellspacing = "0" style = "background:url(https://www.paisaonsalary.com/public/emailimages/holi/images/loanwalle-email-marketing-back.png); font-family:Arial, Helvetica, sans-serif;">
                         <tr>
-                        <td><img src = "https://www.loanwalle.com/public/emailimages/holi/images/loanwalle-logo.png" width = "667" height = "67" border = "0" usemap = "#Map" /></td>
+                        <td><img src = "https://www.paisaonsalary.com/public/emailimages/holi/images/loanwalle-logo.png" width = "667" height = "67" border = "0" usemap = "#Map" /></td>
                         </tr>
                         <tr>
-                        <td valign = "top"><img src = "https://www.loanwalle.com/public/emailimages/holi/images/loanwalle-email-line.png" width = "10" height = "550" /></td>
+                        <td valign = "top"><img src = "https://www.paisaonsalary.com/public/emailimages/holi/images/loanwalle-email-line.png" width = "10" height = "550" /></td>
                         </tr>
                         <tr>
                         <td align = "center">&nbsp;
@@ -1380,24 +1382,24 @@ die();
                         </tr>
 
                         <tr>
-                        <td align = "center" style = "color:#fff; font-size:15px; font-weight:500;"><img src = "https://www.loanwalle.com/public/emailimages/holi/images/loanwalle-email-line.png" alt = "line" width = "25" height = "40" /></td>
+                        <td align = "center" style = "color:#fff; font-size:15px; font-weight:500;"><img src = "https://www.paisaonsalary.com/public/emailimages/holi/images/loanwalle-email-line.png" alt = "line" width = "25" height = "40" /></td>
                         </tr>
                         <tr>
                         <td align = "center" style = "color:#fff; font-size:14px; font-weight:600;"><span style = "background: #fff;
                                                                                                                                               border: solid 3px #0463a3;
                                                                                                                                               padding: 7px 20px;
                                                                                                                                               border-radius: 50px;
-                                                                                                                                              font-size: 14px;"><a href = "tel:+9999999341" style = "color:#0463a3; text-decoration:blink;">' . REGISTED_MOBILE . '</a> | <a href = "' . WEBSITE_URL . '" target = "_blank" style = "color:#0463a3; text-decoration:blink;">www.loanwalle.com</a> | <a href = "mailto:' . INFO_EMAIL . '" style = "color:#0463a3; text-decoration:blink;">' . INFO_EMAIL . '</a></span></td>
+                                                                                                                                              font-size: 14px;"><a href = "tel:+9999999341" style = "color:#0463a3; text-decoration:blink;">' . REGISTED_MOBILE . '</a> | <a href = "' . WEBSITE_URL . '" target = "_blank" style = "color:#0463a3; text-decoration:blink;">www.paisaonsalary.com</a> | <a href = "mailto:' . INFO_EMAIL . '" style = "color:#0463a3; text-decoration:blink;">' . INFO_EMAIL . '</a></span></td>
                         </tr>
                         <tr>
-                        <td align = "center" style = "color:#fff; font-size:17px; font-weight:500;"><img src = "https://www.loanwalle.com/public/emailimages/holi/images/loanwalle-email-line.png" alt = "line" width = "25" height = "10" /></td>
+                        <td align = "center" style = "color:#fff; font-size:17px; font-weight:500;"><img src = "https://www.paisaonsalary.com/public/emailimages/holi/images/loanwalle-email-line.png" alt = "line" width = "25" height = "10" /></td>
                         </tr>
                         <tr>
                         <td><table width = "100%" border = "0">
                         <tr>
-                        <td width = "36%" align = "right"><img src = "https://www.loanwalle.com/public/emailimages/holi/images/loanwalle-email-hr.png" alt = "hr" width = "150" height = "1" /></td>
-                        <td width = "31%" align = "center"><img src = "https://www.loanwalle.com/public/emailimages/holi/images/social.png" width = "340" height = "48" border = "0" usemap = "#Map2" /></td>
-                        <td width = "33%" align = "left"><img src = "https://www.loanwalle.com/public/emailimages/holi/images/loanwalle-email-hr.png" alt = "hr" width = "150" height = "1" /></td>
+                        <td width = "36%" align = "right"><img src = "https://www.paisaonsalary.com/public/emailimages/holi/images/loanwalle-email-hr.png" alt = "hr" width = "150" height = "1" /></td>
+                        <td width = "31%" align = "center"><img src = "https://www.paisaonsalary.com/public/emailimages/holi/images/social.png" width = "340" height = "48" border = "0" usemap = "#Map2" /></td>
+                        <td width = "33%" align = "left"><img src = "https://www.paisaonsalary.com/public/emailimages/holi/images/loanwalle-email-hr.png" alt = "hr" width = "150" height = "1" /></td>
                         </tr>
                         </table></td>
                         </tr>
@@ -1429,7 +1431,7 @@ die();
                         }
                     }
                     $email_data = array();
-                    $email_data['email'] = "rohit@salaryontime.com";
+                    $email_data['email'] = INFO_EMAIL;
                     $email_data['subject'] = "PROD-Holi Special - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
                     $email_data['message'] = "email_sent=" . $email_counter['email_sent'] . " | email_failed=" . $email_counter['email_failed'];
 
@@ -1441,7 +1443,7 @@ die();
                 }
             } else {
                 $email_data = array();
-                $email_data['email'] = "rohit@salaryontime.com";
+                $email_data['email'] = INFO_EMAIL;
                 $email_data['subject'] = "PROD-Holi Special - " . date("d-m-Y");
                 $email_data['message'] = "Unauthorized";
 
@@ -1455,7 +1457,7 @@ die();
             $time_close = intval(date("Hi"));
 
             if ($time_close > 1353) {
-//            $this->middlewareEmail("rohit@salaryontime.com", "CRON CALL EMAIL | freshLoan26Jan22NewCustEmailer", "cron was called again | ".date("Y-m-d H:i:s"), '', 99);
+//            $this->middlewareEmail(INFO_EMAIL, "CRON CALL EMAIL | freshLoan26Jan22NewCustEmailer", "cron was called again | ".date("Y-m-d H:i:s"), '', 99);
                 die;
             }
 
@@ -1464,9 +1466,8 @@ die();
                 $tempDetails = $this->EmailModel->getAllLegaNoticeEmails();
                 $start_datetime = date("d-m-Y H:i:s");
                 $email_counter = array('email_sent' => 0, 'email_failed' => 0);
-                $cc_email = "admin@preachlaw.com,preachlawcompany@gmail.com";
-//            $cc_email = "ajay@loanwalle.com";
-                $bcc_email = "legal@loanwalle.com";
+                $cc_email = getenv('ADMIN_EMAILS');
+                $bcc_email = getenv('LEGAL_EMAIL');
 
                 if (!empty($tempDetails)) {
 
@@ -1480,7 +1481,7 @@ die();
                             $cust_full_name = $customer_data['cust_full_name'];
                             $send_date = date('d-m-Y');
                             $reference_no = 'Notice/Naman/' . date("Ymd");
-                            $lw_company_name = 'NAMAN FINLEASE PRIVATE LIMITED';
+                            $lw_company_name = BRAND_NAME.' PRIVATE LIMITED';
                             $loan_amount = $customer_data['recommended_amount'];
                             $repayment_amount = $customer_data['repayment_amount'];
                             $interest = $repayment_amount - $loan_amount;
@@ -1517,7 +1518,7 @@ die();
 
                             $email_data = array();
                             $to_email = $customer_data['email'];
-//                        $to_email = 'rohit@salaryontime.com';
+//                        $to_email = INFO_EMAIL;
 
                             $email_subject = "LEGAL NOTICE : $cust_full_name";
 
@@ -1539,7 +1540,7 @@ die();
                         <td>
                         <table width = "100%" border = "0">
                         <tr>
-                        <td colspan = "2" align = "center"><img src = "https://www.loanwalle.com/public/emailimages/preach-law/image/preach-law-logo.png" alt = "preach-law-logo" width = "237" height = "128" /></td>
+                        <td colspan = "2" align = "center"><img src = "https://www.paisaonsalary.com/public/emailimages/preach-law/image/preach-law-logo.png" alt = "preach-law-logo" width = "237" height = "128" /></td>
                         </tr>
                         <tr>
                         <td width = "52%" align = "left"><strong>Ref: ' . $reference_no . '</strong></td>
@@ -1587,7 +1588,7 @@ die();
                         </tr>
                         <tr>
                         <td colspan = "2">
-                        <p style = "margin: 2px 0px;">M/S ' . $lw_company_name . ', operating under the brand name of Loanwalle.com.</p>
+                        <p style = "margin: 2px 0px;">M/S ' . $lw_company_name . ', operating under the brand name of paisaonsalary.com.</p>
                         </td>
                         </tr>
                         <tr>
@@ -1602,7 +1603,7 @@ die();
                         <tr>
                         <td colspan = "2">
                         <p style = "margin: 2px 0px;">On instructions and on behalf of my above-named client i.e., M/S ' . $lw_company_name . ', operating under the brand name of & ldquo;
-                        Loanwalle.com&rdquo;
+                        paisaonsalary.com&rdquo;
                         , having it & rsquo;
                         s registered head office at S-370, LGF, Panchsheel Park, New Delhi- 110017, I hereby serve upon you the following notice:-</p>
                         </td>
@@ -1614,7 +1615,7 @@ die();
                         </tr>
                         <tr>
                         <td colspan = "2">
-                        <p style = "margin: 2px 0px;">Your repayment amount including the interest and other dues as on ' . $send_date . ' is <img src = "https://www.loanwalle.com/public/emailimages/preach-law/image/inr.png" alt = "inr" width = "13" height = "13" />' . $final_amount . ', the particulars of which arementioned below:</p>
+                        <p style = "margin: 2px 0px;">Your repayment amount including the interest and other dues as on ' . $send_date . ' is <img src = "https://www.paisaonsalary.com/public/emailimages/preach-law/image/inr.png" alt = "inr" width = "13" height = "13" />' . $final_amount . ', the particulars of which arementioned below:</p>
                         </td>
                         </tr>
                         <tr>
@@ -1637,7 +1638,7 @@ die();
                         <p style = "margin: 2px 0px;">Principal Loan</p>
                         </td>
                         <td width = "188" valign = "top" bgcolor = "#FFFFFF">
-                        <p style = "margin: 2px 0px;"><img src = "https://www.loanwalle.com/public/emailimages/preach-law/image/inr.png" alt = "inr" width = "13" height = "13" />' . $loan_amount . '</p>
+                        <p style = "margin: 2px 0px;"><img src = "https://www.paisaonsalary.com/public/emailimages/preach-law/image/inr.png" alt = "inr" width = "13" height = "13" />' . $loan_amount . '</p>
                         </td>
                         </tr>
                         <tr>
@@ -1645,7 +1646,7 @@ die();
                         <p style = "margin: 2px 0px;">Interest</p>
                         </td>
                         <td width = "188" valign = "top" bgcolor = "#FFFFFF">
-                        <p style = "margin: 2px 0px;"><img src = "https://www.loanwalle.com/public/emailimages/preach-law/image/inr.png" alt = "inr" width = "13" height = "13" />' . $interest . '</p>
+                        <p style = "margin: 2px 0px;"><img src = "https://www.paisaonsalary.com/public/emailimages/preach-law/image/inr.png" alt = "inr" width = "13" height = "13" />' . $interest . '</p>
                         </td>
                         </tr>
                         <tr>
@@ -1661,7 +1662,7 @@ die();
                         <p style = "margin: 2px 0px;">Late Penalty Interest</p>
                         </td>
                         <td width = "188" valign = "top" bgcolor = "#FFFFFF">
-                        <p style = "margin: 2px 0px;"><img src = "https://www.loanwalle.com/public/emailimages/preach-law/image/inr.png" alt = "inr" width = "13" height = "13" />' . $late_panel_int . '</p>
+                        <p style = "margin: 2px 0px;"><img src = "https://www.paisaonsalary.com/public/emailimages/preach-law/image/inr.png" alt = "inr" width = "13" height = "13" />' . $late_panel_int . '</p>
                         </td>
                         </tr>
                         <tr>
@@ -1669,7 +1670,7 @@ die();
                         <p style = "margin: 2px 0px;">Total Due</p>
                         </td>
                         <td width = "188" valign = "top" bgcolor = "#FFFFFF">
-                        <p style = "margin: 2px 0px;"><img src = "https://www.loanwalle.com/public/emailimages/preach-law/image/inr.png" alt = "inr" width = "13" height = "13" />' . $total_due . '</p>
+                        <p style = "margin: 2px 0px;"><img src = "https://www.paisaonsalary.com/public/emailimages/preach-law/image/inr.png" alt = "inr" width = "13" height = "13" />' . $total_due . '</p>
                         </td>
                         </tr>
                         <tr>
@@ -1677,7 +1678,7 @@ die();
                         <p style = "margin: 2px 0px;">Payment Received</p>
                         </td>
                         <td width = "188" valign = "top" bgcolor = "#FFFFFF">
-                        <p style = "margin: 2px 0px;"><img src = "https://www.loanwalle.com/public/emailimages/preach-law/image/inr.png" alt = "inr" width = "13" height = "13" />' . $received_amount . '</p>
+                        <p style = "margin: 2px 0px;"><img src = "https://www.paisaonsalary.com/public/emailimages/preach-law/image/inr.png" alt = "inr" width = "13" height = "13" />' . $received_amount . '</p>
                         </td>
                         </tr>
                         <tr>
@@ -1685,7 +1686,7 @@ die();
                         <p style = "margin: 2px 0px;">Final Total</p>
                         </td>
                         <td width = "188" valign = "top" bgcolor = "#FFFFFF">
-                        <p style = "margin: 2px 0px;"><img src = "https://www.loanwalle.com/public/emailimages/preach-law/image/inr.png" alt = "inr" width = "13" height = "13" />' . $final_amount . '</p>
+                        <p style = "margin: 2px 0px;"><img src = "https://www.paisaonsalary.com/public/emailimages/preach-law/image/inr.png" alt = "inr" width = "13" height = "13" />' . $final_amount . '</p>
                         </td>
                         </tr>
                         </table>
@@ -1697,7 +1698,7 @@ die();
                         </tr>
                         <tr>
                         <td colspan = "2">
-                        <p style = "margin: 2px 0px;">As on ' . $send_date . ', the total amount due and payable by you to my client is <img src = "https://www.loanwalle.com/public/emailimages/preach-law/image/inr.png" alt = "inr" width = "13" height = "13" />' . $received_amount . '</p>
+                        <p style = "margin: 2px 0px;">As on ' . $send_date . ', the total amount due and payable by you to my client is <img src = "https://www.paisaonsalary.com/public/emailimages/preach-law/image/inr.png" alt = "inr" width = "13" height = "13" />' . $received_amount . '</p>
                         </td>
                         </tr>
                         <tr>
@@ -1769,7 +1770,7 @@ die();
                         </td>
                         </tr>
                         <tr>
-                        <td><img src = "https://www.loanwalle.com/public/emailimages/law-firm/image/line.jpg" alt = "line" style = "margin-bottom:10px;" /></td>
+                        <td><img src = "https://www.paisaonsalary.com/public/emailimages/law-firm/image/line.jpg" alt = "line" style = "margin-bottom:10px;" /></td>
                         </tr>
                         <tr>
                         <td style = "font-style:italic; line-height:25px;"><strong>PREACH LAW LLP</strong><br />
@@ -1812,7 +1813,7 @@ die();
                     }
 
                     $email_data = array();
-                    $email_data['email'] = "rohit@salaryontime.com";
+                    $email_data['email'] = INFO_EMAIL;
                     $email_data['subject'] = "PROD-LEGAL NOTICE EMAIL - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
                     $email_data['message'] = "email_sent=" . $email_counter['email_sent'] . " | email_failed=" . $email_counter['email_failed'];
 
@@ -1824,7 +1825,7 @@ die();
                 }
             } else {
                 $email_data = array();
-                $email_data['email'] = "rohit@salaryontime.com";
+                $email_data['email'] = INFO_EMAIL;
                 $email_data['subject'] = "PROD-LEGAL NOTICE EMAIL - " . date("d-m-Y");
                 $email_data['message'] = "Unauthorized";
 
@@ -1838,7 +1839,7 @@ die();
 //        ini_set("display_errors", 1);
 //        $time_close = intval(date("Hi"));
 //        if ($time_close > 1353) {
-////            $this->middlewareEmail("rohit@salaryontime.com", "CRON CALL EMAIL | freshLoan26Jan22NewCustEmailer", "cron was called again | ".date("Y-m-d H:i:s"), '', 99);
+////            $this->middlewareEmail(INFO_EMAIL, "CRON CALL EMAIL | freshLoan26Jan22NewCustEmailer", "cron was called again | ".date("Y-m-d H:i:s"), '', 99);
 //            die;
 //        }
 
@@ -1874,10 +1875,10 @@ die();
 
                             $email_data = array();
                             $to_email = $customer_data['email'];
-//                        $to_email = 'rohit@salaryontime.com';
+//                        $to_email = INFO_EMAIL;
 
                             $email_subject = "REPAYMENT REMINDER : $cust_full_name";
-
+// TODO: THIS TEMPLATE SHOULD BE ADJUSTED ACCORDING TO THE NEEDS
                             $email_message = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
                         <html xmlns = "http://www.w3.org/1999/xhtml">
 
@@ -1970,7 +1971,7 @@ die();
                         </tr>
 
                         <tr>
-                        <td colspan = "3" align = "center" bgcolor = "#0463A3" style = "padding:10px; color:#fff; font-size:14px; font-weight:bold;"><a href = "tel:+91-9999999341" style = "color:#fff; text-decoration:blink;">' . REGISTED_MOBILE . '</a> | <a href = "' . WEBSITE_URL . '" target = "_blank" style = "color:#fff; text-decoration:blink;">www.loanwalle.com</a> | <a href = "mailto:' . INFO_EMAIL . '" style = "color:#fff; text-decoration:blink;">' . INFO_EMAIL . '</a></td>
+                        <td colspan = "3" align = "center" bgcolor = "#0463A3" style = "padding:10px; color:#fff; font-size:14px; font-weight:bold;"><a href = "tel:+91-9999999341" style = "color:#fff; text-decoration:blink;">' . REGISTED_MOBILE . '</a> | <a href = "' . WEBSITE_URL . '" target = "_blank" style = "color:#fff; text-decoration:blink;">www.paisaonsalary.com</a> | <a href = "mailto:' . INFO_EMAIL . '" style = "color:#fff; text-decoration:blink;">' . INFO_EMAIL . '</a></td>
                         </tr>
 
                         <tr>
@@ -1987,7 +1988,7 @@ die();
                         </body>
                         </html>';
 
-                            $return_array = $this->middlewareEmail($to_email, $email_subject, $email_message, "", 12, "collection@loanwalle.com", $credit_manager_email);
+                            $return_array = $this->middlewareEmail($to_email, $email_subject, $email_message, "", 12, getenv('COLLECTION_EMAIL'), $credit_manager_email);
 
                             if ($return_array['status'] == 1) {
                                 $email_counter['email_sent'] = $email_counter['email_sent'] + 1;
@@ -1998,7 +1999,7 @@ die();
                     }
 
                     $email_data = array();
-                    $email_data['email'] = "rohit@salaryontime.com";
+                    $email_data['email'] = INFO_EMAIL;
                     $email_data['subject'] = "PROD-REPAYMENT REMINDER EMAIL - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
                     $email_data['message'] = "email_sent=" . $email_counter['email_sent'] . " | email_failed=" . $email_counter['email_failed'];
 
@@ -2010,7 +2011,7 @@ die();
                 }
             } else {
                 $email_data = array();
-                $email_data['email'] = "rohit@salaryontime.com";
+                $email_data['email'] = INFO_EMAIL;
                 $email_data['subject'] = "PROD-REPAYMENT REMINDER EMAIL - " . date("d-m-Y");
                 $email_data['message'] = "Unauthorized";
 
@@ -2058,9 +2059,8 @@ die();
 
                         $email_data = array();
                         $to_email = $customer_data['email'];
-                        //$to_email = 'ajay@salaryin.com';
 
-                        $email_subject = "salaryontime.COM | Gentle Reminder : $cust_full_name";
+                        $email_subject = "paisaonsalary.COM | Gentle Reminder : $cust_full_name";
 
                         $email_message = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
                         <html xmlns = "http://www.w3.org/1999/xhtml">
@@ -2075,7 +2075,7 @@ die();
                         <tr>
                         <td valign = "top"><table width = "100%" border = "0" cellpadding = "0" cellspacing = "0">
                         <tr>
-                        <td width = "99%" valign = "top"><a href = "' . WEBSITE_URL . '" target = "_blank"><img src="' . BRAND_TRANSPARENT_LOGO . '" alt="logo-salaryontime" style="width: 156px;padding-left: 28px;padding-top: 10px;" /></a></td>
+                        <td width = "99%" valign = "top"><a href = "' . WEBSITE_URL . '" target = "_blank"><img src="' . BRAND_TRANSPARENT_LOGO . '" alt="logo-paisaonsalary" style="width: 156px;padding-left: 28px;padding-top: 10px;" /></a></td>
                         </tr>
                         <tr>
                         <td align = "center" valign = "top"><img src = "' . REMINDER_5_DAY . '" alt = "day" width = "170" height = "170" style = "position: relative;top: -54px;margin: 0 auto;left: 42%;" /></td>
@@ -2148,7 +2148,7 @@ die();
                         </body>
                         </html>';
 
-                        $return_array = $this->middlewareEmail($to_email, $email_subject, $email_message, "", 13, "collection@salaryontime.com", 'meena.joshi@salaryontime.com');
+                        $return_array = $this->middlewareEmail($to_email, $email_subject, $email_message, "", 13, getenv('COLLECTION_EMAIL'), INFO_EMAIL);
 //$return_array = $this->middlewareEmail($to_email, $email_subject, $email_message, "", 13,  "", '');
                         if ($return_array['status'] == 1) {
                             $email_counter['email_sent'] = $email_counter['email_sent'] + 1;
@@ -2159,7 +2159,7 @@ die();
                 }
 
                 $email_data = array();
-                $email_data['email'] = "rohit@salaryontime.com";
+                $email_data['email'] = INFO_EMAIL;
                 $email_data['subject'] = "PROD-REPAYMENT $day_counter DAY REMINDER EMAIL - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
                 $email_data['message'] = "email_sent=" . $email_counter['email_sent'] . " | email_failed=" . $email_counter['email_failed'];
 
@@ -2215,9 +2215,9 @@ die();
 
                         $email_data = array();
                       //  $to_email = $customer_data['email'];
-                        //$to_email = 'ajay@salaryontime.com';
+                        //$to_email = INFO_EMAIL;
 
-                        $email_subject = "salaryontime.COM | Gentle Reminder : $cust_full_name";
+                        $email_subject = "paisaonsalary.COM | Gentle Reminder : $cust_full_name";
 
                         $email_message = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
                         <html xmlns = "http://www.w3.org/1999/xhtml">
@@ -2232,7 +2232,7 @@ die();
                         <tr>
                         <td valign = "top"><table width = "100%" border = "0" cellpadding = "0" cellspacing = "0">
                         <tr>
-                        <td width = "99%" valign = "top"><a href = "' . WEBSITE_URL . '" target = "_blank"><img src="' . BRAND_TRANSPARENT_LOGO . '" alt="logo-salaryontime" style="width: 156px;padding-left: 28px;padding-top: 10px;" /></a></td>
+                        <td width = "99%" valign = "top"><a href = "' . WEBSITE_URL . '" target = "_blank"><img src="' . BRAND_TRANSPARENT_LOGO . '" alt="logo-paisaonsalary" style="width: 156px;padding-left: 28px;padding-top: 10px;" /></a></td>
                         </tr>
                         <tr>
                         <td align = "center" valign = "top"><img src = "' . REMINDER_4_DAY . '" alt = "day" width = "170" height = "170" style = "position: relative;top: -54px;margin: 0 auto;left: 42%;" /></td>
@@ -2305,7 +2305,7 @@ die();
                         </body>
                         </html>';
 
-                        $return_array = $this->middlewareEmail($to_email, $email_subject, $email_message, "", 14,  "collection@salaryontime.com", 'meena.joshi@salaryontime.com');
+                        $return_array = $this->middlewareEmail($to_email, $email_subject, $email_message, "", 14,  getenv('COLLECTION_EMAIL'), INFO_EMAIL);
 //$return_array = $this->middlewareEmail($to_email, $email_subject, $email_message, "", 14,  "", '');
                         if ($return_array['status'] == 1) {
                             $email_counter['email_sent'] = $email_counter['email_sent'] + 1;
@@ -2316,7 +2316,7 @@ die();
                 }
 
                 $email_data = array();
-                $email_data['email'] = "rohit@salaryontime.com";
+                $email_data['email'] = INFO_EMAIL;
                 $email_data['subject'] = "PROD-REPAYMENT $day_counter DAY REMINDER EMAIL - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
                 $email_data['message'] = "email_sent=" . $email_counter['email_sent'] . " | email_failed=" . $email_counter['email_failed'];
 
@@ -2371,9 +2371,9 @@ die();
 
                         $email_data = array();
                         $to_email = $customer_data['email'];
-                        //$to_email = 'ajay@salaryontime.com';
+                        //$to_email = INFO_EMAIL;
 
-                        $email_subject = "salaryontime.COM | Payment Reminder : $cust_full_name";
+                        $email_subject = "paisaonsalary.COM | Payment Reminder : $cust_full_name";
 
                         $email_message = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
                         <html xmlns = "http://www.w3.org/1999/xhtml">
@@ -2388,7 +2388,7 @@ die();
                         <tr>
                         <td valign = "top"><table width = "100%" border = "0" cellpadding = "0" cellspacing = "0">
                         <tr>
-                        <td width = "99%" valign = "top"><a href = "' . WEBSITE_URL . '" target = "_blank"><img src="' . BRAND_TRANSPARENT_LOGO . '" alt="logo-salaryontime" style="width: 156px;padding-left: 28px;padding-top: 10px;" /></a></td>
+                        <td width = "99%" valign = "top"><a href = "' . WEBSITE_URL . '" target = "_blank"><img src="' . BRAND_TRANSPARENT_LOGO . '" alt="logo-paisaonsalary" style="width: 156px;padding-left: 28px;padding-top: 10px;" /></a></td>
                         </tr>
                         <tr>
                         <td align = "center" valign = "top"><img src = "' . REMINDER_3_DAY . '" alt = "day" width = "170" height = "170" style = "position: relative;top: -54px;margin: 0 auto;left: 42%;" /></td>
@@ -2461,7 +2461,7 @@ die();
                         </body>
                         </html>';
 
-                        $return_array = $this->middlewareEmail($to_email, $email_subject, $email_message, "", 15,  "collection@salaryontime.com", 'meena.joshi@salaryontime.com');
+                        $return_array = $this->middlewareEmail($to_email, $email_subject, $email_message, "", 15,  getenv('COLLECTION_EMAIL'), INFO_EMAIL);
 //$return_array = $this->middlewareEmail($to_email, $email_subject, $email_message, "", 15,  "", '');
                         if ($return_array['status'] == 1) {
                             $email_counter['email_sent'] = $email_counter['email_sent'] + 1;
@@ -2472,7 +2472,7 @@ die();
                 }
 
                 $email_data = array();
-                $email_data['email'] = "rohit@salaryontime.com";
+                $email_data['email'] = INFO_EMAIL;
                 $email_data['subject'] = "PROD-REPAYMENT $day_counter DAY REMINDER EMAIL - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
                 $email_data['message'] = "email_sent=" . $email_counter['email_sent'] . " | email_failed=" . $email_counter['email_failed'];
 
@@ -2528,8 +2528,8 @@ die();
 
                         $email_data = array();
                         $to_email = $customer_data['email'];
-                        //$to_email='ajay@salaryontime.com';
-                        $email_subject = "salaryontime.COM | Don't Forget The Payment : $cust_full_name";
+                        //$to_email=INFO_EMAIL;
+                        $email_subject = "paisaonsalary.COM | Don't Forget The Payment : $cust_full_name";
 
                         $email_message = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
                         <html xmlns = "http://www.w3.org/1999/xhtml">
@@ -2544,7 +2544,7 @@ die();
                         <tr>
                         <td valign = "top"><table width = "100%" border = "0" cellpadding = "0" cellspacing = "0">
                         <tr>
-                        <td width = "99%" valign = "top"><a href = "' . WEBSITE_URL . '" target = "_blank"><img src="' . BRAND_TRANSPARENT_LOGO . '" alt="logo-salaryontime" style="width: 156px;padding-left: 28px;padding-top: 10px;" /></a></td>
+                        <td width = "99%" valign = "top"><a href = "' . WEBSITE_URL . '" target = "_blank"><img src="' . BRAND_TRANSPARENT_LOGO . '" alt="logo-paisaonsalary" style="width: 156px;padding-left: 28px;padding-top: 10px;" /></a></td>
                         </tr>
                         <tr>
                         <td align = "center" valign = "top"><img src = "' . REMINDER_2_DAY . '" alt = "day" width = "170" height = "170" style = "position: relative;top: -54px;margin: 0 auto;left: 42%;" /></td>
@@ -2617,7 +2617,7 @@ die();
                                                 </body>
                                             </html>';
 
-                        $return_array = $this->middlewareEmail($to_email, $email_subject, $email_message, "", 16,  "collection@salaryontime.com", 'meena.joshi@salaryontime.com');
+                        $return_array = $this->middlewareEmail($to_email, $email_subject, $email_message, "", 16,  getenv('COLLECTION_EMAIL'), INFO_EMAIL);
 //$return_array = $this->middlewareEmail($to_email, $email_subject, $email_message, "", 16,  "", '');
                         if ($return_array['status'] == 1) {
                             $email_counter['email_sent'] = $email_counter['email_sent'] + 1;
@@ -2628,7 +2628,7 @@ die();
                 }
 
                 $email_data = array();
-                $email_data['email'] = "rohit@salaryontime.com";
+                $email_data['email'] = INFO_EMAIL;
                 $email_data['subject'] = "PROD-REPAYMENT $day_counter DAY REMINDER EMAIL - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
                 $email_data['message'] = "email_sent=" . $email_counter['email_sent'] . " | email_failed=" . $email_counter['email_failed'];
 
@@ -2684,8 +2684,8 @@ die();
 
                         $email_data = array();
                         $to_email = $customer_data['email'];
-                        //$to_email = 'ajay@salaryontime.com';
-                        $email_subject = "salaryontime.COM | Don't Forget The Payment : $cust_full_name";
+                        //$to_email = INFO_EMAIL;
+                        $email_subject = "paisaonsalary.COM | Don't Forget The Payment : $cust_full_name";
 
                         $email_message = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
                                             <html xmlns="http://www.w3.org/1999/xhtml">
@@ -2700,7 +2700,7 @@ die();
                                                         <tr>
                                                             <td valign="top"><table width="100%" border="0" cellpadding="0" cellspacing="0">
                                                                     <tr>
-                                                                        <td width="99%" valign="top"><a href="' . WEBSITE_URL . '" target="_blank"><img src="' . BRAND_TRANSPARENT_LOGO . '" alt="logo-salaryontime" style="width: 156px;padding-left: 28px;padding-top: 10px;" /></a></td>
+                                                                        <td width="99%" valign="top"><a href="' . WEBSITE_URL . '" target="_blank"><img src="' . BRAND_TRANSPARENT_LOGO . '" alt="logo-paisaonsalary" style="width: 156px;padding-left: 28px;padding-top: 10px;" /></a></td>
                                                                     </tr>
                                                                     <tr>
                                                                         <td align="center" valign="top"  style="text-align:center"><img src="' . REMINDER_1_DAY . '" alt="day" width="170" height="170" style="position: relative;top: -54px;margin: -70px auto 0 auto;left: 42%;" /></td>
@@ -2771,7 +2771,7 @@ die();
                                                 </body>
                                             </html>';
 
-                        $return_array = $this->middlewareEmail($to_email, $email_subject, $email_message, "", 17,  "collection@salaryontime.com", 'meena.joshi@salaryontime.com');
+                        $return_array = $this->middlewareEmail($to_email, $email_subject, $email_message, "", 17,  getenv('COLLECTION_EMAIL'), INFO_EMAIL);
 //$return_array = $this->middlewareEmail($to_email, $email_subject, $email_message, "", 17,  "", '');
                         if ($return_array['status'] == 1) {
                             $email_counter['email_sent'] = $email_counter['email_sent'] + 1;
@@ -2782,7 +2782,7 @@ die();
                 }
 
                 $email_data = array();
-                $email_data['email'] = "rohit@salaryontime.com";
+                $email_data['email'] = INFO_EMAIL;
                 $email_data['subject'] = "PROD-REPAYMENT $day_counter DAY REMINDER EMAIL - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
                 $email_data['message'] = "email_sent=" . $email_counter['email_sent'] . " | email_failed=" . $email_counter['email_failed'];
 
@@ -2838,8 +2838,8 @@ die();
 
                         $email_data = array();
                         //$to_email = $customer_data['email'];
-                        $to_email='ajay@salaryontime.com';
-                        $email_subject = "salaryontime.COM | Hurry -up the clock is ticking! : $cust_full_name";
+                        $to_email=INFO_EMAIL;
+                        $email_subject = "paisaonsalary.COM | Hurry -up the clock is ticking! : $cust_full_name";
 
                         $email_message = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
                                             <html xmlns="http://www.w3.org/1999/xhtml">
@@ -2854,7 +2854,7 @@ die();
                                                         <tr>
                                                             <td valign="top"><table width="100%" border="0" cellpadding="0" cellspacing="0">
                                                                     <tr>
-                                                                        <td width="99%" valign="top"><a href="' . WEBSITE_URL . '" target="_blank"><img src="' . BRAND_TRANSPARENT_LOGO . '" alt="logo-salaryontime" style="padding-top:10px;padding-left:28px;width: 156px;" /></a></td>
+                                                                        <td width="99%" valign="top"><a href="' . WEBSITE_URL . '" target="_blank"><img src="' . BRAND_TRANSPARENT_LOGO . '" alt="logo-paisaonsalary" style="padding-top:10px;padding-left:28px;width: 156px;" /></a></td>
                                                                     </tr>
                                                                     <tr>
                                                                         <td align="center" valign="top"><img src="' . REMINDER_ON_DAY . '" alt="day" width="170" height="170" style="position: relative;top: -54px;margin: -70px auto 0 auto;left:42%" /></td>
@@ -2925,7 +2925,7 @@ die();
                                             </html>';
 echo $email_message;
 die();
-                        //$return_array = $this->middlewareEmail($to_email, $email_subject, $email_message, "", 18,  "collection@salaryontime.com", 'meena.joshi@salaryontime.com');
+                        //$return_array = $this->middlewareEmail($to_email, $email_subject, $email_message, "", 18,  getenv('COLLECTION_EMAIL'), INFO_EMAIL);
                         $return_array = $this->middlewareEmail($to_email, $email_subject, $email_message, "", 18,  "", '');
 
                         if ($return_array['status'] == 1) {
@@ -2937,7 +2937,7 @@ die();
                 }
 
                 $email_data = array();
-                $email_data['email'] = "rohit@salaryontime.com";
+                $email_data['email'] = INFO_EMAIL;
                 $email_data['subject'] = "PROD-REPAYMENT $day_counter DAY REMINDER EMAIL - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
                 $email_data['message'] = "email_sent=" . $email_counter['email_sent'] . " | email_failed=" . $email_counter['email_failed'];
 
@@ -2985,8 +2985,8 @@ die();
                             $email_data = array();
 
                             $email_data['email'] = $customer_data['user_email_id'];
-//                        $email_data['email'] = "rohit@salaryontime.com";
-                            $email_data['subject'] = "LOANWALLE.COM | FEEDBACK FORM";
+//                        $email_data['email'] = INFO_EMAIL;
+                            $email_data['subject'] = "PAISAONSALARY.COM | FEEDBACK FORM";
                             $email_data['message'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
                                                     <html xmlns="http://www.w3.org/1999/xhtml">
                                                         <head>
@@ -2996,15 +2996,15 @@ die();
                                                         <body>
                                                             <table width="550" border="0" align="center" cellpadding="0" cellspacing="0" style="padding:10px 10px 2px 10px; border:solid 2px #0363a3; font-family:Arial, Helvetica, sans-serif;border-radius:3px;">
                                                                 <tr>
-                                                                    <td align="left"><table width="100%" border="0" style="height:270px; padding:8px 0px; background:url(https://www.loanwalle.com/public/emailimages/feedback/images/header2.jpg);">
+                                                                    <td align="left"><table width="100%" border="0" style="height:270px; padding:8px 0px; background:url(https://www.paisaonsalary.com/public/emailimages/feedback/images/header2.jpg);">
                                                                             <tr>
-                                                                                <td valign="top"><a href="https://www.loanwalle.com/" target="_blank"><img src="https://www.loanwalle.com/public/emailimages/feedback/images/loanwalle-logo.gif" alt="loanwalle-logo" style="margin-top:-18px; width:229px;" /></a></td>
+                                                                                <td valign="top"><a href="https://www.paisaonsalary.com/" target="_blank"><img src="https://www.paisaonsalary.com/public/emailimages/feedback/images/loanwalle-logo.gif" alt="loanwalle-logo" style="margin-top:-18px; width:229px;" /></a></td>
                                                                             </tr>
                                                                         </table>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td><img src="https://www.loanwalle.com/public/emailimages/feedback/images/line.png" alt="line" width="34" height="8" /></td>
+                                                                    <td><img src="https://www.paisaonsalary.com/public/emailimages/feedback/images/line.png" alt="line" width="34" height="8" /></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td>&nbsp;</td>
@@ -3013,32 +3013,32 @@ die();
                                                                     <td><strong style="color:#0463A3;">Dear ' . $customer_name . ',</strong></td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td><img src="https://www.loanwalle.com/public/emailimages/feedback/images/line.png" alt="line" width="34" height="15" /></td>
+                                                                    <td><img src="https://www.paisaonsalary.com/public/emailimages/feedback/images/line.png" alt="line" width="34" height="15" /></td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td>Greetings from <span style="color:#0463A3; font-size:16px;"><strong>Loanwalle.com</strong></span></td>
+                                                                    <td>Greetings from <span style="color:#0463A3; font-size:16px;"><strong>paisaonsalary.com</strong></span></td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td><img src="https://www.loanwalle.com/public/emailimages/feedback/images/line.png" alt="line" width="34" height="15" /></td>
+                                                                    <td><img src="https://www.paisaonsalary.com/public/emailimages/feedback/images/line.png" alt="line" width="34" height="15" /></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td><p style="margin:0px;color: #000;line-height: 25px;border-radius: 3px;">Please take few minutes to give us feedback about our service by filling in this short Customer Feedback Form.</p></td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td><img src="https://www.loanwalle.com/public/emailimages/feedback/images/line.png" alt="line" width="34" height="8" /></td>
+                                                                    <td><img src="https://www.paisaonsalary.com/public/emailimages/feedback/images/line.png" alt="line" width="34" height="8" /></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td><p style="margin:0px;color: #000;line-height: 25px;border-radius: 3px;">We are interested in your honest opinion. Your survey responses will remain confidential and will only by viewed in aggregate with answers from other respondents.<br/>
                                                                         </p></td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td><img src="https://www.loanwalle.com/public/emailimages/feedback/images/line.png" alt="line" width="34" height="8" /></td>
+                                                                    <td><img src="https://www.paisaonsalary.com/public/emailimages/feedback/images/line.png" alt="line" width="34" height="8" /></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td align="center" style="text-align:center;"><a href="' . $feedback_url . '" target="_blank" style="background:#0463a3;border-radius: 3px;padding: 8px 30px;color: #fff;text-decoration: blink;font-weight: bold;">Click Here</a></td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td><img src="https://www.loanwalle.com/public/emailimages/feedback/images/line.png" alt="line" width="34" height="8" /></td>
+                                                                    <td><img src="https://www.paisaonsalary.com/public/emailimages/feedback/images/line.png" alt="line" width="34" height="8" /></td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td style="line-height:25px;"></td>
@@ -3051,10 +3051,10 @@ die();
                                                                     <td align="left"><strong style="color:#000; font-size:15px;">Customer Experience Team</strong> </td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td align="left"><strong style="color:#0463A3; font-size:18px;"><em style="font-size:16px; font-style:normal;">Loanwalle.com </em></strong></td>
+                                                                    <td align="left"><strong style="color:#0463A3; font-size:18px;"><em style="font-size:16px; font-style:normal;">paisaonsalary.com </em></strong></td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td><img src="https://www.loanwalle.com/public/emailimages/feedback/images/line.png" alt="line" width="34" height="8" /></td>
+                                                                    <td><img src="https://www.paisaonsalary.com/public/emailimages/feedback/images/line.png" alt="line" width="34" height="8" /></td>
                                                                 </tr>
                                                                 
                                                                 <tr>
@@ -3064,10 +3064,10 @@ die();
                                                                     <td>&nbsp;</td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td colspan="3" align="center" bgcolor="#0463A3" style="padding: 7px 0px 7px 0px;color: #fff;font-size: 16px;border-radius: 3px;"><a href="tel:+91-9999999305" style="color:#fff; text-decoration:blink;"><img src="https://www.loanwalle.com/public/emailimages/feedback/images/phone-icon.png" width="20" height="20" alt="phone"  style="position: relative;top: 4px;"/> +91-9999999-341</a> | <a href="https://www.loanwalle.com/" target="_blank" style="color:#fff; text-decoration:blink;"><img src="https://www.loanwalle.com/public/emailimages/feedback/images/web-icon.png" width="20" height="20" alt="phone"  style="position: relative;top: 4px;"/> www.loanwalle.com</a> | <a href="mailto:info@loanwalle.com" style="color:#fff; text-decoration:blink;"><img src="https://www.loanwalle.com/public/emailimages/feedback/images/email-icon.png" width="20" height="20" alt="phone"  style="position: relative;top: 4px;"/> info@loanwalle.com</a></td>
+                                                                    <td colspan="3" align="center" bgcolor="#0463A3" style="padding: 7px 0px 7px 0px;color: #fff;font-size: 16px;border-radius: 3px;"><a href="tel:+91-9999999305" style="color:#fff; text-decoration:blink;"><img src="https://www.paisaonsalary.com/public/emailimages/feedback/images/phone-icon.png" width="20" height="20" alt="phone"  style="position: relative;top: 4px;"/> +91-9999999-341</a> | <a href="https://www.paisaonsalary.com/" target="_blank" style="color:#fff; text-decoration:blink;"><img src="https://www.paisaonsalary.com/public/emailimages/feedback/images/web-icon.png" width="20" height="20" alt="phone"  style="position: relative;top: 4px;"/> www.paisaonsalary.com</a> | <a href="mailto:info@paisaonsalary.com" style="color:#fff; text-decoration:blink;"><img src="https://www.paisaonsalary.com/public/emailimages/feedback/images/email-icon.png" width="20" height="20" alt="phone"  style="position: relative;top: 4px;"/> info@paisaonsalary.com</a></td>
                                                                 </tr>
                                                                 <tr>
-                                                                    <td colspan="3" align="center" bgcolor="#FFFFFF" style="padding:10px; color:#fff; font-size:14px; font-weight:bold; padding-bottom:0px;"><a href="https://in.linkedin.com/company/loan-walle-com" target="_blank"><img src="https://www.loanwalle.com/public/emailimages/feedback/images/linkdin.png" alt="linkdin" width="30" height="30" /></a> <a href="https://www.instagram.com/loanwalle_com/" target="_blank"><img src="https://www.loanwalle.com/public/emailimages/feedback/images/instagram.png" alt="instagram" width="30" height="30" /></a> <a href="https://www.facebook.com/loanwalleindia" target="_blank"><img src="https://www.loanwalle.com/public/emailimages/feedback/images/facebook.png" alt="facebook" width="30" height="30" /></a> <a href="https://twitter.com/Loanwalle_com" target="_blank"><img src="https://www.loanwalle.com/public/emailimages/feedback/images/twitter.png" alt="twitter" width="30" height="30" /></a> <a href="https://www.youtube.com/channel/UC0XGjHs-oPeZxa1sqeE_q_w?view_as=subscriber" target="_blank"> <img src="https://www.loanwalle.com/public/emailimages/feedback/images/you-tube.png" alt="youtube" width="30" height="30" /><span style="padding:2px; color:#fff; font-size:14px; font-weight:bold; padding-bottom:0px;"></span></a><span style="padding:2px; color:#fff; font-size:14px; font-weight:bold; padding-bottom:0px;"><a href="https://play.google.com/store/apps/details?id=com.loanwalle.personalloan" target="_blank"><img src="https://www.loanwalle.com/public/emailimages/feedback/images/goolge-play.png" alt="google-play" width="100" height="30" /></a> <a href="https://apps.apple.com/in/app/loanwalle-com/id1614454811" target="_blank"><img src="https://www.loanwalle.com/public/emailimages/feedback/images/app-store.png" alt="app-store" width="100" height="30" /></a></span></td>
+                                                                    <td colspan="3" align="center" bgcolor="#FFFFFF" style="padding:10px; color:#fff; font-size:14px; font-weight:bold; padding-bottom:0px;"><a href="https://in.linkedin.com/company/loan-walle-com" target="_blank"><img src="https://www.paisaonsalary.com/public/emailimages/feedback/images/linkdin.png" alt="linkdin" width="30" height="30" /></a> <a href="https://www.instagram.com/loanwalle_com/" target="_blank"><img src="https://www.paisaonsalary.com/public/emailimages/feedback/images/instagram.png" alt="instagram" width="30" height="30" /></a> <a href="https://www.facebook.com/loanwalleindia" target="_blank"><img src="https://www.paisaonsalary.com/public/emailimages/feedback/images/facebook.png" alt="facebook" width="30" height="30" /></a> <a href="https://twitter.com/Loanwalle_com" target="_blank"><img src="https://www.paisaonsalary.com/public/emailimages/feedback/images/twitter.png" alt="twitter" width="30" height="30" /></a> <a href="https://www.youtube.com/channel/UC0XGjHs-oPeZxa1sqeE_q_w?view_as=subscriber" target="_blank"> <img src="https://www.paisaonsalary.com/public/emailimages/feedback/images/you-tube.png" alt="youtube" width="30" height="30" /><span style="padding:2px; color:#fff; font-size:14px; font-weight:bold; padding-bottom:0px;"></span></a><span style="padding:2px; color:#fff; font-size:14px; font-weight:bold; padding-bottom:0px;"><a href="https://play.google.com/store/apps/details?id=com.loanwalle.personalloan" target="_blank"><img src="https://www.paisaonsalary.com/public/emailimages/feedback/images/goolge-play.png" alt="google-play" width="100" height="30" /></a> <a href="https://apps.apple.com/in/app/loanwalle-com/id1614454811" target="_blank"><img src="https://www.paisaonsalary.com/public/emailimages/feedback/images/app-store.png" alt="app-store" width="100" height="30" /></a></span></td>
                                                                 </tr>
                                                             </table>
                                                         </body>
@@ -3085,7 +3085,7 @@ die();
                     }
 
                     $email_data = array();
-                    $email_data['email'] = "rohit@salaryontime.com";
+                    $email_data['email'] = INFO_EMAIL;
                     $email_data['subject'] = "PROD-Festive Existing Customer Email Counter - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
                     $email_data['message'] = "email_sent=" . $email_counter['email_sent'] . " | email_failed=" . $email_counter['email_failed'];
 
@@ -3097,7 +3097,7 @@ die();
                 }
             } else {
                 $email_data = array();
-                $email_data['email'] = "rohit@salaryontime.com";
+                $email_data['email'] = INFO_EMAIL;
                 $email_data['subject'] = "PROD-Festive Existing Customer - " . date("d-m-Y");
                 $email_data['message'] = "Unauthorized";
 
@@ -3132,9 +3132,7 @@ die();
                     if (!empty($customer_data['user_email_id'])) {
                         $email_data = array();
                         $email_data['email'] = $customer_data['user_email_id'];
-//                    $email_data['email'] = "Rohit.AGRAWAL@LOANWALLE.COM";
-//                    $email_data['email'] = "sushil.kumar@loanwalle.com";
-                        $email_data['subject'] = "Loanwalle.com Celebrate Raksha Bandhan";
+                        $email_data['subject'] = "paisaonsalary.com Celebrate Raksha Bandhan";
                         $email_data['message'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
                                                 <html xmlns="http://www.w3.org/1999/xhtml">
                                                     <head>
@@ -3143,18 +3141,18 @@ die();
                                                     </head>
                                                     <body>
 
-                                                        <table width="600" height="597" border="0" align="center" cellpadding="0" cellspacing="0" style="background:url(https://www.loanwalle.com/public/emailimages/festival/Raksha_Bandhan/images/raksha_bandhan_background.jpg);">
+                                                        <table width="600" height="597" border="0" align="center" cellpadding="0" cellspacing="0" style="background:url(https://www.paisaonsalary.com/public/emailimages/festival/Raksha_Bandhan/images/raksha_bandhan_background.jpg);">
                                                             <tr>
                                                                 <td valign="top"><table width="100%" border="0" cellpadding="0" cellspacing="0">
                                                                         
                                                                         <tr>
-                                                                            <td><a href="https://www.loanwalle.com/" target="_blank"><img src="https://www.loanwalle.com/public/emailimages/festival/Raksha_Bandhan/images/logo.gif" width="200" height="55" alt="Loanwalle Logo" /></a></td>
+                                                                            <td><a href="https://www.paisaonsalary.com/" target="_blank"><img src="https://www.paisaonsalary.com/public/emailimages/festival/Raksha_Bandhan/images/logo.gif" width="200" height="55" alt="Loanwalle Logo" /></a></td>
                                                                         </tr>
                                                                         <tr>
-                                                                            <td><img src="https://www.loanwalle.com/public/emailimages/festival/Raksha_Bandhan/images/line_hr.png" width="14" height="440" alt="line_hr" /></td>
+                                                                            <td><img src="https://www.paisaonsalary.com/public/emailimages/festival/Raksha_Bandhan/images/line_hr.png" width="14" height="440" alt="line_hr" /></td>
                                                                         </tr>
                                                                         <tr>
-                                                                            <td align="center"><img src="https://www.loanwalle.com/public/emailimages/festival/Raksha_Bandhan/images/footer-link.png" alt="Loanwalle Footer" width="425" height="68" border="0" usemap="#Map" /></td>
+                                                                            <td align="center"><img src="https://www.paisaonsalary.com/public/emailimages/festival/Raksha_Bandhan/images/footer-link.png" alt="Loanwalle Footer" width="425" height="68" border="0" usemap="#Map" /></td>
                                                                         </tr>
                                                                     </table>
                                                                 </td>
@@ -3163,8 +3161,8 @@ die();
 
                                                         <map name="Map" id="Map">
                                                             <area shape="rect" coords="22,9,136,27" href="tel:+919999999341"/>
-                                                            <area shape="rect" coords="154,10,272,27" href="https://www.loanwalle.com" target="_blank"/>
-                                                            <area shape="rect" coords="292,10,409,27" href="mailto:info@loanwalle.com"/>
+                                                            <area shape="rect" coords="154,10,272,27" href="https://www.paisaonsalary.com" target="_blank"/>
+                                                            <area shape="rect" coords="292,10,409,27" href="mailto:info@paisaonsalary.com"/>
                                                             <area shape="circle" coords="221,54,10" href="https://www.facebook.com/loanwalleindia" target="_blank"/>
                                                             <area shape="circle" coords="242,53,10" href="https://twitter.com/Loanwalle_com" target="_blank"/>
                                                             <area shape="circle" coords="197,53,10" href="https://www.instagram.com/loanwalle_com/" target="_blank"/>
@@ -3189,7 +3187,7 @@ die();
                 }
 
                 $email_data = array();
-                $email_data['email'] = "rohit@salaryontime.com";
+                $email_data['email'] = INFO_EMAIL;
                 $email_data['subject'] = "PROD- $cron_name Counter - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
                 $email_data['message'] = "email_sent=" . $email_counter['email_sent'] . " | email_failed=" . $email_counter['email_failed'];
 
@@ -3232,10 +3230,7 @@ die();
                     if (!empty($customer_data['user_email_id'])) {
                         $email_data = array();
                         $email_data['email'] = $customer_data['user_email_id'];
-//                    $email_data['email'] = "rohit@salaryontime.com";
-//                    $email_data['email'] = "tech.team@loanwalle.com";
-//                    $email_data['email'] = "sushil.kumar@loanwalle.com";
-                        $email_data['subject'] = "Loanwalle.com | Happy Independence Day";
+                        $email_data['subject'] = "paisaonsalary.com | Happy Independence Day";
 
                         $email_data['message'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
                                                 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -3245,26 +3240,26 @@ die();
                                                     </head>
 
                                                     <body>
-                                                        <table width="600" height="610" border="1" bordercolor="#0463a3" align="center" cellpadding="0" cellspacing="0" style="background:url(https://www.loanwalle.com/public/emailimages/festival/independence_day/images/independence_day_background.jpg);">
+                                                        <table width="600" height="610" border="1" bordercolor="#0463a3" align="center" cellpadding="0" cellspacing="0" style="background:url(https://www.paisaonsalary.com/public/emailimages/festival/independence_day/images/independence_day_background.jpg);">
                                                             <tr>
                                                                 <td valign="top"><table width="100%" border="0" cellpadding="0" cellspacing="0">
 
                                                                         <tr>
-                                                                            <td><a href="https://www.loanwalle.com/" target="_blank"><img src="https://www.loanwalle.com/public/emailimages/festival/independence_day/images/logo.gif" width="200" height="50" /></a></td>
+                                                                            <td><a href="https://www.paisaonsalary.com/" target="_blank"><img src="https://www.paisaonsalary.com/public/emailimages/festival/independence_day/images/logo.gif" width="200" height="50" /></a></td>
                                                                         </tr>
                                                                         <tr>
-                                                                            <td><img src="https://www.loanwalle.com/public/emailimages/festival/independence_day/images/line_hr.png" alt="line_hr" width="14" height="480" /></td>
+                                                                            <td><img src="https://www.paisaonsalary.com/public/emailimages/festival/independence_day/images/line_hr.png" alt="line_hr" width="14" height="480" /></td>
                                                                         </tr>
                                                                         <tr>
-                                                                            <td align="center"><img src="https://www.loanwalle.com/public/emailimages/festival/independence_day/images/footer-link.png" alt="footer_link" width="425" height="68" border="0" usemap="#Map" /></td>
+                                                                            <td align="center"><img src="https://www.paisaonsalary.com/public/emailimages/festival/independence_day/images/footer-link.png" alt="footer_link" width="425" height="68" border="0" usemap="#Map" /></td>
                                                                         </tr>
                                                                     </table></td>
                                                             </tr>
                                                         </table>
                                                         <map name="Map" id="Map">
                                                             <area shape="rect" coords="22,9,136,27" href="tel:+919999999-341"/>
-                                                            <area shape="rect" coords="154,10,272,27" href="https://www.loanwalle.com" target="_blank"/>
-                                                            <area shape="rect" coords="292,10,409,27" href="mailto:info@loanwalle.com"/>
+                                                            <area shape="rect" coords="154,10,272,27" href="https://www.paisaonsalary.com" target="_blank"/>
+                                                            <area shape="rect" coords="292,10,409,27" href="mailto:info@paisaonsalary.com"/>
                                                             <area shape="circle" coords="221,54,10" href="https://www.facebook.com/loanwalleindia" target="_blank" />
                                                             <area shape="circle" coords="242,53,10" href="https://twitter.com/Loanwalle_com" target="_blank" />
                                                             <area shape="circle" coords="197,53,10" href="https://www.instagram.com/loanwalle_com/" target="_blank" />
@@ -3288,7 +3283,7 @@ die();
                 }
 
                 $email_data = array();
-                $email_data['email'] = "rohit@salaryontime.com";
+                $email_data['email'] = INFO_EMAIL;
                 $email_data['subject'] = "PROD- $cron_name Counter - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
                 $email_data['message'] = "email_sent=" . $email_counter['email_sent'] . " | email_failed=" . $email_counter['email_failed'];
 
@@ -3331,10 +3326,7 @@ die();
                     if (!empty($customer_data['user_email_id'])) {
                         $email_data = array();
                         $email_data['email'] = $customer_data['user_email_id'];
-//                    $email_data['email'] = "rohit@salaryontime.com";
-//                    $email_data['email'] = "tech.team@loanwalle.com";
-//                    $email_data['email'] = "sushil.kumar@loanwalle.com";
-                        $email_data['subject'] = "Loanwalle.com | Happy Krishna Janmashtami";
+                        $email_data['subject'] = "paisaonsalary.com | Happy Krishna Janmashtami";
 
                         $email_data['message'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
                                                 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -3344,18 +3336,18 @@ die();
                                                     </head>
                                                     <body>
 
-                                                        <table width="600" height="597" border="0" align="center" cellpadding="0" cellspacing="0" style="background:url(https://www.loanwalle.com/public/emailimages/festival/Janmashtami/images/Janmashtami_background.jpg);">
+                                                        <table width="600" height="597" border="0" align="center" cellpadding="0" cellspacing="0" style="background:url(https://www.paisaonsalary.com/public/emailimages/festival/Janmashtami/images/Janmashtami_background.jpg);">
                                                             <tr>
                                                                 <td valign="top"><table width="100%" border="0" cellpadding="0" cellspacing="0">
                                                                         
                                                                         <tr>
-                                                                            <td><a href="https://www.loanwalle.com/" target="_blank"><img src="https://www.loanwalle.com/public/emailimages/festival/Janmashtami/images/logo.gif" width="200" height="50" alt="Janmashtami" /></a></td>
+                                                                            <td><a href="https://www.paisaonsalary.com/" target="_blank"><img src="https://www.paisaonsalary.com/public/emailimages/festival/Janmashtami/images/logo.gif" width="200" height="50" alt="Janmashtami" /></a></td>
                                                                         </tr>
                                                                         <tr>
-                                                                            <td><img src="https://www.loanwalle.com/public/emailimages/festival/Janmashtami/images/line_hr.png" width="14" height="480" alt="line_hr" /></td>
+                                                                            <td><img src="https://www.paisaonsalary.com/public/emailimages/festival/Janmashtami/images/line_hr.png" width="14" height="480" alt="line_hr" /></td>
                                                                         </tr>
                                                                         <tr>
-                                                                            <td align="center"><img src="https://www.loanwalle.com/public/emailimages/festival/Janmashtami/images/footer-link.png" alt="footer_link" width="425" height="62" border="0" usemap="#Map" /></td>
+                                                                            <td align="center"><img src="https://www.paisaonsalary.com/public/emailimages/festival/Janmashtami/images/footer-link.png" alt="footer_link" width="425" height="62" border="0" usemap="#Map" /></td>
                                                                         </tr>
                                                                     </table>
                                                                 </td>
@@ -3364,8 +3356,8 @@ die();
 
                                                         <map name="Map" id="Map">
                                                             <area shape="rect" coords="44,7,149,23" href="tel:+919999999341"/>
-                                                            <area shape="rect" coords="151,7,263,25" href="https://www.loanwalle.com" target="_blank"/>
-                                                            <area shape="rect" coords="266,8,383,25" href="mailto:info@loanwalle.com"/>
+                                                            <area shape="rect" coords="151,7,263,25" href="https://www.paisaonsalary.com" target="_blank"/>
+                                                            <area shape="rect" coords="266,8,383,25" href="mailto:info@paisaonsalary.com"/>
                                                             <area shape="circle" coords="219,43,10" href="https://www.facebook.com/loanwalleindia" target="_blank"/>
                                                             <area shape="circle" coords="238,43,10" href="https://twitter.com/Loanwalle_com" target="_blank"/>
                                                             <area shape="circle" coords="200,42,10" href="https://www.instagram.com/loanwalle_com/" target="_blank"/>
@@ -3390,7 +3382,7 @@ die();
                 }
 
                 $email_data = array();
-                $email_data['email'] = "rohit@salaryontime.com";
+                $email_data['email'] = INFO_EMAIL;
                 $email_data['subject'] = "PROD- $cron_name Counter - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
                 $email_data['message'] = "email_sent=" . $email_counter['email_sent'] . " | email_failed=" . $email_counter['email_failed'];
 
@@ -3435,49 +3427,49 @@ die();
                     if (!empty($customer_data['user_email_id'])) {
                         $email_data = array();
                         $email_data['email'] = $customer_data['user_email_id'];
-//                    $email_data['email'] = 'rohit@salaryontime.com';
+//                    $email_data['email'] = INFO_EMAIL;
 
-                        $email_data['subject'] = "LOANWALLE.COM Offers - Instant Personal Loan To Most Valued Customers";
+                        $email_data['subject'] = "PAISAONSALARY.COM Offers - Instant Personal Loan To Most Valued Customers";
                         $email_data['message'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
                                                 <html xmlns="http://www.w3.org/1999/xhtml">
                                                     <head>
                                                         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-                                                        <title>Loanwalle.com Offers - Instant Personal Loan In Just 30 Minutes*</title>
+                                                        <title>paisaonsalary.com Offers - Instant Personal Loan In Just 30 Minutes*</title>
                                                     </head>
 
                                                     <body>
-                                                        <table width="667" border="0" align="center" cellpadding="0" cellspacing="0" style="background:url(https://www.loanwalle.com/public/emailimages/personal-jan/images/loanwalle-email-marketing-back.png); font-family:Arial, Helvetica, sans-serif;">
+                                                        <table width="667" border="0" align="center" cellpadding="0" cellspacing="0" style="background:url(https://www.paisaonsalary.com/public/emailimages/personal-jan/images/loanwalle-email-marketing-back.png); font-family:Arial, Helvetica, sans-serif;">
                                                             <tr>
-                                                                <td><a href="https://www.loanwalle.com/" target="_blank"><img src="https://www.loanwalle.com/public/emailimages/personal-jan/images/loanwalle-logo.png" alt="loanwalle-logo" width="250" height="60" /></a></td>
+                                                                <td><a href="https://www.paisaonsalary.com/" target="_blank"><img src="https://www.paisaonsalary.com/public/emailimages/personal-jan/images/loanwalle-logo.png" alt="loanwalle-logo" width="250" height="60" /></a></td>
                                                             </tr>
                                                             <tr>
-                                                                <td valign="top"><img src="https://www.loanwalle.com/public/emailimages/personal-jan/images/loanwalle-email-marketing-2.png" alt="loanwalle-email-marketing" width="678" height="520" /></td>
+                                                                <td valign="top"><img src="https://www.paisaonsalary.com/public/emailimages/personal-jan/images/loanwalle-email-marketing-2.png" alt="loanwalle-email-marketing" width="678" height="520" /></td>
                                                             </tr>
                                                             <tr>
-                                                                <td align="center"><img src="https://www.loanwalle.com/public/emailimages/personal-jan/images/loanwalle-email-marketing-3.png" alt="loanwalle-email-marketing" width="678" height="103" /></td>
+                                                                <td align="center"><img src="https://www.paisaonsalary.com/public/emailimages/personal-jan/images/loanwalle-email-marketing-3.png" alt="loanwalle-email-marketing" width="678" height="103" /></td>
                                                             </tr>
                                                             <tr>
                                                                 <td align="center" style="color:#fff; font-size:15px; font-weight:500;">&nbsp;</td>
                                                             </tr>
                                                             <tr>
-                                                                <td align="center" style="color:#fff; font-size:15px; font-weight:500;"><a href="https://www.loanwalle.com/apply-now?utm_source=' . $campaign_name . '" style="background: #fff;border-radius: 50px;padding: 10px 30px;color: #034369;font-weight: bold;text-decoration: blink;border: solid 2px #034369;">Apply Now</a></td>
+                                                                <td align="center" style="color:#fff; font-size:15px; font-weight:500;"><a href="https://www.paisaonsalary.com/apply-now?utm_source=' . $campaign_name . '" style="background: #fff;border-radius: 50px;padding: 10px 30px;color: #034369;font-weight: bold;text-decoration: blink;border: solid 2px #034369;">Apply Now</a></td>
                                                             </tr>
                                                             <tr>
-                                                                <td align="center" style="color:#fff; font-size:15px; font-weight:500;"><img src="https://www.loanwalle.com/public/emailimages/personal-jan/images/loanwalle-email-line.png" alt="line" width="25" height="20" /></td>
+                                                                <td align="center" style="color:#fff; font-size:15px; font-weight:500;"><img src="https://www.paisaonsalary.com/public/emailimages/personal-jan/images/loanwalle-email-line.png" alt="line" width="25" height="20" /></td>
                                                             </tr>
 
                                                             <tr>
-                                                                <td align="center" style="color:#fff; font-size:17px; font-weight:500;"><img src="https://www.loanwalle.com/public/emailimages/personal-jan/images/loanwalle-email-line.png" alt="line" width="25" height="10" /></td>
+                                                                <td align="center" style="color:#fff; font-size:17px; font-weight:500;"><img src="https://www.paisaonsalary.com/public/emailimages/personal-jan/images/loanwalle-email-line.png" alt="line" width="25" height="10" /></td>
                                                             </tr>
                                                             <tr>
-                                                                <td align="center"><img src="https://www.loanwalle.com/public/emailimages/festival/Janmashtami/images/footer-link.png" alt="footer_link" width="425" height="62" border="0" usemap="#Map" /></td>
+                                                                <td align="center"><img src="https://www.paisaonsalary.com/public/emailimages/festival/Janmashtami/images/footer-link.png" alt="footer_link" width="425" height="62" border="0" usemap="#Map" /></td>
                                                             </tr>
 
                                                         </table>
                                                         <map name="Map" id="Map">
                                                             <area shape="rect" coords="44,7,149,23" href="tel:+919999999341"/>
-                                                            <area shape="rect" coords="151,7,263,25" href="https://www.loanwalle.com" target="_blank"/>
-                                                            <area shape="rect" coords="266,8,383,25" href="mailto:info@loanwalle.com"/>
+                                                            <area shape="rect" coords="151,7,263,25" href="https://www.paisaonsalary.com" target="_blank"/>
+                                                            <area shape="rect" coords="266,8,383,25" href="mailto:info@paisaonsalary.com"/>
                                                             <area shape="circle" coords="219,43,10" href="https://www.facebook.com/loanwalleindia" target="_blank"/>
                                                             <area shape="circle" coords="238,43,10" href="https://twitter.com/Loanwalle_com" target="_blank"/>
                                                             <area shape="circle" coords="200,42,10" href="https://www.instagram.com/loanwalle_com/" target="_blank"/>
@@ -3500,7 +3492,7 @@ die();
                     }
                 }
                 $email_data = array();
-                $email_data['email'] = "rohit@salaryontime.com";
+                $email_data['email'] = INFO_EMAIL;
                 $email_data['subject'] = "PROD-$cron_name - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
                 $email_data['message'] = "email_sent=" . $email_counter['email_sent'] . " | email_failed=" . $email_counter['email_failed'] . " <br/> Campaing Name : " . $campaign_name;
 
@@ -3546,9 +3538,9 @@ die();
                     if (!empty($customer_data['user_email_id'])) {
                         $email_data = array();
                         $email_data['email'] = $customer_data['user_email_id'];
-//                    $email_data['email'] = 'rohit@salaryontime.com';
+//                    $email_data['email'] = INFO_EMAIL;
 
-                        $email_data['subject'] = "Surprise is here! It’s for Diwali Celebration from LOANWALLE.COM";
+                        $email_data['subject'] = "Surprise is here! It’s for Diwali Celebration from PAISAONSALARY.COM";
                         $email_data['message'] = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
                                                 <html xmlns="http://www.w3.org/1999/xhtml">
                                                     <head>
@@ -3559,16 +3551,16 @@ die();
                                                     <body>
                                                         <table width="700" border="0" align="center" cellpadding="0" cellspacing="0">
                                                             <tr>
-                                                                <td><img src="https://www.loanwalle.com/public/emailimages/diwali-mailer/diwali-email.jpg" alt="diwali" width="700" height="1161" border="0" usemap="#Map" /></td>
+                                                                <td><img src="https://www.paisaonsalary.com/public/emailimages/diwali-mailer/diwali-email.jpg" alt="diwali" width="700" height="1161" border="0" usemap="#Map" /></td>
                                                             </tr>
                                                         </table>
 
                                                         <map name="Map" id="Map">
-                                                            <area shape="rect" coords="2,4,279,81" href="https://www.loanwalle.com/" target="_blank" />
-                                                            <area shape="rect" coords="277,996,417,1033" href="https://www.loanwalle.com/apply-now?utm_source=' . $campaign_name . '" target="_blank" />
+                                                            <area shape="rect" coords="2,4,279,81" href="https://www.paisaonsalary.com/" target="_blank" />
+                                                            <area shape="rect" coords="277,996,417,1033" href="https://www.paisaonsalary.com/apply-now?utm_source=' . $campaign_name . '" target="_blank" />
                                                             <area shape="rect" coords="129,1066,259,1086" href="tel:+919999999341" />
-                                                            <area shape="rect" coords="280,1067,410,1088" href="https://www.loanwalle.com/" target="_blank" />
-                                                            <area shape="rect" coords="428,1066,568,1085" href="mailto:info@loanwalle.com" />
+                                                            <area shape="rect" coords="280,1067,410,1088" href="https://www.paisaonsalary.com/" target="_blank" />
+                                                            <area shape="rect" coords="428,1066,568,1085" href="mailto:info@paisaonsalary.com" />
                                                             <area shape="rect" coords="182,1097,253,1122" href="https://apps.apple.com/in/app/loanwalle-com/id1614454811" target="_blank" />
                                                             <area shape="rect" coords="440,1098,512,1123" href="https://play.google.com/store/apps/details?id=com.loanwalle.personalloan" target="_blank" />
                                                             <area shape="circle" coords="299,1110,10" href="https://in.linkedin.com/company/loan-walle-com" target="_blank" />
@@ -3591,7 +3583,7 @@ die();
                     }
                 }
                 $email_data = array();
-                $email_data['email'] = "rohit@salaryontime.com";
+                $email_data['email'] = INFO_EMAIL;
                 $email_data['subject'] = "PROD-$cron_name - start time :" . $start_datetime . " | end time : " . date("d-m-Y H:i:s");
                 $email_data['message'] = "email_sent=" . $email_counter['email_sent'] . " | email_failed=" . $email_counter['email_failed'] . " <br/> Campaing Name : " . $campaign_name;
 
@@ -3619,13 +3611,13 @@ die();
             } else {
 
                 $to_email = $email;
-                $from_email = "info@salaryontime.com";
+                $from_email = INFO_EMAIL;
 
                 if ($email_type_id == 10) {
-                    $from_email = "legal@salaryontime.com";
+                    $from_email = getenv('LEAGAL_EMAIL');
                     $provider_name = "MAILGUN";
                 } else if ($email_type_id == 12) {
-                    $from_email = "collection@salaryontime.com";
+                    $from_email = getenv('COLLECTION_EMAIL');
                     $provider_name = "MAILGUN";
                 }
 
@@ -3654,7 +3646,7 @@ die();
                         $template = "happyholi";
                     }
 
-                    $apiUrl = "https://api.mailgun.net/v3/loanwalle.com/messages";
+                    $apiUrl = "https://api.mailgun.net/v3/paisaonsalary.com/messages";
 
                     $request_array = array(
                         "from" => $from_email,

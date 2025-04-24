@@ -41,8 +41,8 @@
             preg_match('/[^ ]*$/', $q_name, $results);
             $name = ucfirst($results[0]);
 		    $mobile = $query->mobile;
-		    
-		    $message = "Dear ". $title ." ". $name .",\nPlease email your documents \nfor quick sanction of loan at \nemail info@loanwalle.com \n- KYC (Aadhar, Pan Card, Voter id etc),\nlast 3 months bank statements,\nlast 2 months salary slip \n- Loanwalle (Naman Finlease)";
+			$info_email = INFO_EMAIL;
+		    $message = "Dear ". $title ." ". $name .",\nPlease email your documents \nfor quick sanction of loan at \nemail $info_email \n- KYC (Aadhar, Pan Card, Voter id etc),\nlast 3 months bank statements,\nlast 2 months salary slip \n- Loanwalle (Naman Finlease)";
             $username 		= username;
             $password 		= password;
             $type 			= 0;

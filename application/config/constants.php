@@ -88,18 +88,18 @@ defined('EXIT__AUTO_MAX') OR define('EXIT__AUTO_MAX', 125); // highest automatic
 
 defined('CSS_VERSION') OR define('CSS_VERSION', 1.1); // highest automatically-assigned error code
 
-defined('ALL_FROM_EMAIL') OR define('ALL_FROM_EMAIL', 'info@salaryontime.com');
+defined('ALL_FROM_EMAIL') OR define('ALL_FROM_EMAIL', getenv("MAIN_EMAIL"));
 
-defined('BCC_SANCTION_EMAIL') OR define('BCC_SANCTION_EMAIL', 'info@salaryontime.com');
+defined('BCC_SANCTION_EMAIL') OR define('BCC_SANCTION_EMAIL', getenv("MAIN_EMAIL"));
 defined('BCC_DISBURSAL_EMAIL') OR define('BCC_DISBURSAL_EMAIL', '');
-defined('BCC_NOC_EMAIL') OR define('BCC_NOC_EMAIL', 'info@salaryontime.com');
-defined('BCC_DISBURSAL_WAIVE_EMAIL') OR define('BCC_DISBURSAL_WAIVE_EMAIL', 'info@salaryontime.com');
+defined('BCC_NOC_EMAIL') OR define('BCC_NOC_EMAIL', getenv("MAIN_EMAIL"));
+defined('BCC_DISBURSAL_WAIVE_EMAIL') OR define('BCC_DISBURSAL_WAIVE_EMAIL', getenv("MAIN_EMAIL"));
 
 defined('CC_SANCTION_EMAIL') OR define('CC_SANCTION_EMAIL', '');
 defined('CC_DISBURSAL_EMAIL') OR define('CC_DISBURSAL_EMAIL', '');
-defined('CC_DISBURSAL_WAIVE_EMAIL') OR define('CC_DISBURSAL_WAIVE_EMAIL', 'info@salaryontime.com');
+defined('CC_DISBURSAL_WAIVE_EMAIL') OR define('CC_DISBURSAL_WAIVE_EMAIL', getenv("MAIN_EMAIL"));
 
-defined('TO_KYC_DOCS_ZIP_DOWNLOAD_EMAIL') OR define('TO_KYC_DOCS_ZIP_DOWNLOAD_EMAIL', 'info@salaryontime.com');
+defined('TO_KYC_DOCS_ZIP_DOWNLOAD_EMAIL') OR define('TO_KYC_DOCS_ZIP_DOWNLOAD_EMAIL', getenv("MAIN_EMAIL"));
 
 define("COMPONENT_PATH", getenv("WWW_PATH")."common_component/");
 define("UPLOAD_PATH", getenv("WWW_PATH")."upload/");
@@ -112,11 +112,11 @@ define("UPLOAD_DISBURSAL_PATH", getenv("WWW_PATH")."upload/disburse_letter/");
 
 //define("LOANS_KYC_DOCS", "/kycdocs/loans/");
 
-define("FEEDBACK_WEB_PATH", "https://salaryontime.com/customer-feedback/");
+define("FEEDBACK_WEB_PATH", getenv('WEBSITE_URL')."customer-feedback/");
 
 // ********** API URL DEFINE *****
 
-defined('SERVER_API_URL') OR define('SERVER_API_URL', "https://api.salaryontime.in"); //SERVER API URL
+defined('SERVER_API_URL') OR define('SERVER_API_URL', getenv("SERVER_API_URL")); //SERVER API URL
 
 // ********** LMS DEFINED VARIABLE *****
 
@@ -132,17 +132,17 @@ define("LMS_BRAND_LOGO", LMS_URL . "public/front/img/brand_logo.jpg");
 define("BANK_STATEMENT_UPLOAD", getenv("WWW_PATH")."application/helpers/integration/");
 define("COMPANY_NAME",getenv("COMPANY_NAME"));
 define("RBI_LICENCE_NUMBER", "B-14.01843");
-define('CONTACT_PERSON', 'ALOK NAUTIYAL');
+define('CONTACT_PERSON', 'AJAY Sheokand');
 define("REGISTED_ADDRESS", "G -51, Krishna Apra Business Square, Netaji Subhash Place, New Delhi - 110034");
 define("REGISTED_MOBILE", "+91-8800002890");
 define("BRAND_NAME",getenv("BRAND_NAME"));
 
-define("TECH_EMAIL", "info@salaryontime.com");
-define("INFO_EMAIL", "info@salaryontime.com");
-define("CARE_EMAIL", "info@salaryontime.com");
-define("RECOVERY_EMAIL", "info@salaryontime.com");
-define("COLLECTION_EMAIL", "info@salaryontime.com");
-define("CTO_EMAIL", "rohit@salaryontime.com");
+define("TECH_EMAIL", getenv("TECH_EMAIL"));
+define("INFO_EMAIL", getenv("MAIN_EMAIL"));
+define("CARE_EMAIL", getenv("MAIN_EMAIL"));
+define("RECOVERY_EMAIL", getenv("MAIN_EMAIL"));
+define("COLLECTION_EMAIL", getenv("MAIN_EMAIL"));
+define("CTO_EMAIL", getenv("MAIN_EMAIL"));
 
 // ********** TEMPLETE DEFINED VARIABLE *****
 

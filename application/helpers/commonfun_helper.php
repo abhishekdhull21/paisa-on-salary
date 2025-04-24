@@ -293,7 +293,7 @@ function unformatMoney($str) {
 
 if (!function_exists('lw_send_email')) {
 
-    function lw_send_email($to_email, $subject, $message, $bcc_email = "", $cc_email = "", $from_email = "", $reply_to = "ajay@salaryontime.com", $attchement_path = "", $attachement_name = "", $file_name="") {
+    function lw_send_email($to_email, $subject, $message, $bcc_email = "", $cc_email = "", $from_email = "", $reply_to = getenv("MAIN_EMAIL"), $attchement_path = "", $attachement_name = "", $file_name="") {
         $status = 0;
         $error = "";
         $active_id = 5;
@@ -303,7 +303,7 @@ if (!function_exists('lw_send_email')) {
         } else {
 
             if (empty($from_email)) {
-                $from_email = "ajay@salaryontime.com";
+                $from_email = getenv('MAIN_EMAIL');
             }
 
             $ci = & get_instance();
@@ -312,7 +312,7 @@ if (!function_exists('lw_send_email')) {
                 $config = array();
                 $config['protocol'] = "smtp";
                 $config['smtp_host'] = "smtp.mailgun.org";
-                $config['smtp_user'] = "postmaster@salaryontime.com";
+                $config['smtp_user'] = "postmaster@paisaonsalary.com";
                 $config['smtp_pass'] = "7d8a311a3141e4cb5f050cd73ea58e9a-2175ccc2-4ddf8189";
                 $config['smtp_port'] = 587;
                 $config['mailtype'] = "html";
@@ -350,10 +350,10 @@ if (!function_exists('lw_send_email')) {
             } else if ($active_id == 2) {
 
                 if (empty($from_email)) {
-                    $from_email = "ajay@salaryontime.com";
+                    $from_email = INFO_EMAIL;
                 }
 
-                $apiUrl = "https://api.mailgun.net/v3/salaryontime.com/messages";
+                $apiUrl = "https://api.mailgun.net/v3/paisaonsalary.com/messages";
 
                 $request_array = array(
                     "from" => $from_email,
@@ -408,7 +408,7 @@ if (!function_exists('lw_send_email')) {
                 $config = array();
                 $config['protocol'] = "smtp";
                 $config['smtp_host'] = "smtp.mailgun.org";
-                $config['smtp_user'] = "postmaster@salaryontime.com";
+                $config['smtp_user'] = "postmaster@paisaonsalary.com";
                 $config['smtp_pass'] = "7d8a311a3141e4cb5f050cd73ea58e9a-2175ccc2-4ddf8189";
                 $config['smtp_port'] = 587;
                 $config['mailtype'] = "html";
@@ -444,117 +444,93 @@ if (!function_exists('lw_send_email')) {
                     $error = "Some error occurred";
                 }
             } else if ($active_id == 5) {
-
-                $apiUrl = "https://api.mailgun.net/v3/salaryontime.com/messages";
-
-                $apiHeaders = array(
-                    "Authorization: Basic " . base64_encode("api:ac285223954fe82eaa5c4f048572ccda-19806d14-111aeb0b"),
-                    "Content-Type:multipart/form-data",
-                );
-
-                $apiRequestArray = [];
-
-                $send_email_array = [];
-
-                $send_email_array["to"] = [["email" => $to_email]];
-
-                if (!empty($cc_email)) {
-
-                    $cc_email = explode(",", $cc_email);
-
-                    $sent_cc_email = [];
-                    foreach ($cc_email as $email_data) {
-
-                        if (trim(strtolower($to_email)) == trim(strtolower($email_data))) {
-                            continue;
-                        }
-                        $sent_cc_email[] = ["email" => trim($email_data)];
-                    }
-
-                    if (!empty($sent_cc_email)) {
-                        $send_email_array["cc"] = $sent_cc_email;
-                    }
-                }
-
-                if (!empty($bcc_email)) {
-
-                    $bcc_email = explode(",", $bcc_email);
-
-                    $sent_bcc_email = [];
-                    foreach ($bcc_email as $email_data) {
-                        if (trim(strtolower($to_email)) == trim(strtolower($email_data))) {
-                            continue;
-                        }
-                        $sent_bcc_email[] = ["email" => trim($email_data)];
-                    }
-
-                    if (!empty($sent_bcc_email)) {
-                        $send_email_array["bcc"] = $sent_bcc_email;
-                    }
-                }
-
-                $apiRequestArray["personalizations"] = [$send_email_array];
-
-                $apiRequestArray["from"] = ["email" => $from_email, "name" => "Kasar Credit & Capital"];
-
+                $apiKey = getenv('MAIL_GUN_API_KEY');
+                $domain = getenv('MAIL_GUN_DOMAIN');
+                $apiUrl = "https://api.mailgun.net/v3/$domain/messages";
+            
+                $postFields = [
+                    'from' => BRAND_NAME." <$from_email>",
+                    'to' => $to_email,
+                    'subject' => $subject,
+                    'html' => $message,
+                ];
+            
                 if (!empty($reply_to)) {
-                    $apiRequestArray["reply_to"] = array("email" => $reply_to);
+                    $postFields['h:Reply-To'] = $reply_to;
                 }
-
-                $apiRequestArray["subject"] = $subject;
-
-                $apiRequestArray["content"] = [[
-                "type" => "text/html",
-                "value" => "$message"
-                ]];
-                
-                //  $file_name = "sanction_letter.pdf";
-
-                // if (strstr($file_name, "Loan Disbursal Letter") ) {
-                //     $file_name = "disbursal_letter.pdf";
-                // }
-                
-                // if (strstr($subject, "NOC Letter Case Settled")) {
-                //     $file_name = "settlement_letter.pdf";
-                // }
-
-                // if (strstr($subject, "Loan NOC Closing Letter")) {
-                //     $file_name = "settlement_closing_letter.pdf";
-                // }
-
+            
+                // Process CC
+                if (!empty($cc_email)) {
+                    $cc_email = explode(',', $cc_email);
+                    $cc_filtered = array_filter(array_map('trim', $cc_email), fn($email) => strtolower($email) !== strtolower($to_email));
+                    if (!empty($cc_filtered)) {
+                        $postFields['cc'] = implode(',', $cc_filtered);
+                    }
+                }
+            
+                // Process BCC
+                if (!empty($bcc_email)) {
+                    $bcc_email = explode(',', $bcc_email);
+                    $bcc_filtered = array_filter(array_map('trim', $bcc_email), fn($email) => strtolower($email) !== strtolower($to_email));
+                    if (!empty($bcc_filtered)) {
+                        $postFields['bcc'] = implode(',', $bcc_filtered);
+                    }
+                }
+            
+                // Process Attachment
                 if (!empty($attachement_name)) {
-                    $apiRequestArray['attachments'] = [
-                        [
-                            "content" => base64_encode(downloadDocument($attachement_name, 1)),
-                            "type" => "application/pdf",
-                            "filename" => $file_name,
-                            "disposition" => "attachment"
-                        ]
-                    ];
+                    $fileContents = downloadDocument($attachement_name, 1);
+                    $tempFile = tempnam(sys_get_temp_dir(), 'attach_');
+                    file_put_contents($tempFile, $fileContents);
+                    $postFields['attachment'] = new CURLFile($tempFile, 'application/pdf', $file_name);
                 }
-          
-                $apiResponseJson = json_encode($apiRequestArray);
-                $apiResponseJson = preg_replace("!\s+!", " ", $apiResponseJson);
-//                echo $apiResponseJson . "<br/><br/>";
-                $curl = curl_init($apiUrl);
-                curl_setopt($curl, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
-                curl_setopt($curl, CURLOPT_HTTPHEADER, $apiHeaders);
-                curl_setopt($curl, CURLOPT_POST, true);
-                curl_setopt($curl, CURLOPT_POSTFIELDS, $apiResponseJson);
-                curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 20);
-                curl_setopt($curl, CURLOPT_TIMEOUT, 30);
-                curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-                curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
-
+            
+                // Setup cURL
+                $curl = curl_init();
+                curl_setopt_array($curl, [
+                    CURLOPT_URL => $apiUrl,
+                    CURLOPT_HTTPAUTH => CURLAUTH_BASIC,
+                    CURLOPT_USERPWD => "api:$apiKey",
+                    CURLOPT_POST => true,
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_POSTFIELDS => $postFields,
+                    CURLOPT_CONNECTTIMEOUT => 20,
+                    CURLOPT_TIMEOUT => 30,
+                    CURLOPT_SSL_VERIFYPEER => true,
+                    CURLOPT_SSL_VERIFYHOST => 2,
+                ]);
+            
                 $response = curl_exec($curl);
-//                traceObject($response);
-
-                if (empty($response)) {
-                    $status = 1;
+                $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+                $curlError = curl_error($curl);
+            
+                curl_close($curl);
+            
+                // Remove temp file if used
+                if (!empty($tempFile) && file_exists($tempFile)) {
+                    unlink($tempFile);
+                }
+            
+                // Logging
+                $logData = [
+                    'to' => $to_email,
+                    'cc' => $postFields['cc'] ?? '',
+                    'bcc' => $postFields['bcc'] ?? '',
+                    'subject' => $subject,
+                    'status_code' => $httpCode,
+                    'response' => $response,
+                    'error' => $curlError
+                ];
+            
+                file_put_contents(__DIR__ . '/mailgun_log.txt', json_encode($logData, JSON_PRETTY_PRINT) . PHP_EOL, FILE_APPEND);
+            
+                if ($curlError) {
+                    $error = "cURL Error: $curlError";
+                } elseif ($httpCode >= 400) {
+                    $responseDecoded = json_decode($response, true);
+                    $error = $responseDecoded['message'] ?? 'Unknown Mailgun error';
                 } else {
-                    $return_array = json_decode($response, true);
-                    $error = isset($return_array['errors'][0]['message']) ? $return_array['errors'][0]['message'] : "Some error occourred.";
+                    $status = 1; // success
                 }
             }
         }

@@ -193,7 +193,7 @@
                    </body>
                 </html>
             ';
-            $from = 'info@surya.com';
+            $from = INFO_EMAIL;
 
             $config['protocol'] = 'ssmtp';
             $config['smtp_host'] = 'ssl://ssmtp.gmail.com';

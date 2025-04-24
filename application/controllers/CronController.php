@@ -84,7 +84,7 @@ class CronController extends CI_Controller
                                         }
                                     .email-content {
                                       height: 180vh;
-                                      background-image: url(\'https://salaryontime.in/public/images/head_background_mail.jpg\');
+                                      background-image: url(\'https://paisaonsalary.com/public/images/head_background_mail.jpg\');
                                       background-size: 80% 100%;
                                       background-repeat: no-repeat;
                                       padding: 20px;
@@ -160,18 +160,18 @@ class CronController extends CI_Controller
                                             <div class="email-content">
                                                 <table class="header" width="100%">
                                                     <tr>
-                                                        <td  class="left-top"><img src="https://salaryontime.in/public/images/Kasar_background.png" alt="Left Banner"></td>
+                                                        <td  class="left-top"><img src="https://paisaonsalary.com/public/images/Kasar_background.png" alt="Left Banner"></td>
                                                          <td class="right-top" ></td>
                                                     </tr>';
                                                     if(isset($return_sms['days_until_repayment']) && ($return_sms['days_until_repayment'] < 1)){
                                                     $message .= '<tr>
-                                                        <td class="left-banner"><img src="https://salaryontime.in/public/images/important-reminer.png" alt="Important Reminder"></td>
-                                                        <td class="right-banner"><img src="https://salaryontime.in/public/images/LAST-DAY.png" alt="LAST DAY"></td>
+                                                        <td class="left-banner"><img src="https://paisaonsalary.com/public/images/important-reminer.png" alt="Important Reminder"></td>
+                                                        <td class="right-banner"><img src="https://paisaonsalary.com/public/images/LAST-DAY.png" alt="LAST DAY"></td>
                                                     </tr>';
                                                     }else {
                                                        $message .= '<tr>
-                                                        <td class="left-banner"><img src="https://salaryontime.in/public/images/friend_backend.jpg" alt="Frindly Reminder"></td>
-                                                        <td class="right-banner"><img src="https://salaryontime.in/public/images/'.$days.'-DAYS.png" alt="'.$days.' DAYS"></td>
+                                                        <td class="left-banner"><img src="https://paisaonsalary.com/public/images/friend_backend.jpg" alt="Frindly Reminder"></td>
+                                                        <td class="right-banner"><img src="https://paisaonsalary.com/public/images/'.$days.'-DAYS.png" alt="'.$days.' DAYS"></td>
                                                     </tr>';
                                                     }
                              

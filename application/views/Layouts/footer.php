@@ -619,16 +619,17 @@
 
         function IsOfficialEmail(email) {
             let valid_email = $(email).val();
-            var re = /.+@(loanwalle)\.com$/;
+            var re = /.+@(paisaonsalary)\.com$/;
             var validEmail = re.test(valid_email);
             if (validEmail == true) {
                 $("#emailErr").html("");
                 return true;
             } else {
                 $(email).val("");
-                $("#emailErr").html("Acceptable domain name '@loanwalle.com'").css('color', 'red');
+                $("#emailErr").html("Acceptable domain name '@paisaonsalary.com'").css('color', 'red');
                 return false;
             }
+
 
         }
 

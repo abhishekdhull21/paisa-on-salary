@@ -286,11 +286,10 @@ class DocsController extends CI_Controller {
                     	          </tr>
                     
                     	          <tr bgcolor='#ededed'>
-                    	            <td height='20' style='color:#000;' valign='top' colspan='3'><strong>&nbsp;If you have any query regarding login.<br>Contact us on email - tech.team@loanwalle.com</strong></td>
+                    	            <td height='20' style='color:#000;' valign='top' colspan='3'><strong>&nbsp;If you have any query regarding login.<br>Contact us on email - ".getenv('TECH_EMAIL')."</strong></td>
                     	          </tr>
                     	        </table>";
 
-        //lw_send_email("meena.joshi@loanwalle.com", $email_subject, $email_message, 'shubham.agrawal@loanwalle.com,alok.nautiyal@loanwalle.com');
         lw_send_email(CTO_EMAIL, $email_subject, $email_message);
     }
 

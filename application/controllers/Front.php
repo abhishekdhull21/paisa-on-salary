@@ -48,16 +48,17 @@ class Front extends CI_Controller {
         $this->load->library('email',$config);
 
         $this->email->from($_POST['Email'], $_POST['Name']);
-        $this->email->to('jeevanamrittrust@gmail.com');
-        $this->email->subject("Jeevan Amrit Trust");
+
+        $this->email->to(INFO_EMAIL);
+        $this->email->subject(BRAND_NAME);
         $this->email->message($message);
 
         $this->email->send();
 
         $this->email->initialize($config);
-        $this->email->from('jeevanamrittrust@gmail.com');
+        $this->email->from(INFO_EMAIL);
         $this->email->to($_POST['Email']);
-        $this->email->subject("Jeevan Amrit Trust");
+        $this->email->subject(BRAND_NAME);
         $this->email->message($message);
 
         $this->email->send();

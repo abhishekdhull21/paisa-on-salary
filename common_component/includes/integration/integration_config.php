@@ -45,13 +45,13 @@ function integration_config($api_type = "", $api_sub_type = "") {
             $config_arr['UserName'] = "";
             $config_arr['UserPassword'] = "";
             $config_arr['RPMiddleWareUrl'] = "";
-            $config_arr['ApiUserId'] = "ajay@salaryontime.com";
+            $config_arr['ApiUserId'] = INFO_EMAIL;
             $config_arr['ApiPassword'] = "A1UrUUHE3ezATzr2C3u0";
             $config_arr['RPMiddleWareUrl'] = "";
            // $envSet = "production";
             if ($envSet == "production") {
                 $config_arr['RPMiddleWareUrl'] = "";
-                $config_arr['ApiUserId'] = "ajay@salaryontime.com";
+                $config_arr['ApiUserId'] = INFO_EMAIL;
                 $config_arr['ApiPassword'] = "A1UrUUHE3ezATzr2C3u0";
             }
 
@@ -149,13 +149,13 @@ function integration_config($api_type = "", $api_sub_type = "") {
             $config_arr['UserName'] = "";
             $config_arr['UserPassword'] = "";
             $config_arr['RPMiddleWareUrl'] = "";
-            $config_arr['ApiUserId'] = "ajay@salaryontime.com";
+            $config_arr['ApiUserId'] = INFO_EMAIL;
             $config_arr['ApiPassword'] = "A1UrUUHE3ezATzr2C3u0";
             $config_arr['RPMiddleWareUrl'] = "";
            // $envSet = "production";
             if ($envSet == "production") {
                 $config_arr['RPMiddleWareUrl'] = "";
-                $config_arr['ApiUserId'] = "ajay@salaryontime.com";
+                $config_arr['ApiUserId'] = INFO_EMAIL;
                 $config_arr['ApiPassword'] = "A1UrUUHE3ezATzr2C3u0";
             }
 

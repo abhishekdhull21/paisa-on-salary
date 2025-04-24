@@ -4,17 +4,6 @@ $white_list_internal_urls = array("sanction-esign-request", "sanction-esign-resp
 $white_list_internal_params = array("refstr", "lead_id");
 
 $blacklisted_urls = array("login","img-sys");
-
-// $file = FCPATH . "common_component/includes/functions.inc.php";
-// if (file_exists($file)) {
-//     require_once ($file);
-// }
-//  $to="akash.kushwaha@surya.com";
-//  $sub="Test email";
-//  $msg="Testing the mail";
-//  common_send_email($to,$sub,$msg);
-//$_GET = array("xxx"=>"yyyy", "zzz"=>"1' AND 1=1");
-//$_POST = array("kkk"=>array("my ))", "mmm'"));
 $_SESSION = array();
 
 $request_uri = urldecode($_SERVER['REQUEST_URI']);
@@ -319,8 +308,9 @@ if (($error_instances > 0 || $sql_threat_score > 21) && true) {
         fwrite($ErrorLog, strip_tags(str_replace("&gt;", ">", preg_replace("/<p>(.*)<\/p>/Uis", "$1\n", $pretty_error))) . "\n");
     }
 
+    $admin_email = getenv('ADMIN_EMAILS');
+    $to_array = array_map('trim', explode(',', $admin_email));
     $SUB = "LMS : Suspected breach attempt";
-    $to_array = array(0 => "ajay@salarayontime.com", 1 => "akash.kushwaha@salarayontime.com");
     $TOName = "Security Alerts";
     $post_str = "POST: " . json_encode($_POST);
     $get_str = "GET: " . json_encode($_GET);

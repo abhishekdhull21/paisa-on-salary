@@ -387,7 +387,7 @@ class DocsController extends CI_Controller {
                     	          </tr>
                     
                     	          <tr bgcolor='#ededed'>
-                    	            <td height='20' style='color:#000;' valign='top' colspan='3'><strong>&nbsp;If you have any query regarding login.<br>Contact us on email - tech.team@loanwalle.com</strong></td>
+                    	            <td height='20' style='color:#000;' valign='top' colspan='3'><strong>&nbsp;If you have any query regarding login.<br>Contact us on email - ".TECH_EMAIL."</strong></td>
                     	          </tr>
                     	        </table>";
 
