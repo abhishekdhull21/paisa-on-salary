@@ -6038,11 +6038,21 @@ Capitalized terms used herein but not defined shall have the same meanings given
 
         if (!empty($lead_id)) {
 
-            $leadsDetails = $this->db->select('LSF.lsf_id, LSF.lsf_remarks, LSF.lsf_created_on, S.m_sf_status_id, S.m_sf_status_name, U.name')
+            // $leadsDetails = $this->db->select('LSF.lsf_id, LSF.lsf_remarks, LSF.lsf_created_on, S.m_sf_status_id, S.m_sf_status_name, U.name')
+            //         ->from('lead_sanction_followups LSF')
+            //         ->join(' master_sanction_followup_status S', 'S.m_sf_status_id  = LSF.lsf_status_id', 'LEFT')
+            //         ->join('users U', 'LSF.lsf_user_id = U.user_id', 'LEFT')
+            //         ->where(['LSF.lsf_lead_id' => $lead_id, 'LSF.lsf_active' => 1, 'LSF.lsf_deleted' => 0])
+            //         ->order_by('LSF.lsf_id', 'DESC')
+            //         ->get();
+                $leadsDetails = $this->db->select('LSF.lsf_id, LSF.lsf_remarks, LSF.lsf_created_on, U.name')
                     ->from('lead_sanction_followups LSF')
-                    ->join(' master_sanction_followup_status S', 'S.m_sf_status_id  = LSF.lsf_status_id', 'LEFT')
                     ->join('users U', 'LSF.lsf_user_id = U.user_id', 'LEFT')
-                    ->where(['LSF.lsf_lead_id' => $lead_id, 'LSF.lsf_active' => 1, 'LSF.lsf_deleted' => 0])
+                    ->where([
+                        'LSF.lsf_lead_id' => $lead_id,
+                        'LSF.lsf_active' => 1,
+                        'LSF.lsf_deleted' => 0
+                    ])
                     ->order_by('LSF.lsf_id', 'DESC')
                     ->get();
         }

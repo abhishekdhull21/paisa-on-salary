@@ -509,6 +509,7 @@ $route['callbackba-novel-patterns'] = 'ApiCallBackController/callback_novel_bank
 $route['sanction-esign-request'] = 'ApiCallBackController/eSignSanctionLetterRequest';
 $route['sanction-esign-consent'] = 'ApiCallBackController/eSignConsentForm';
 $route['sanction-esign-response'] = 'ApiCallBackController/eSignSanctionLetterResponse';
+$route['sanction-uidai-verify-response/(:any)'] = 'ApiCallBackController/eSanctionUidaiVerifyResponse/$1';
 $route['aadhaar-veri-request'] = 'ApiCallBackController/digilockerRequest';
 $route['aadhaar-veri-response'] = 'ApiCallBackController/digilockerResponse';
 
@@ -544,6 +545,7 @@ $route['get-sanction-performance'] = 'PerformanceController/SanctionPerformanceP
 /* * *********************BRE RULE ENGINE************************************** */
 $route['call-bre-rule-engine'] = 'BreController/gernerateBreResult';
 $route['get-bre-rule-result'] = 'BreController/getBreRuleResult';
+$route['bypass_bureau_bre'] = 'BreController/bypassBureauBre';
 $route['save-bre-manual-decision'] = 'BreController/saveBreManualDecision';
 $route["bre-edit-application"] = 'BreController/breEditApplication';
 /* * ************************************************************** */

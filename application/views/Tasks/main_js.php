@@ -4022,7 +4022,7 @@ if (isset($leadDetails) && isset($leadDetails->lead_status_id) && isset($agent))
                     $('#saveReference').html('<span class="spinner-border spinner-border-sm mr-2" role="status"></span>Processing...').prop('disabled', true);
                 },
                 success: function(response) {
-                    getReferenceDetails('<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>');
+                    getReferenceDetails('<?= isset($leadDetails) ? $this->encrypt->encode($leadDetails->lead_id) : '' ?>');
                     if (response.msg) {
                         $("#insertReference")[0].reset();
                         catchSuccess(response.msg);
@@ -4049,7 +4049,7 @@ if (isset($leadDetails) && isset($leadDetails->lead_status_id) && isset($agent))
                 },
                 success: function(response) {
                     if (response.msg) {
-                        getCustomerBanking('<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>');
+                        getCustomerBanking('<?= isset($leadDetails) ? $this->encrypt->encode($leadDetails->lead_id) :''?>');
                         $("#addBeneficiary")[0].reset();
                         catchSuccess(response.msg);
                     } else {
@@ -4074,7 +4074,7 @@ if (isset($leadDetails) && isset($leadDetails->lead_status_id) && isset($agent))
                 },
                 success: function(response) {
                     if (response.msg) {
-                        getCustomerBanking('<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>');
+                        getCustomerBanking('<?= isset($leadDetails) ? $this->encrypt->encode($leadDetails->lead_id) :'' ?>');
                         $("#FormverifyDisbursalBank")[0].reset();
                         catchSuccess(response.msg);
                     } else {
@@ -4107,7 +4107,7 @@ if (isset($leadDetails) && isset($leadDetails->lead_status_id) && isset($agent))
                         if (response.errSession) {
                             window.location.href = "<?= base_url() ?>";
                         } else if (response.msg) {
-                            disbursalDetails('<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>');
+                            disbursalDetails('<?= isset($leadDetails) ? $this->encrypt->encode($leadDetails->lead_id) :'' ?>');
                             catchSuccess(response.msg);
                         } else {
                             catchError(response.err);
@@ -4199,7 +4199,7 @@ if (isset($leadDetails) && isset($leadDetails->lead_status_id) && isset($agent))
                     } else if (response.msg) {
                         $('#col_visit_id').empty();
                         $('#FormRequestForCollectionVisit')[0].reset();
-                        get_Visit_Request_lists('<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>');
+                        get_Visit_Request_lists('<?= isset($leadDetails) ? $this->encrypt->encode($leadDetails->lead_id) :'' ?>');
                         catchSuccess(response.msg);
                     } else {
                         catchError(response.err);
@@ -4233,7 +4233,7 @@ if (isset($leadDetails) && isset($leadDetails->lead_status_id) && isset($agent))
                 $('#saveReference').html('<span class="spinner-border spinner-border-sm mr-2" role="status"></span>Processing...').prop('disabled', true);
             },
             success: function(response) {
-                getReferenceDetails('<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>');
+                getReferenceDetails('<?= isset($leadDetails) ? $this->encrypt->encode($leadDetails->lead_id) :'' ?>');
                 if (response.msg) {
 
                     // $("#insertReference").load(location.href + " #insertReference");
@@ -4266,7 +4266,7 @@ if (isset($leadDetails) && isset($leadDetails->lead_status_id) && isset($agent))
             if (status == 'success') {
                 catchSuccess('Successfully Deleted');
                 $("#remove" + id).fadeOut("slow");
-                getReferenceDetails('<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>');
+                getReferenceDetails('<?= isset($leadDetails) ? $this->encrypt->encode($leadDetails->lead_id) :'' ?>');
             }
 
         });
@@ -4458,7 +4458,7 @@ if (isset($leadDetails) && isset($leadDetails->lead_status_id) && isset($agent))
                 if (response.errSession) {
                     window.location.href = "<?= base_url() ?>";
                 } else if (response.success_msg) {
-                    getVerificationDetails("<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>");
+                    getVerificationDetails("<?= isset($leadDetails) ? $this->encrypt->encode($leadDetails->lead_id) :'' ?>");
                     catchSuccess(response.success_msg);
                 } else {
                     ((email_verification_type == 1) ? $('#personalEmailVerification').prop('checked', false) : '');
@@ -4494,7 +4494,7 @@ if (isset($leadDetails) && isset($leadDetails->lead_status_id) && isset($agent))
 
                     catchSuccess(response.success_msg);
                     $('#api_download_bank_statement').html('Download Cart API Data').prop('disabled', true);
-                    getDataBankingAnalysis("<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>");
+                    getDataBankingAnalysis("<?= isset($leadDetails) ? $this->encrypt->encode($leadDetails->lead_id) :'' ?>");
 
 
                     var i = 30;
@@ -4557,7 +4557,7 @@ if (isset($leadDetails) && isset($leadDetails->lead_status_id) && isset($agent))
                 if (response.errSession) {
                     window.location.href = "<?= base_url() ?>";
                 } else if (response.success_msg) {
-                    getVerificationDetails("<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>");
+                    getVerificationDetails("<?= isset($leadDetails) ? $this->encrypt->encode($leadDetails->lead_id) :'' ?>");
                     catchSuccess(response.success_msg);
                 } else {
                     ((ocr_verification_type == 1) ? $('#aadhaarOcrVerification').prop('checked', false) : '');
@@ -4612,7 +4612,7 @@ if (isset($leadDetails) && isset($leadDetails->lead_status_id) && isset($agent))
                 } else if (response.success_msg) {
                     catchSuccess(response.success_msg);
                     $('#api_download_bank_statement').html('Download Cart API Data').prop('disabled', true);
-                    getDataBankingAnalysis("<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>");
+                    getDataBankingAnalysis("<?= isset($leadDetails) ? $this->encrypt->encode($leadDetails->lead_id) :'' ?>");
                 } else {
                     catchError(response.error_msg);
                 }
@@ -4734,7 +4734,7 @@ if (isset($leadDetails) && isset($leadDetails->lead_status_id) && isset($agent))
                 } else if (response.success_msg) {
                     catchSuccess(response.success_msg);
                     $('#api_download_finbox_bank_statement').html('Download Finbox API Data').prop('disabled', true);
-                    getFinBoxBankingDeviceData("<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>");
+                    getFinBoxBankingDeviceData("<?= isset($leadDetails) ? $this->encrypt->encode($leadDetails->lead_id) :'' ?>");
                 } else {
 
                     catchError(response.error_msg);
@@ -4768,7 +4768,7 @@ if (isset($leadDetails) && isset($leadDetails->lead_status_id) && isset($agent))
                     // alert(response.success_msg);
                     catchSuccess(response.success_msg);
                     $('#api_download_finbox_bank_statement').html('Download Finbox API Data').prop('disabled', true);
-                    getFinBoxBankingDeviceData("<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>");
+                    getFinBoxBankingDeviceData("<?= isset($leadDetails) ? $this->encrypt->encode($leadDetails->lead_id) :'' ?>");
 
                     var i = 10;
                     var timer = '';
@@ -4838,7 +4838,7 @@ if (isset($leadDetails) && isset($leadDetails->lead_status_id) && isset($agent))
                 } else if (response.success_msg) {
                     catchSuccess(response.success_msg);
                     $('#api_download_finbox_bank_statement').html('Download Cart API Data').prop('disabled', true);
-                    getFinBoxBankingDeviceData("<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>");
+                    getFinBoxBankingDeviceData("<?= isset($leadDetails) ? $this->encrypt->encode($leadDetails->lead_id) :'' ?>");
                 } else {
                     catchError(response.error_msg);
                 }
@@ -5452,7 +5452,7 @@ if (isset($leadDetails) && isset($leadDetails->lead_status_id) && isset($agent))
             $('#FormRequestForCollectionVisit #visit_type_id_1').attr('disabled', true);
         }
         get_Visit_Request_user_lists('<?= isset($leadDetails) &&  $this->encrypt->encode($leadDetails->lead_id) ?>', input.col_visit_id);
-        get_Visit_Request_lists('<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>');
+        get_Visit_Request_lists('<?= isset($leadDetails) ? $this->encrypt->encode($leadDetails->lead_id) :'' ?>');
         var visit_btn_name = "Save";
         var tab_btn_name = "Visit";
 
@@ -5544,7 +5544,7 @@ if (isset($leadDetails) && isset($leadDetails->lead_status_id) && isset($agent))
                 } else if (response.msg) {
                     $(field_blank).val("");
                     get_collection_followup_master_lists();
-                    getCollectionDetails('<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>');
+                    getCollectionDetails('<?= isset($leadDetails) ? $this->encrypt->encode($leadDetails->lead_id) :'' ?>');
                     get_collection_followup_master_lists();
                     catchSuccess(response.msg);
                 } else {
@@ -5684,7 +5684,7 @@ if (isset($leadDetails) && isset($leadDetails->lead_status_id) && isset($agent))
                     if (response.errSession) {
                         window.location.href = "<?= base_url() ?>";
                     } else if (response.msg) {
-                        get_Visit_Request_lists("<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>");
+                        get_Visit_Request_lists("<?= isset($leadDetails) ? $this->encrypt->encode($leadDetails->lead_id) :'' ?>");
                         catchSuccess(response.msg);
                     } else {
                         catchError(response.err);
@@ -5762,13 +5762,40 @@ if (isset($leadDetails) && isset($leadDetails->lead_status_id) && isset($agent))
         });
 
     }
+    function bypass_bureau_bre() {
+        // $('.approval-button').hide();
+        $.ajax({
+            url: '<?= base_url("bypass_bureau_bre") ?>',
+            type: 'POST',
+            data: {
+                enc_lead_id: "<?= isset($leadDetails) ? $this->encrypt->encode($leadDetails->lead_id) :'' ?>",
+                csrf_token
+            },
+            dataType: "json",
+            beforeSend: function() {
+                $("#cover").show();
+            },
+            success: function(response) {
+
+                if (response.errSession) {
+                    window.location.href = "<?= base_url() ?>";
+                } else {
+                    catchError(response.err);
+                }
+            },
+            complete: function() {
+                $("#cover").fadeOut(1750);
+            }
+        });
+
+    }
 
     function call_bre_edit_application() {
         $.ajax({
             url: '<?= base_url("bre-edit-application") ?>',
             type: 'POST',
             data: {
-                enc_lead_id: "<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>",
+                enc_lead_id: "<?= isset($leadDetails) ? $this->encrypt->encode($leadDetails->lead_id): '' ?>",
                 csrf_token
             },
             dataType: "json",
@@ -5799,7 +5826,7 @@ if (isset($leadDetails) && isset($leadDetails->lead_status_id) && isset($agent))
                 url: '<?= base_url("save-bre-manual-decision") ?>',
                 type: 'POST',
                 data: {
-                    enc_lead_id: "<?= isset($leadDetails) && $this->encrypt->encode($leadDetails->lead_id) ?>",
+                    enc_lead_id: "<?= isset($leadDetails) ? $this->encrypt->encode($leadDetails->lead_id) : '' ?>",
                     trans_rule_id: rule_id,
                     deviation_decision: deviation_decision,
                     deviation_remark: deviation_remark,

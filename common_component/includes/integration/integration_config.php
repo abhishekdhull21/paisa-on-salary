@@ -209,9 +209,9 @@ function integration_config($api_type = "", $api_sub_type = "") {
                 }
             } else if ($api_sub_type == "AADHAAR_ESIGN") {
                 if ($envSet == "development") {
-                    $config_arr['ApiUrl'] = "https://esign.signzy.tech/api/customers/customerid/aadhaaresigns";
+                    $config_arr['ApiUrl'] = "https://api.digitap.ai/ent/v1/kyc/okyc-generate-url";
                 } else if ($envSet == "production") {
-                    $config_arr['ApiUrl'] = "https://esign.signzy.tech/api/customers/customerid/aadhaaresigns";
+                    $config_arr['ApiUrl'] = "https://api.digitap.ai/ent/v1/kyc/okyc-generate-url";
                 }
             } else if ($api_sub_type == "DOWNLOAD_ESIGN_DOCUMENT") {
                 if ($envSet == "development") {

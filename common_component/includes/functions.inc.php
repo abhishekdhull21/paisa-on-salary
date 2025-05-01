@@ -105,7 +105,6 @@ function common_send_email(
 ) {
     $status = 0;
     $error = "";
-
     if (empty($to_email) || empty($subject) || empty($message)) {
         return ["status" => 0, "error" => "Email, subject, and message are required."];
     }
@@ -214,44 +213,71 @@ function common_send_email(
                 break;
 
             case 5: // Mailgun with HTML and attachment support
-                $url = 'https://api.mailgun.net/v3/' . getenv('MAIL_GUN_DOMAIN') . '/messages';
-                $fields = [
-                    'from' => $from_email,
-                    'to' => $to_email,
-                    'subject' => $subject
-                ];
+                $apiKey = getenv('MAIL_GUN_API_KEY');
+                $domain = getenv('MAIL_GUN_DOMAIN');
+                $url = "https://api.mailgun.net/v3/{$domain}/messages";
 
+                $fields = [
+                    'from'    => $from_email,
+                    'to'      => $to_email,
+                    'subject' => $subject,
+                ];
+            
+                // Handle message type
                 if (stripos($message, 'DOCTYPE html') !== false || stripos($message, '<html') !== false) {
                     $fields['html'] = $message;
                 } else {
                     $fields['text'] = $message;
                 }
-
-                if (!empty($cc_email)) $fields['cc'] = $cc_email;
-                if (!empty($attachment_path) && file_exists($attachment_path)) {
-                    $fields['attachment'] = new CURLFile($attachment_path);
+            
+                // Add CC if provided
+                if (!empty($cc_email)) {
+                    $fields['cc'] = $cc_email;
                 }
-
+            
+                $attachment_path = "temp_upload/".$attachment_path;
+                
+                // Attach file if provided and file exists
+                $fields['attachment'] = new CURLFile(
+                    realpath($attachment_path),
+                    mime_content_type($attachment_path),
+                    $fileName
+                );
+            
+                // Initialize cURL
                 $curl = curl_init();
+            
                 curl_setopt_array($curl, [
                     CURLOPT_URL => $url,
                     CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_CUSTOMREQUEST => 'POST',
-                    CURLOPT_USERPWD => 'api:' . getenv('MAIL_GUN_API_KEY'),
-                    CURLOPT_POSTFIELDS => $fields
+                    CURLOPT_POST => true,
+                    CURLOPT_USERPWD => "api:{$apiKey}",
+                    CURLOPT_POSTFIELDS => $fields,
+                    CURLOPT_SAFE_UPLOAD => true, // Important for file upload
                 ]);
-
+            
+                // echo "Email sent: ";
                 $response = curl_exec($curl);
-                $error_msg = curl_error($curl);
-                curl_close($curl);
-
-                $result = json_decode($response, true);
-                if (isset($result['message']) && stripos($result['message'], "Queued") !== false) {
-                    $status = 1;
-                } else {
-                    $error = $result['message'] ?? $error_msg ?? "Unknown error sending mail.";
+            
+                if (curl_errno($curl)) {
+                    // cURL error occurred
+                    $error_msg = curl_error($curl);
+                    curl_close($curl);
+                    return ['success' => false, 'error' => $error_msg];
                 }
-                break;
+            
+                $statusCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+                curl_close($curl);
+            
+                $result = json_decode($response, true);
+            
+                if ($statusCode == 200 && isset($result['message']) && stripos($result['message'], "Queued") !== false) {
+                    return ['success' => true];
+                } else {
+                    $error = $result['message'] ?? 'Unknown error sending email.';
+                    return ['success' => false, 'error' => $error];
+                }
+                // break;
 
             default:
                 $error = "Invalid email method specified.";
@@ -262,6 +288,93 @@ function common_send_email(
     }
 
     return ["status" => $status, "error" => $error];
+}
+
+function generate_aadhaar_verification_url_digitap($lead_id,$first_name,$mobile_number)
+{
+    // API Endpoint and Credentials
+    $apiUrl = "https://api.digitap.ai/ent/v1/kyc/okyc-generate-url"; // Replace with actual URL
+    $apiKey = getenv('DIGITAP_ACCESS_KEY'); // Or hardcode if needed
+    $website_url = WEBSITE_URL;
+    // $secretKey = getenv('DIGITAP_SECRET_KEY');
+
+    $uid =  uniqid("aadhaar_{$lead_id}_", true);
+    // Prepare request payload
+    $payload = json_encode([
+        'uid' => uniqid("aadhaar_{$lead_id}_", true),
+        "serviceId" =>"3",
+        'redirectUrl' => "{$website_url}kyc-callback", 
+        'firstName' => $first_name, 
+        'mobile' => $mobile_number ,   
+        'isHideExplanationScreen' => false ,   
+        'isSendOtp' => false ,   
+    ]);
+
+    // Set cURL options
+    $curl = curl_init();
+
+    // curl_setopt_array($curl, [
+    //     CURLOPT_URL => $url,
+    //     CURLOPT_RETURNTRANSFER => true,
+    //     CURLOPT_POST => true,
+    //     CURLOPT_HTTPHEADER => [
+    //         'Content-Type: application/json',
+    //         'authorization: ' . $apiKey,
+    //     ],
+    //     CURLOPT_POSTFIELDS => $payload,
+    // ]);
+    
+    // echo $first_name." ".$
+    $payload = [
+        "uid" => $uid,
+        "serviceId" => "3",
+        "firstName" => $first_name,
+        "mobile" => $mobile_number,
+        "isHideExplanationScreen" => false,
+        "isSendOtp" => false
+    ];
+    curl_setopt_array($curl, array(
+        CURLOPT_URL => $apiUrl,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'POST',
+        CURLOPT_POSTFIELDS =>json_encode($payload),
+        CURLOPT_HTTPHEADER => array(
+          'authorization: '.$apiKey,
+          'content-type: application/json'
+        ),
+      ));
+
+    $response = curl_exec($curl);
+    $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    $error = curl_error($curl);
+    curl_close($curl);
+
+    // Check for cURL errors or API errors
+    if ($error) {
+        return ['success' => false, 'error' => $error];
+    }
+
+    $result = json_decode($response, true);
+
+    if ($httpCode === 200 && isset($result['code']) && $result['code'] === '200') {
+        return [
+            'success' => true,
+            'url' => $result['model']['url'],
+            'transactionId' => $result['model']['transactionId'],
+            'kycUrl' => $result['model']['kycUrl'],
+        ];
+    } else {
+        return [
+            'success' => false,
+            'error' => $result['message'] ?? 'Unknown error from Digitap',
+            'raw' => $response,
+        ];
+    }
 }
 
 
@@ -286,12 +399,12 @@ function common_lead_thank_you_email($lead_id, $email, $name, $reference_no) {
                             <body>
                                 <table width="400" border="0" align="center" style="font-family:Arial, Helvetica, sans-serif; border:solid 1px #ddd; padding:10px; background:#f9f9f9;">
                                     <tr>
-                                        <td width="775" align="center"><img src="https://www.paisaonsalary.com/public/images/brand_logo.png"></td>
+                                        <td width="775" align="center"><img src="https://www.paisaonsalary.in/public/images/brand_logo.png"></td>
                                     </tr>
                                     <tr>
                                         <td style="text-align:center;"><table width="418" border="0" style="text-align:center; padding:20px; background:#fff;">
                                                 <tr>
-                                                    <td style="font-size:16px;"><img src="https://www.paisaonsalary.com/public/emailimages/Thank_you/thank-you.png" width="150" height="150" alt="thank-you"></td>
+                                                    <td style="font-size:16px;"><img src="https://www.paisaonsalary.in/public/emailimages/Thank_you/thank-you.png" width="150" height="150" alt="thank-you"></td>
                                                 </tr>
                                                 <tr>
                                                     <td style="font-size:16px;">&nbsp;</td>
@@ -319,11 +432,11 @@ function common_lead_thank_you_email($lead_id, $email, $name, $reference_no) {
                                     </tr>
                                     <tr>
                                         <td align="center">
-                                            <a href="https://www.facebook.com/paisaonsalary-105632195732824" target="_blank"><img src="https://www.paisaonsalary.com/public/image/paisaonsalary-facebook.png" class="socil-t" alt="paisaonsalary-facebook" style="width:30px;"></a>
-                                            <a href="https://twitter.com/paisaonsalary" target="_blank"><img src="https://www.paisaonsalary.com/public/image/paisaonsalary-twitter.png" class="socil-t" alt="paisaonsalary-twitter" style="width:30px;"></a>
-                                            <a href="https://www.linkedin.com/company/paisaonsalary" target="_blank"><img src="https://www.paisaonsalary.com/public/image/paisaonsalary-linkdin.png" class="socil-t" alt="paisaonsalary-linkdin" style="width:30px;"></a>
-                                            <a href="https://www.instagram.com/paisaonsalary_india" target="_blank"><img src="https://www.paisaonsalary.com/public/image/paisaonsalary-instagram.png" class="socil-t" alt="paisaonsalary-instagram" style="width:30px;"></a>
-                                            <a href="https://www.youtube.com/channel/UCUwrJB1IMvDiMctHHRKDLxw" target="_blank"><img src="https://www.paisaonsalary.com/public/image/paisaonsalary-youtube.png" class="socil-t" alt="paisaonsalary-youtube" style="width:30px;"></a>
+                                            <a href="https://www.facebook.com/paisaonsalary-105632195732824" target="_blank"><img src="https://www.paisaonsalary.in/public/image/paisaonsalary-facebook.png" class="socil-t" alt="paisaonsalary-facebook" style="width:30px;"></a>
+                                            <a href="https://twitter.com/paisaonsalary" target="_blank"><img src="https://www.paisaonsalary.in/public/image/paisaonsalary-twitter.png" class="socil-t" alt="paisaonsalary-twitter" style="width:30px;"></a>
+                                            <a href="https://www.linkedin.com/company/paisaonsalary" target="_blank"><img src="https://www.paisaonsalary.in/public/image/paisaonsalary-linkdin.png" class="socil-t" alt="paisaonsalary-linkdin" style="width:30px;"></a>
+                                            <a href="https://www.instagram.com/paisaonsalary_india" target="_blank"><img src="https://www.paisaonsalary.in/public/image/paisaonsalary-instagram.png" class="socil-t" alt="paisaonsalary-instagram" style="width:30px;"></a>
+                                            <a href="https://www.youtube.com/channel/UCUwrJB1IMvDiMctHHRKDLxw" target="_blank"><img src="https://www.paisaonsalary.in/public/image/paisaonsalary-youtube.png" class="socil-t" alt="paisaonsalary-youtube" style="width:30px;"></a>
                                         </td>
                                     </tr>
                                     <tr>

@@ -346,6 +346,21 @@ class Task_Model extends CI_Model {
         return $return;
     }
 
+    public function bypassBureauBre($lead_id)
+    {
+        $this->db->query("
+            UPDATE lead_bre_rule_result LBR
+            INNER JOIN master_bre_rule MB 
+                ON LBR.lbrr_rule_id = MB.m_bre_rule_id 
+                AND MB.m_bre_rule_catgory_id = 7
+            SET 
+                LBR.lbrr_rule_system_decision_id = 1,
+                LBR.lbrr_rule_manual_decision_id = 1
+            WHERE LBR.lbrr_lead_id = ?
+        ", [$lead_id]);
+    
+        return $this->db->affected_rows(); // optional: return how many rows updated
+    }
     public function collection($conditions = null, $limit = null, $start = null) {
 
         $select = 'LD.lead_id, LD.loan_no, LD.customer_id, LD.application_no, LD.lead_reference_no, LD.lead_data_source_id, LD.first_name, C.middle_name, C.sur_name, CONCAT_WS(" ",LD.first_name, C.middle_name, C.sur_name) as cust_full_name,';
@@ -4222,12 +4237,12 @@ Capitalized terms used herein but not defined shall have the same meanings given
         $num1 = (int) filter_var($pre_loan->loan_no, FILTER_SANITIZE_NUMBER_INT);
         $num1 = $num1 + 1;
 
-        $prefix_loan_no = "SOTK";
+        $prefix_loan_no = "POS";
 
         $envSet = ENVIRONMENT;
 
         if ($envSet == "production") {
-            $prefix_loan_no = "SOTK";
+            $prefix_loan_no = "POS";
         }
 
         $loan_no = $prefix_loan_no . str_pad(($num1), 11, "0", STR_PAD_LEFT); //16 chars
@@ -5165,6 +5180,7 @@ Capitalized terms used herein but not defined shall have the same meanings given
 
         $sql = $this->getCAMDetails($lead_id);
         $camDetails = $sql->row();
+        // print_r($camDetails);
 
         $sql1 = $this->getResidenceDetails($lead_id);
         $getResidenceDetails = $sql1->row();
@@ -5172,7 +5188,17 @@ Capitalized terms used herein but not defined shall have the same meanings given
         $enc_lead_id = $lead_id;
 
         $lead_data_source_id = $camDetails->lead_data_source_id;
-
+        require_once(COMPONENT_PATH . 'includes/functions.inc.php');
+        $link_value= '';
+        $verification_genrate_res  = generate_aadhaar_verification_url_digitap($lead_id,$camDetails->first_name,$camDetails->mobile);
+        // echo "verification_genrate_res: <br />";
+        // print_r($verification_genrate_res);
+        if ($verification_genrate_res['success']) {
+            // echo "Redirect user to: " . $verification_genrate_res['url'];
+            $link_value = $verification_genrate_res['url'];
+        } else {
+            echo "Error generating KYC link: " . $verification_genrate_res['error'];
+        }
 
         $email = $camDetails->email;
         // print_r($email); die;
@@ -5198,7 +5224,7 @@ Capitalized terms used herein but not defined shall have the same meanings given
             $cam_sanction_letter_file_name = $camDetails->cam_sanction_letter_file_name;
         }
         // print_r($camDetails); die;
-
+            // echo "cam_sanction_letter_file_name :".$cam_sanction_letter_file_name ;
         $sanction_date = DATE("d-m-Y", strtotime($camDetails->lead_credit_approve_datetime));
 
         $title = "";
@@ -5622,17 +5648,16 @@ Capitalized terms used herein but not defined shall have the same meanings given
                         </html>';
 
 
-        require_once(COMPONENT_PATH . 'includes/functions.inc.php');
 
         // $return_array = common_send_email($email, BRAND_NAME . '  | Sanction Letter : ' . $customer_name, $message);
 
         // print_r($return_array); die;
 
-        $return_array = common_send_email($email,  BRAND_NAME . '  | Sanction Letter : ' . $customer_name, $message, "", "", "", "", "", $cam_sanction_letter_file_name, 'sanction_letter.pdf');
+        $return_array = common_send_email($email,  BRAND_NAME . '  | Sanction Letter : ' .$fullname, $message, "", "", "", "", $cam_sanction_letter_file_name, 'sanction_letter.pdf');
 
         if (!empty($alternate_email)) {
 
-            $return_array = common_send_email($email,  BRAND_NAME . '  | Sanction Letter : ' . $customer_name, $message, "", "", "", "", "", $cam_sanction_letter_file_name, 'sanction_letter.pdf');
+            $return_array = common_send_email($alternate_email,  BRAND_NAME . '  | Sanction Letter : ' . $fullname, $message, "", "", "", "", $cam_sanction_letter_file_name, 'sanction_letter.pdf');
         }
 
         // $this->sent_sacntion_esign_sms($lead_id, $esign_short_url);
@@ -5910,8 +5935,8 @@ Capitalized terms used herein but not defined shall have the same meanings given
                                     <p><strong>Kasar Credit & Capital Private Limited</strong><br>
                                     G -51, Krishna Apra Business Square,Netaji Subhash Place, New Delhi - 110034,<br>
                                     +91-88000 02890,<br>
-                                    info@paisaonsalary.com,<br>
-                                    <a href="https://paisaonsalary.com">https://www.paisaonsalary.com</a><br>
+                                    info@paisaonsalary.in,<br>
+                                    <a href="https://paisaonsalary.in">https://www.paisaonsalary.in</a><br>
                                     Date : ' . $sanction_date . ' </p>
                                 </div>
                             <div class="customer">
@@ -5931,7 +5956,7 @@ Capitalized terms used herein but not defined shall have the same meanings given
                                     <li>Repayment Amount: ' . number_format(round($camDetails->repayment_amount, 0), 2) . '/-</li>
                                 </ul>
                                 <p>Your loan has been sanctioned with the above-mentioned terms and conditions. The loan amount will be disbursed directly to your designated bank account within ' . $sanction_date . ', subject to the completion of any remaining formalities.</p>
-                                <p>Please carefully review the loan agreement, including the terms, conditions, and repayment schedule. Should you have any questions or require clarification regarding the loan terms, feel free to contact our customer service team at +91-88000 02890 or email us at info@paisaonsalary.com .</p>
+                                <p>Please carefully review the loan agreement, including the terms, conditions, and repayment schedule. Should you have any questions or require clarification regarding the loan terms, feel free to contact our customer service team at +91-88000 02890 or email us at info@paisaonsalary.in .</p>
                                 <p>Kindly ensure that you adhere to the repayment schedule to avoid any unnecessary penalties or charges. Timely repayment will also help you maintain a positive credit history with our institution.</p>
                                 <p>We appreciate your trust in Kasar Credit & Capital Private Limited, and we assure you of our dedicated support in meeting your financial requirements.</p>
                                 <p>Thank you for choosing Kasar Credit & Capital Private Limited. We look forward to a mutually beneficial relationship.</p>
@@ -6005,7 +6030,7 @@ Capitalized terms used herein but not defined shall have the same meanings given
                             <div class="loan-terms">
                                 <p>Kindly Note:</p>
                                 <p>Non-payment of loan on time will adversely affect your Credit score, further reducing your chances of getting Re loan again. Upon approval, the processing fee will be deducted from your Sanction amount and the balance amount will be disbursed to your account.</p>
-                                <p>This Sanction letter is valid for 24 Hours only. You can Prepay/Repay the loan amount using our link <br> <a href="https://paisaonsalary.com/repay-loan"target="_blank"style="color: #4447fd; text-decoration: blink">Payment Link</a>
+                                <p>This Sanction letter is valid for 24 Hours only. You can Prepay/Repay the loan amount using our link <br> <a href="https://paisaonsalary.in/repay-loan"target="_blank"style="color: #4447fd; text-decoration: blink">Payment Link</a>
                                 </td>.</p>
 
                                 <h2>Agreed Terms and Conditions:</h2>
@@ -6071,7 +6096,7 @@ Capitalized terms used herein but not defined shall have the same meanings given
                     // TODO: TEMPLATE SHOULD BE UPDATED TO MATCH THE FINAL TEMPLATE
             $file_name = "sanction_letter_" . $lead_id . "_" . rand(1000, 9999) . ".pdf";
 
-            if (LMS_DOC_S3_FLAG == true) {
+            if ($this->config->item('LMS_DOC_S3_FLAG') == true) {
                 $file_path_with_name = TEMP_UPLOAD_PATH . $file_name;
             } else {
                 $file_path_with_name = UPLOAD_PATH . $file_name;
@@ -6115,11 +6140,11 @@ Capitalized terms used herein but not defined shall have the same meanings given
 
     public function calcAmount($input) {
         $loan_recommended = $input['loan_recommended'];
-        $obligations = $input['obligations'];
+        $obligations =  isset($input['obligations']) ? $input['obligations'] : 0;
         $monthly_salary = $input['monthly_salary'];
         $eligible_foir_percentage = $input['eligible_foir_percentage'];
         $roi = ($input['roi'] ? $input['roi'] : 1);
-        $user_type = $input['user_type'];
+        // $user_type = $input['user_type'];
         $processing_fee_percent = ($input['processing_fee_percent']) ? ($input['processing_fee_percent']) : 0;
         $disbursal_date = $input['disbursal_date'];
         $repayment_date = $input['repayment_date'];
@@ -6147,8 +6172,10 @@ Capitalized terms used herein but not defined shall have the same meanings given
         $data['total_admin_fee'] = $admin_fee;
         $data['net_disbursal_amount'] = $loan_recommended - $total_admin_fee;
         $data['final_foir_percentage'] = number_format((($loan_recommended + $obligations) / $monthly_salary) * 100, 2);
-        $data['foir_enhanced_by'] = number_format($data['final_foir_percentage'] - $eligible_foir_percentage, 2);
-
+        $finalFoir = is_numeric($data['final_foir_percentage']) ? (float)$data['final_foir_percentage'] : 0;
+        $eligibleFoir = is_numeric($eligible_foir_percentage) ? (float)$eligible_foir_percentage : 0;
+        
+        $data['foir_enhanced_by'] = number_format($finalFoir - $eligibleFoir, 2);
         return $data;
     }
 
@@ -6510,13 +6537,23 @@ Capitalized terms used herein but not defined shall have the same meanings given
 
         if (!empty($lead_id)) {
 
-            $leadsDetails = $this->db->select('LSF.lsf_id, LSF.lsf_remarks, LSF.lsf_created_on, S.m_sf_status_id, S.m_sf_status_name, U.name')
-                ->from('lead_sanction_followups LSF')
-                ->join(' master_sanction_followup_status S', 'S.m_sf_status_id  = LSF.lsf_status_id', 'LEFT')
-                ->join('users U', 'LSF.lsf_user_id = U.user_id', 'LEFT')
-                ->where(['LSF.lsf_lead_id' => $lead_id, 'LSF.lsf_active' => 1, 'LSF.lsf_deleted' => 0])
-                ->order_by('LSF.lsf_id', 'DESC')
-                ->get();
+            // $leadsDetails = $this->db->select('LSF.lsf_id, LSF.lsf_remarks, LSF.lsf_created_on, S.m_sf_status_id, S.m_sf_status_name, U.name')
+            //     ->from('lead_sanction_followups LSF')
+            //     ->join(' master_sanction_followup_status S', 'S.m_sf_status_id  = LSF.lsf_status_id', 'LEFT')
+            //     ->join('users U', 'LSF.lsf_user_id = U.user_id', 'LEFT')
+            //     ->where(['LSF.lsf_lead_id' => $lead_id, 'LSF.lsf_active' => 1, 'LSF.lsf_deleted' => 0])
+            //     ->order_by('LSF.lsf_id', 'DESC')
+            //     ->get();
+             $leadsDetails = $this->db->select('LSF.lsf_id, LSF.lsf_remarks, LSF.lsf_created_on, U.name')
+                    ->from('lead_sanction_followups LSF')
+                    ->join('users U', 'LSF.lsf_user_id = U.user_id', 'LEFT')
+                    ->where([
+                        'LSF.lsf_lead_id' => $lead_id,
+                        'LSF.lsf_active' => 1,
+                        'LSF.lsf_deleted' => 0
+                    ])
+                    ->order_by('LSF.lsf_id', 'DESC')
+                    ->get();
         }
 
         return $leadsDetails;
@@ -6691,7 +6728,7 @@ Capitalized terms used herein but not defined shall have the same meanings given
         $sql = $this->db->query($sql)->row();
 
         $to = $sql->email;
-        //$to = 'ajay@paisaonsalary.com';
+        //$to = 'ajay@paisaonsalary.in';
 
         if (!empty($to)) {
             $query = $this->db->select_sum('received_amount')->where(['payment_verification' => 1, 'collection_active' => 1, 'collection_deleted' => 0])->where('lead_id', $lead_id)->from('collection')->get()->row();
@@ -6801,8 +6838,8 @@ Capitalized terms used herein but not defined shall have the same meanings given
                                         </tr>
                                         <tr>
                                           <td><span style="font-size:17px;line-height: 25px;padding-bottom: 6px; text-align:justify; margin:25px 0px;">
-                                            <a href="https://apps.apple.com/app/paisaonsalary-sot/id6503283983" target="_blank"><img style="width: 10%;margin-left: 0%;" src="https://paisaonsalary.com/public/images/appleLogo.jpeg"></a></span>
-                	                        <span style="font-size:17px;line-height: 25px;padding-bottom: 6px; text-align:justify; margin:10px 0px;"><a href="https://play.google.com/store/apps/details?id=com.paisaonsalary.paisaonsalary" target="_blank"><img style="width: 10%;margin-left: 0%;" src="https://paisaonsalary.com/public/images/playLogo.jpeg"></a></span>
+                                            <a href="https://apps.apple.com/app/paisaonsalary-sot/id6503283983" target="_blank"><img style="width: 10%;margin-left: 0%;" src="https://paisaonsalary.in/public/images/appleLogo.jpeg"></a></span>
+                	                        <span style="font-size:17px;line-height: 25px;padding-bottom: 6px; text-align:justify; margin:10px 0px;"><a href="https://play.google.com/store/apps/details?id=com.paisaonsalary.paisaonsalary" target="_blank"><img style="width: 10%;margin-left: 0%;" src="https://paisaonsalary.in/public/images/playLogo.jpeg"></a></span>
                 	                        </td>
                                         </tr>
 
@@ -7279,17 +7316,17 @@ Capitalized terms used herein but not defined shall have the same meanings given
                                         </tr>
                                         <tr>
                                             <td colspan = "4" align = "center" valign = "middle" style = "border-top:solid 1px #ddd; padding-top:5px;">
-                                                <a href = "' . LINKEDIN_LINK . '" target = "_blank"> <img src = "https://paisaonsalary.com/public/images/linkedin.png" alt = "linkdin" width = "32" height = "32" /></a>
-                                                <a href = "' . INSTAGRAM_LINK . '" target = "_blank"> <img src = "https://paisaonsalary.com/public/images/instagram.png" alt = "instagram" width = "32" height = "32" /></a>
-                                                <a href = "' . FACEBOOK_LINK . '" target = "_blank"> <img src = "https://paisaonsalary.com/public/images/facebook.png" alt = "facebook" width = "32" height = "32" /></a>
-                                                <a href = "' . TWITTER_LINK . '" target = "_blank" style = "color:#fff;"> <img src = "https://paisaonsalary.com/public/images/twitter.png" alt = "twitter" width = "32" height = "32" /> </a>
-                                                <a href = "' . YOUTUBE_LINK . '" target = "_blank" style = "color:#fff;"> <img src = "https://paisaonsalary.com/public/images/youtube.png" alt = "youtube" width = "32" height = "32" /> </a>
-                                                <!-- <a href = "' . APPLE_STORE_LINK . '" target = "_blank"> <img src = "https://paisaonsalary.com/public/images/googleplay.png" alt = "google_play" width = "100" height = "30" style = "border-radius: 50px;"></a> -->
+                                                <a href = "' . LINKEDIN_LINK . '" target = "_blank"> <img src = "https://paisaonsalary.in/public/images/linkedin.png" alt = "linkdin" width = "32" height = "32" /></a>
+                                                <a href = "' . INSTAGRAM_LINK . '" target = "_blank"> <img src = "https://paisaonsalary.in/public/images/instagram.png" alt = "instagram" width = "32" height = "32" /></a>
+                                                <a href = "' . FACEBOOK_LINK . '" target = "_blank"> <img src = "https://paisaonsalary.in/public/images/facebook.png" alt = "facebook" width = "32" height = "32" /></a>
+                                                <a href = "' . TWITTER_LINK . '" target = "_blank" style = "color:#fff;"> <img src = "https://paisaonsalary.in/public/images/twitter.png" alt = "twitter" width = "32" height = "32" /> </a>
+                                                <a href = "' . YOUTUBE_LINK . '" target = "_blank" style = "color:#fff;"> <img src = "https://paisaonsalary.in/public/images/youtube.png" alt = "youtube" width = "32" height = "32" /> </a>
+                                                <!-- <a href = "' . APPLE_STORE_LINK . '" target = "_blank"> <img src = "https://paisaonsalary.in/public/images/googleplay.png" alt = "google_play" width = "100" height = "30" style = "border-radius: 50px;"></a> -->
                                             </td>
                                         </tr>
 
                                         <tr>
-                                            <td colspan = "4" align = "center" valign = "middle" bgcolor = "#8180e0" style = "padding:10px; color:#fff; font-weight:normal; font-size:16px;"><a href = "tel:' . REGISTED_MOBILE . '" style = "color:#fff; text-decoration:blink;"><img src = "https://paisaonsalary.in/public/images/phone.jpg" width = "16" height = "16" alt = "phone-icon" style = "margin-bottom: -2px;margin-right:3px"> ' . REGISTED_MOBILE . ' </a> <a href = "' . WEBSITE_URL . '" target = "_blank" style = "color:#fff; text-decoration:blink;"><img src = "https://paisaonsalary.com/public/images/favicon.png" width = "16" height = "16" alt = "web-icon" style = "margin-bottom: -2px;"> ' . WEBSITE . ' </a> <img src = "https://paisaonsalary.com/public/images/email.jpg" width = "16" height = "16" alt = "email-icon" style = "margin-bottom: -2px;"><a href = "mailto:' . INFO_EMAIL . '" style = "color:#fff; text-decoration:blink;">' . INFO_EMAIL . ' </a></td>
+                                            <td colspan = "4" align = "center" valign = "middle" bgcolor = "#8180e0" style = "padding:10px; color:#fff; font-weight:normal; font-size:16px;"><a href = "tel:' . REGISTED_MOBILE . '" style = "color:#fff; text-decoration:blink;"><img src = "https://paisaonsalary.in/public/images/phone.jpg" width = "16" height = "16" alt = "phone-icon" style = "margin-bottom: -2px;margin-right:3px"> ' . REGISTED_MOBILE . ' </a> <a href = "' . WEBSITE_URL . '" target = "_blank" style = "color:#fff; text-decoration:blink;"><img src = "https://paisaonsalary.in/public/images/favicon.png" width = "16" height = "16" alt = "web-icon" style = "margin-bottom: -2px;"> ' . WEBSITE . ' </a> <img src = "https://paisaonsalary.in/public/images/email.jpg" width = "16" height = "16" alt = "email-icon" style = "margin-bottom: -2px;"><a href = "mailto:' . INFO_EMAIL . '" style = "color:#fff; text-decoration:blink;">' . INFO_EMAIL . ' </a></td>
                                         </tr>
                                     </table>
                                 </body>

@@ -903,7 +903,7 @@ class DisbursalController extends CI_Controller {
                     // }
 
 
-                    $fetch = 'CAM.cam_id, CAM.loan_recommended, CAM.roi, CAM.processing_fee_percent, CAM.disbursal_date, CAM.repayment_date';
+                    $fetch = 'CAM.cam_id, CAM.loan_recommended, CAM.roi, CAM.processing_fee_percent, CAM.disbursal_date, CAM.repayment_date, CAM.cam_appraised_obligations, CAM.cam_appraised_monthly_income, CAM.eligible_foir_percentage';
 
                     $query = $this->Tasks->select(['CAM.lead_id' => $lead_id, 'CAM.cam_active' => 1, 'CAM.cam_deleted' => 0], $fetch, "credit_analysis_memo CAM");
                     $camDetails = $query->row();
@@ -920,7 +920,10 @@ class DisbursalController extends CI_Controller {
                             'roi' => $camDetails->roi,
                             'processing_fee_percent' => $camDetails->processing_fee_percent,
                             'disbursal_date' => date('Y-m-d', strtotime($disbursal_date)),
-                            'repayment_date' => $camDetails->repayment_date
+                            'obligations' => $camDetails->cam_appraised_obligations,
+                            'monthly_salary' => $camDetails->cam_appraised_monthly_income,
+                            'repayment_date' => $camDetails->repayment_date,
+                            'eligible_foir_percentage' => $camDetails->repayment_date,
                         ];
 
                         $calcAmount = $this->Tasks->calcAmount($Arr_input);

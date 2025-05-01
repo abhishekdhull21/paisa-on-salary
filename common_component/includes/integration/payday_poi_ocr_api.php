@@ -540,8 +540,8 @@ function aadhaar_ocr_api_call($method_id, $lead_id = 0, $request_array = array()
             $request_array['ocr_file_1'] = $aadhaar_front_doc_data['file'];
             $request_array['ocr_file_2'] = $aadhaar_back_doc_data['file'];
 
-            $front="https://paisaonsalary.com/upload/".$request_array['ocr_file_1'];
-            $back="https://paisaonsalary.com/upload/".$request_array['ocr_file_2'];
+            $front="https://paisaonsalary.in/upload/".$request_array['ocr_file_1'];
+            $back="https://paisaonsalary.in/upload/".$request_array['ocr_file_2'];
 
             // print_r($request_array);die ;
 
@@ -894,8 +894,8 @@ function aadhaar_mask_api_call($method_id, $lead_id = 0, $request_array = array(
             $request_array['ocr_file_1'] = $aadhaar_front_doc_data['file'];
             $request_array['ocr_file_2'] = $aadhaar_back_doc_data['file'];
 
-            $front="https://paisaonsalary.com/upload/".$request_array['ocr_file_1'];
-            $back="https://paisaonsalary.com/upload/".$request_array['ocr_file_2'];
+            $front="https://paisaonsalary.in/upload/".$request_array['ocr_file_1'];
+            $back="https://paisaonsalary.in/upload/".$request_array['ocr_file_2'];
 
             $identity_return_array = signzy_identity_object_api_call('individualPan', $lead_id, $request_array);
 

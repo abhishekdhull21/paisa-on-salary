@@ -89,6 +89,25 @@ class BreController extends CI_Controller {
             echo json_encode($json);
         }
     }
+    public function bypassBureauBre() {
+        $json = array();
+        $lead_id = intval($this->encrypt->decode($_POST['enc_lead_id']));
+        if (empty($_SESSION['isUserSession']['user_id'])) {
+            $json['errSession'] = "Session Expired.";
+            echo json_encode($json);
+            return false;
+        } else if (empty($lead_id)) {
+            $json['err'] = "Missing Lead Id.";
+            echo json_encode($json);
+            return false;
+        } else {
+
+            $this->Tasks->bypassBureauBre($lead_id);
+            $json['success'] = true;
+            $json["message"] = "By pass done!";
+            echo json_encode($json);
+        }
+    }
 
     public function saveBreManualDecision() {
         $json = array();

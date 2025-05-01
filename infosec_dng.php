@@ -5,6 +5,7 @@ $white_list_internal_params = array("refstr", "lead_id");
 
 $blacklisted_urls = array("login","img-sys");
 $_SESSION = array();
+$string_print= "";
 
 $request_uri = urldecode($_SERVER['REQUEST_URI']);
 $request_http_user_agent = urldecode($_SERVER["HTTP_USER_AGENT"]);

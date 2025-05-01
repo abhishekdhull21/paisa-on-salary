@@ -112,7 +112,7 @@ function routemobile_sms_sent_api_call($sms_type_id, $lead_id = 0, $request_arra
             $template_id = "1707171353065890872";
             $headerId = "KASARC";
 
-            $input_message = "Dear customer, $otp is the OTP for your login at PaisaOnSalary. In case you have not requested this, please contact us at info@paisaonsalary.com KASAR";
+            $input_message = "Dear customer, $otp is the OTP for your login at PaisaOnSalary. In case you have not requested this, please contact us at info@paisaonsalary.com POS";
         } else if ($sms_type_id == 2) {
 
             if (empty($cust_name)) {

@@ -7,8 +7,9 @@ class Collection_Model extends CI_Model {
     function __construct() {
         parent::__construct();
         date_default_timezone_set('Asia/Kolkata');
-        define("ip", $this->input->ip_address());
-    }
+        if (!defined('ip')) {
+            define('ip', $this->input->ip_address());
+        }    }
 
     public $visit_type = array(1 => 'Residence', 2 => 'Office');
 

@@ -230,3 +230,7 @@ define("FESTIVAL_OFFICIAL_NUMBER", WEBSITE_URL . "public/salaryontime.in/emailim
 define("FESTIVAL_LINE", WEBSITE_URL . "public/salaryontime.in/emailimages/festiv/image/line.png");
 
 define("BLOG", WEBSITE_URL . "public/blog/");
+
+
+define("BY_PASS_OCR_KYC", TRUE);
+

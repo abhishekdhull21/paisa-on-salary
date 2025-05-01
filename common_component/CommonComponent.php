@@ -13,9 +13,9 @@ $xco_path = FCPATH . 'common_component/';
 
 define("COMP_PATH", $xco_path);
 define("COMP_ENVIRONMENT", 'development'); //production
-define("COMP_DOC_URL", 'https://paisaonsalary.com/direct-document-file/'); //production
-define("COMP_CRM_URL", 'https://paisaonsalary.com/');
-define("COMP_WEBSITE_URL", 'https://paisaonsalary.com/');
+define("COMP_DOC_URL", 'https://crm.paisaonsalary.in/direct-document-file/'); //production
+define("COMP_CRM_URL", 'https://crm.paisaonsalary.in/');
+define("COMP_WEBSITE_URL", 'https://crm.paisaonsalary.in/');
 define("COMP_DOC_S3_FLAG", true); //true=> Store in S3 bucket , false=> Physical store.
 define("COMP_DOC_PATH", FCPATH . 'upload' . DIRECTORY_SEPARATOR);
 require_once(COMP_PATH . "/includes/functions.inc.php");
@@ -108,6 +108,15 @@ class CommonComponent {
         require_once(COMP_PATH . '/includes/integration/payday_aadhaar_esign_api.php');
 
         $return_array = aadhaar_esign_api_call('UPLOAD_ESIGN_FILE', $lead_id, $request_array);
+
+        return $return_array;
+    }
+    
+    public function call_esign_api_digitap($lead_id, $request_array = array()) {
+
+        require_once(COMP_PATH . '/includes/integration/payday_aadhaar_esign_api_digitap.php');
+
+        $return_array = aadhaar_esign_api_call_digitap('AADHAAR_VERIFY', $lead_id, $request_array);
 
         return $return_array;
     }

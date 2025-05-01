@@ -85,7 +85,7 @@ class ApiCallBackController extends CI_Controller {
 
                         $CommonComponent = new CommonComponent();
 
-                        $esign_return = $CommonComponent->call_esign_api($lead_id, $request_array);
+                        $esign_return = $CommonComponent->call_esign_api_digitap($lead_id, $request_array);
 
                         $message = '<p style="text-align : center;">eSign Process...</p>';
 
@@ -291,6 +291,162 @@ class ApiCallBackController extends CI_Controller {
         exit;
     }
 
+    
+    public function eSanctionUidaiVerifyResponse($lead_id) {
+        $return_status = 0;
+        $user_id = !empty($_SESSION['isUserSession']['user_id']) ? $_SESSION['isUserSession']['user_id'] : NULL;
+
+           // Get query parameters from URL
+        $txnId = isset($_GET['txnId']) ? $_GET['txnId'] : null;
+        $success = isset($_GET['success']) ? $_GET['success'] : null;
+        $errorCode = isset($_GET['errorCode']) ? $_GET['errorCode'] : null;
+        $errMsg = isset($_GET['errMsg']) ? urldecode($_GET['errMsg']) : null;
+
+        // Example usage
+        if ($success === 'false') {
+            // Log or handle the error
+            $message = "eKYC failed for txnId $txnId with error: $errorCode - $errMsg";
+            error_log("eKYC failed for txnId $txnId with error: $errorCode - $errMsg");
+        }
+
+        if($success === 'true'){
+            if (isset($lead_id)) {
+
+
+
+                if (!empty($lead_id)) {
+
+                    $appDataReturnArr = $this->IntegrationModel->getLeadDetails($lead_id);
+
+                    if ($appDataReturnArr['status'] === 1) {
+
+                        $applicationDetails = $appDataReturnArr['app_data'];
+
+                        if ($applicationDetails['lead_status_id'] == 12) {
+
+                            // require_once (COMPONENT_PATH . 'CommonComponent.php');
+
+                            // $CommonComponent = new CommonComponent();
+
+                            // $esign_download_return = $CommonComponent->download_esign_document_api($lead_id);
+                        
+                            // if ($esign_download_return['status'] == 5) {
+
+                                // if (!empty($esign_download_return['esigned_file_url'])) {
+
+                                //     $file_basename = basename($esign_download_return['esigned_file_url']);
+
+                                //     file_put_contents(TEMP_UPLOAD_PATH . $file_basename, file_get_contents($esign_download_return['esigned_file_url']));
+
+                                //     $tmp_file_ext = pathinfo(TEMP_UPLOAD_PATH . $file_basename, PATHINFO_EXTENSION);
+
+                                //     $upload_esign = uploadDocument(TEMP_UPLOAD_PATH . $file_basename, $lead_id, 2, $tmp_file_ext);
+
+                                //     if ($upload_esign['status'] == 1) {
+                                //         $this->IntegrationModel->update('credit_analysis_memo', ['lead_id' => $lead_id], ['cam_sanction_letter_esgin_file_name' => $upload_esign['file_name'], 'cam_sanction_letter_esgin_on' => date("Y-m-d H:i:s")]);
+                                //         unlink(TEMP_UPLOAD_PATH . $file_basename);
+                                //     } else {
+                                //         $message = "eSign File not uploaded.";
+                                //     }
+                                // } else {
+                                //     $message = "eSign File not generated.";
+                                // }
+
+                                $loanDataReturnArr = $this->IntegrationModel->getLeadLoanDetails($lead_id);
+
+                                if ($loanDataReturnArr['status'] === 1) {
+
+                                    $loanDetails = $loanDataReturnArr['loan_data'];
+                                    $email = $applicationDetails['email'];
+                                    $loan_id = $loanDetails['loan_id'];
+
+                                    if (empty($loanDetails['loanAgreementResponse'])) {
+
+                                        $status = 'DISBURSAL-NEW';
+                                        $stage = 'S20';
+                                        $lead_status_id = 25;
+
+                                        $dataLoan = [
+                                            "status" => $status,
+                                            "loan_status_id" => $lead_status_id,
+                                            "loanAgreementResponse" => 1,
+                                            "mail" => $email,
+                                            "agrementUserIP" => $_SERVER['REMOTE_ADDR'],
+                                            "agrementResponseDate" => date("Y-m-d H:i:s"),
+                                        ];
+
+                                        $conditions = ['loan_id' => $loan_id];
+
+                                        $result = $this->db->where($conditions)->update('loan', $dataLoan);
+
+                                        if ($result) {
+
+                                            $dataLeads = [
+                                                'status' => $status,
+                                                'stage' => $stage,
+                                                'lead_status_id' => $lead_status_id,
+                                                'updated_on' => date("Y-m-d H:i:s")
+                                            ];
+
+                                            $conditions = ['lead_id' => $lead_id];
+
+                                            $result = $this->db->where($conditions)->update('leads', $dataLeads);
+                                            if ($result) {
+
+                                                $lead_followup_insert_array = [
+                                                    'lead_id' => $lead_id,
+                                                    'customer_id' => $applicationDetails['customer_id'],
+                                                    'user_id' => $user_id,
+                                                    'status' => $status,
+                                                    'stage' => $stage,
+                                                    'lead_followup_status_id' => $lead_status_id,
+                                                    'remarks' => "Sanction letter acceptance given by customer",
+                                                    'created_on' => date("Y-m-d H:i:s")
+                                                ];
+
+                                                $this->IntegrationModel->insert('lead_followup', $lead_followup_insert_array);
+
+                                                $return_status = 1;
+                                                $message = 'You have successfully eSigned the Sanction Letter. We will get back to you soon.';
+                                            } else {
+                                                $message = "Unable to update lead details of application.";
+                                            }
+                                        } else {
+                                            $message = "Unable to update loan details of application.";
+                                        }
+                                    } else {
+                                        $message = "Application has been already accepted and move to next step.";
+                                    }
+                                } else {
+                                    $message = "Unable to find loan details of application.";
+                                }
+                            // } else {
+                            //     $message = $esign_download_return['errors'];
+                            // }
+                        } else if ($applicationDetails['lead_status_id'] == 25) {
+                            $return_status = 1;
+                            $message = 'You have successfully eSigned the Sanction Letter. We will get back to you soon..';
+                        } else {
+                            $message = "Application has been move to next step..";
+                        }
+                    } else {
+                        $message = "Application does not exist.";
+                    }
+                } else {
+                    $message = "Unable to decrypt application reference";
+                }
+            } else {
+                $message = "Missing application reference.";
+            }
+        }
+        if ($return_status == 1) {
+            $message = $this->thank_you_html($message);
+        } else {
+            $message = $this->error_page_html($message);
+        }
+        echo $message;
+        exit;
+    }
     public function loanAgreementLetterResponse() {
         $return_status = 0;
         $user_id = !empty($_SESSION['isUserSession']['user_id']) ? $_SESSION['isUserSession']['user_id'] : NULL;

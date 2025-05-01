@@ -120,7 +120,7 @@
 </div>
 <?php //echo '<pre>';print_r($leadDetails); ?>
 <?php
-if ($leadDetails->customer_executive_reloan_flag == 0) {
+if (isset($leadDetails->customer_executive_reloan_flag) && $leadDetails->customer_executive_reloan_flag == 0) {
     if (in_array(agent, ["CA","CO1", "CO2", "CO3", "CO4"]) && in_array($leadDetails->lead_status_id, [14, 16, 19])) {
         ?>
         <div class="footer-support">

@@ -31,10 +31,10 @@ function bre_quote_engine($lead_id, $request_array = array()) {
             $employment_data = $customerEmploymentDetails['emp_data'];
         }
 
-        $customer_obligations = $app_data['obligations'];
-        $customer_office_email = $app_data['alternate_email'];
-        $customer_residence_type = $app_data['current_residence_type'];
-        $current_city_id = $app_data['city_id'];
+        $customer_obligations =isset($app_data['obligations']) ? $app_data['obligations'] : '';
+        $customer_office_email = isset($app_data['alternate_email']) ? $app_data['alternate_email'] :'';
+        $customer_residence_type = isset($app_data['current_residence_type']) ? $app_data['current_residence_type']:'';
+        $current_city_id =isset($app_data['city_id']) ?  $app_data['city_id'] : '';
         $current_city_category = "";
         $current_city_is_sourcing = "";
         $current_city_name = "";
@@ -61,7 +61,7 @@ function bre_quote_engine($lead_id, $request_array = array()) {
 
         $monthly_salary = !empty($cam_data['cam_appraised_monthly_income']) ? $cam_data['cam_appraised_monthly_income'] : $customer_monthly_income;
 
-        $obligations = $customer_obligations;
+        $obligations = $customer_obligations ?? 0;
 
         $foir_percent = 0;
 
@@ -139,6 +139,9 @@ function bre_quote_engine($lead_id, $request_array = array()) {
             }
         }
 
+        $monthly_salary = floatval($monthly_salary);
+        $obligations = floatval($obligations);
+        $foir_percent = floatval($foir_percent);
         $eligible_foir_percentage = number_format($foir_percent * 100, 2);
         $max_loan_amount = round((($monthly_salary - $obligations) * $foir_percent), 0);
         $min_loan_amount = 5000;
@@ -169,7 +172,7 @@ function bre_rule_engine($lead_id, $request_array = array()) {
     $bre_rule_result_data = "";
     $black_listed_data = "";
     $customer_reference_data = "";
-    $aadhaar_log_data = "";
+    $aadhaar_log_data = BY_PASS_OCR_KYC ? 1 : "";
     $pan_log_data = "";
     $cam_data = "";
     $active_loan_data = "";
@@ -180,7 +183,7 @@ function bre_rule_engine($lead_id, $request_array = array()) {
     $bank_account_data = "";
     $bank_analysis_data = "";
     $user_type = "";
-    $pancard_ocr_data = "";
+    $pancard_ocr_data = BY_PASS_OCR_KYC ? 1 : "";
 
     $master_employment = [1 => "Salaried", 2 => "Self Employed"];
 
@@ -289,8 +292,11 @@ function bre_rule_engine($lead_id, $request_array = array()) {
             $bank_account_data = $pennyDropDetails['bank_acc_data'];
             $bank_account_data = str_replace('\"', '"', $bank_account_data['bav_response']);
             $bank_account_data = json_decode($bank_account_data, true, 512, JSON_INVALID_UTF8_IGNORE);
-            $bank_account_number = trim($bank_account_data['essentials']['beneficiaryAccount']);
-            $bank_account_ifsc_code = strtoupper(trim($bank_account_data['essentials']['beneficiaryIFSC']));
+            if(isset($bank_account_data['essentials'])){
+
+                $bank_account_number = trim($bank_account_data['essentials']['beneficiaryAccount']);
+                $bank_account_ifsc_code = strtoupper(trim($bank_account_data['essentials']['beneficiaryIFSC']));
+            }
             $bank_account_status = strtoupper($bank_account_data['result']['active']);
             $bank_account_name_match_status = strtoupper($bank_account_data['result']['nameMatch']);
             $bank_account_name_match_score = strtoupper($bank_account_data['result']['nameMatchScore']);
@@ -352,14 +358,14 @@ function bre_rule_engine($lead_id, $request_array = array()) {
         $customer_office_email_verified_status = (trim(strtoupper($app_data['alternate_email_verified_status'])) == "YES") ? "YES" : "NO";
 
         $customer_aadhar_no = $app_data['aadhar_no'];
-        $customer_digital_ekyc_flag = $app_data['customer_digital_ekyc_flag'];
+        $customer_digital_ekyc_flag = BY_PASS_OCR_KYC ? 1 : $app_data['customer_digital_ekyc_flag'];
         $customer_residence_pincode = $app_data['cr_residence_pincode'];
         $customer_aadhaar_pincode = $app_data['aa_cr_residence_pincode'];
-        $aadhaar_ocr_verified_status = $app_data['aadhaar_ocr_verified_status'];
+        $aadhaar_ocr_verified_status = BY_PASS_OCR_KYC ? 1 : $app_data['aadhaar_ocr_verified_status'];
 
         $customer_pancard = $app_data['pancard'];
-        $pancard_verified_status = $app_data['pancard_ocr_verified_status'];
-        $pancard_ocr_verified_status = $app_data['pancard_ocr_verified_status'];
+        $pancard_verified_status = BY_PASS_OCR_KYC ? 1 : $app_data['pancard_ocr_verified_status'];
+        $pancard_ocr_verified_status =BY_PASS_OCR_KYC ? 1 :  $app_data['pancard_ocr_verified_status'];
 
         $current_city_id = $app_data['city_id'];
         $current_city_category = "";
@@ -573,7 +579,7 @@ function bre_rule_engine($lead_id, $request_array = array()) {
         //     $office_email_verification_rule_manual_decision_id = 2;
         // }
 
-        insertBreRuleResult($lead_id, $office_email_verification_rule_id, $office_email_verification_rule_name, $office_email_verification_rule_cutoff_value, $office_email_verification_rule_actual_value, $office_email_verification_rule_relevant_inputs, $office_email_verification_rule_system_decision_id, $office_email_verification_rule_manual_decision_id);
+        // insertBreRuleResult($lead_id, $office_email_verification_rule_id, $office_email_verification_rule_name, $office_email_verification_rule_cutoff_value, $office_email_verification_rule_actual_value, $office_email_verification_rule_relevant_inputs, $office_email_verification_rule_system_decision_id, $office_email_verification_rule_manual_decision_id);
 
         $aadhaar_verification_rule_id = 8;
         $aadhaar_verification_rule_name = "Aadhaar EKYC Verification";
@@ -685,7 +691,7 @@ function bre_rule_engine($lead_id, $request_array = array()) {
         //     $dob_match_rule_manual_decision_id = 3;
         // }
 
-        insertBreRuleResult($lead_id, $dob_match_rule_id, $dob_match_rule_name, $dob_match_rule_cutoff_value, $dob_match_rule_actual_value, $dob_match_rule_relevant_inputs, $dob_match_rule_system_decision_id, $dob_match_rule_manual_decision_id);
+        // insertBreRuleResult($lead_id, $dob_match_rule_id, $dob_match_rule_name, $dob_match_rule_cutoff_value, $dob_match_rule_actual_value, $dob_match_rule_relevant_inputs, $dob_match_rule_system_decision_id, $dob_match_rule_manual_decision_id);
 
         $loan_amount_rule_id = 15;
         $loan_amount_rule_name = "Min and Max loan amount";
@@ -855,12 +861,12 @@ function bre_rule_engine($lead_id, $request_array = array()) {
         $bank_doc_verification_rule_id = 11;
         $bank_doc_verification_rule_name = "Banking Document";
         $bank_doc_verification_rule_cutoff_value = "Bank Statement uploaded & Banking Analysis => Yes";
-        $bank_doc_verification_rule_actual_value = ['Bank Statement uploaded & Banking Analysis' => (!empty($bank_analysis_data) ? "Yes" : "No")];
-        $bank_doc_verification_rule_relevant_inputs = ["bank_statement_analysis" => (!empty($bank_analysis_data) ? "Yes" : "No")];
+        $bank_doc_verification_rule_actual_value = ['Bank Statement uploaded & Banking Analysis' => (!empty($bank_analysis_data) || BY_PASS_OCR_KYC ? "Yes" : "No")];
+        $bank_doc_verification_rule_relevant_inputs = ["bank_statement_analysis" => (!empty($bank_analysis_data) || BY_PASS_OCR_KYC  ? "Yes" : "No")];
         $bank_doc_verification_rule_system_decision_id = 0;
         $bank_doc_verification_rule_manual_decision_id = 0;
 
-        if (!empty($bank_analysis_data)) {
+        if (!empty($bank_analysis_data) || BY_PASS_OCR_KYC) {
             $bank_doc_verification_rule_system_decision_id = 1;
             $bank_doc_verification_rule_manual_decision_id = 1;
         } else if (empty($bank_analysis_data)) {
@@ -901,12 +907,27 @@ function bre_rule_engine($lead_id, $request_array = array()) {
         $bank_statement_account_rule_name = "Bank Statement & Bank Account Match (API)";
         $bank_statement_account_rule_cutoff_value = "Bank Statement & Bank Account Match => Yes";
         $bank_statement_account_rule_actual_value = "";
-        $bank_statement_account_rule_relevant_inputs = ["bank_analysis_account_no" => $bank_analysis_account_no, "bank_analysis_ifsc_code" => $bank_analysis_account_ifsc_code, "bank_account_number" => $bank_account_number, "bank_account_ifsc_code" => $bank_account_ifsc_code];
+
+        if (!empty($bankAnalysisDetails['status']) && $bankAnalysisDetails['status'] == 1) {
+            $bank_statement_account_rule_relevant_inputs = [
+                "bank_analysis_account_no" => $bank_analysis_account_no,
+                "bank_analysis_ifsc_code" => $bank_analysis_account_ifsc_code,
+                "bank_account_number" => $bank_account_number,
+                "bank_account_ifsc_code" => $bank_account_ifsc_code
+            ];
+        } else {
+            $bank_statement_account_rule_relevant_inputs = [
+                "bank_analysis_account_no" => null,
+                "bank_analysis_ifsc_code" => null,
+                "bank_account_number" => null,
+                "bank_account_ifsc_code" => null
+            ];
+        }
         //$bank_statement_account_rule_relevant_inputs = ["bank_analysis_account_no" => $bank_analysis_account_no, "bank_analysis_ifsc_code" => $bank_analysis_account_ifsc_code];
         $bank_statement_account_rule_system_decision_id = 0;
         $bank_statement_account_rule_manual_decision_id = 0;
 
-        if (!empty($bank_analysis_account_no) && !empty($bank_account_number) && substr($bank_analysis_account_no, -4, 4) == substr($bank_account_number, -4, 4)) {
+        if ($bankAnalysisDetails['status'] == 1 && !empty($bank_analysis_account_no) && !empty($bank_account_number) &&  substr($bank_analysis_account_no, -4, 4) == substr($bank_account_number, -4, 4)) {
             $bank_statement_account_rule_system_decision_id = 1;
             $bank_statement_account_rule_manual_decision_id = 1;
             $bank_statement_account_rule_actual_value = ['Bank Statement & Bank Account Match' => "Yes"];
@@ -922,14 +943,15 @@ function bre_rule_engine($lead_id, $request_array = array()) {
         insertBreRuleResult($lead_id, $bank_statement_account_rule_id, $bank_statement_account_rule_name, $bank_statement_account_rule_cutoff_value, $bank_statement_account_rule_actual_value, $bank_statement_account_rule_relevant_inputs, $bank_statement_account_rule_system_decision_id, $bank_statement_account_rule_manual_decision_id);
 
         $bank_statement_balance_rule_id = 19;
+        $bank_analysis_average_balance =  $bankAnalysisDetails['status'] == 1 ? $bank_analysis_average_balance : (BY_PASS_OCR_KYC ? 10000 : null);
         $bank_statement_balance_rule_name = "Bank Statement Average Monthly Balance";
         $bank_statement_balance_rule_cutoff_value = ">=10,000";
         $bank_statement_balance_rule_actual_value = "";
-        $bank_statement_balance_rule_relevant_inputs = ["bank_analysis_average_balance" => $bank_analysis_average_balance];
+        $bank_statement_balance_rule_relevant_inputs = ["bank_analysis_average_balance" =>$bank_analysis_average_balance];
         $bank_statement_balance_rule_system_decision_id = 0;
         $bank_statement_balance_rule_manual_decision_id = 0;
 
-        if (!empty($bank_analysis_data) && $bank_analysis_average_balance >= 10000) {
+        if ((!empty($bank_analysis_data) || BY_PASS_OCR_KYC) && $bank_analysis_average_balance >= 10000) {
             $bank_statement_balance_rule_system_decision_id = 1;
             $bank_statement_balance_rule_manual_decision_id = 1;
             $bank_statement_balance_rule_actual_value = [">=10,000"];
@@ -950,13 +972,14 @@ function bre_rule_engine($lead_id, $request_array = array()) {
 
         $bank_statement_fraudscore_rule_id = 31;
         $bank_statement_fraudscore_rule_name = "Bank Statement Fraud Score";
+        $bank_analysis_fraudScore = $bankAnalysisDetails['status'] == 1 ? $bank_analysis_fraudScore : (BY_PASS_OCR_KYC ? 0 :null);
         $bank_statement_fraudscore_rule_cutoff_value = "Fraud Score <= 0";
         $bank_statement_fraudscore_rule_actual_value = "";
-        $bank_statement_fraudscore_rule_relevant_inputs = ["bank_analysis_fraud_score" => $bank_analysis_fraudScore];
+        $bank_statement_fraudscore_rule_relevant_inputs = ["bank_analysis_fraud_score" =>$bank_analysis_fraudScore];
         $bank_statement_fraudscore_rule_system_decision_id = 0;
         $bank_statement_fraudscore_rule_manual_decision_id = 0;
 
-        if (!empty($bank_analysis_data) && $bank_analysis_fraudScore <= 0) {
+        if ((!empty($bank_analysis_data)|| BY_PASS_OCR_KYC) && $bank_analysis_fraudScore <= 0) {
             $bank_statement_fraudscore_rule_system_decision_id = 1;
             $bank_statement_fraudscore_rule_manual_decision_id = 1;
             $bank_statement_fraudscore_rule_actual_value = ["Fraud Score <= 0"];
@@ -1051,7 +1074,7 @@ function bre_rule_engine($lead_id, $request_array = array()) {
         $bureau_score_rule_name = "SCORE";
         $bureau_score_rule_cutoff_value = "Score >= 500";
         $bureau_score_rule_actual_value = "";
-        $bureau_score_rule_relevant_inputs = ["bureau_score" => $bureau_score];
+        $bureau_score_rule_relevant_inputs = ["bureau_score" =>$bureauDetails['status'] == 1 && $bureau_score];
         $bureau_score_rule_system_decision_id = 0;
         $bureau_score_rule_manual_decision_id = 0;
 
@@ -1074,7 +1097,7 @@ function bre_rule_engine($lead_id, $request_array = array()) {
         $bureau_account_overdue_rule_name = "Overdue Accounts";
         $bureau_account_overdue_rule_cutoff_value = "Overdue Accounts == 0";
         $bureau_account_overdue_rule_actual_value = "";
-        $bureau_account_overdue_rule_relevant_inputs = ["over_due_accounts" => $over_due_accounts];
+        $bureau_account_overdue_rule_relevant_inputs = ["over_due_accounts" => $bureauDetails['status'] == 1 ? $over_due_accounts : null];
         $bureau_account_overdue_rule_system_decision_id = 0;
         $bureau_account_overdue_rule_manual_decision_id = 0;
 
@@ -1097,7 +1120,7 @@ function bre_rule_engine($lead_id, $request_array = array()) {
         $bureau_id_variation_rule_name = "ID Variation (PAN)";
         $bureau_id_variation_rule_cutoff_value = "Variation <= 1";
         $bureau_id_variation_rule_actual_value = "";
-        $bureau_id_variation_rule_relevant_inputs = ["pan_variation_count" => $pan_variation_count, "variation_pan_cards" => $variation_pan_cards];
+        $bureau_id_variation_rule_relevant_inputs = ["pan_variation_count" => $bureauDetails['status'] == 1 ? $pan_variation_count : null, "variation_pan_cards" =>$bureauDetails['status'] == 1 ?  $variation_pan_cards : null];
         $bureau_id_variation_rule_system_decision_id = 0;
         $bureau_id_variation_rule_manual_decision_id = 0;
 
@@ -1120,7 +1143,7 @@ function bre_rule_engine($lead_id, $request_array = array()) {
         $bureau_inquiry_rule_name = "Inquiries in last 30 days";
         $bureau_inquiry_rule_cutoff_value = "Inquiries <= 3";
         $bureau_inquiry_rule_actual_value = "";
-        $bureau_inquiry_rule_relevant_inputs = ["inquiries_last_1_months" => $inquiries_last_6_months];
+        $bureau_inquiry_rule_relevant_inputs = ["inquiries_last_1_months" => $bureauDetails['status'] == 1 ? $inquiries_last_6_months :null];
         $bureau_inquiry_rule_system_decision_id = 0;
         $bureau_inquiry_rule_manual_decision_id = 0;
 
@@ -1143,7 +1166,10 @@ function bre_rule_engine($lead_id, $request_array = array()) {
         $bureau_inquiry_rule_name = "Account Aggregator";
         $bureau_inquiry_rule_cutoff_value = "Account Details Matched";
         $bureau_inquiry_rule_actual_value = "";
+        if($bankAggregatorDetails['status'] == 1)
         $bureau_inquiry_rule_relevant_inputs = ["name" => $aa_name, "account" => $account, "ifsc_code" => $aa_ifscCode, "bank_name" => $aa_fipName, "current_balance" => $aa_current_balance];
+    else
+    $bureau_inquiry_rule_relevant_inputs = ["name" =>null, "account" => null, "ifsc_code" => null, "bank_name" => null, "current_balance" => null];
         $bureau_inquiry_rule_system_decision_id = 0;
         $bureau_inquiry_rule_manual_decision_id = 0;
 
@@ -1151,11 +1177,11 @@ function bre_rule_engine($lead_id, $request_array = array()) {
             $bureau_inquiry_rule_system_decision_id = 1;
             $bureau_inquiry_rule_manual_decision_id = 1;
             $bureau_inquiry_rule_actual_value = ["Account details matched"];
-        } else if (!empty($bankAggregatorDetails) && $aa_ifscCode != $ifsc_code) {
+        } else if (!empty($bankAggregatorDetails) && $bankAggregatorDetails['status'] == 1 && $aa_ifscCode != $ifsc_code) {
             $bureau_inquiry_rule_system_decision_id = 2;
             $bureau_inquiry_rule_manual_decision_id = 2;
             $bureau_inquiry_rule_actual_value = ["IFSC Code does not match"];
-        } else if (!empty($bankAggregatorDetails) && $aa_fipName != $beneficiary_name) {
+        } else if (!empty($bankAggregatorDetails) && $bankAggregatorDetails['status'] == 1 && $aa_fipName != $beneficiary_name) {
             $bureau_inquiry_rule_system_decision_id = 2;
             $bureau_inquiry_rule_manual_decision_id = 2;
             $bureau_inquiry_rule_actual_value = ["Beneficiary Name does not match"];

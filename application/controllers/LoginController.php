@@ -131,15 +131,15 @@ class LoginController extends CI_Controller {
                 log_message('error', $isValidUser);
                 log_message('debug', 'This is a debug message');
                 log_message('info', 'This is an info message');
-                error_log('This message will go to the server error log'. print_r($isValidUser));
+                // error_log('This message will go to the server error log'. print_r($isValidUser));
 
                 if (!empty($isValidUser['status'])) {
                     foreach($isValidUser['data'] as $result) {
                         $str = $result['type']. '<br>';
                     }
                     if (!empty($isValidUser['user_data']['user_logins_failed_count']) && $isValidUser['user_data']['user_logins_failed_count'] >= 300) {
-                     return   $this->session->set_flashdata('err', "Your account has been locked. Please reset your password using forgot password feature..".$str);
-                        // return redirect(base_url(), 'refresh');
+                       $this->session->set_flashdata('err', "Your account has been locked. Please reset your password using forgot password feature..".$str);
+                        return redirect(base_url(), 'refresh');
                     }
 
                     $isValidUser['user_data']['current_login_time'] = date("Y-m-d H:i:s");
@@ -222,7 +222,6 @@ class LoginController extends CI_Controller {
                     if (isset($isValidUser['user_data']['labels']) && $isValidUser['user_data']['labels'] == "LD1") {
                         $redirect_home_url = "loan-kyc-docs/";
                     }
-
                     return redirect(base_url($redirect_home_url . $this->encrypt->encode($isValidUser['user_data']['labels'])), 'refresh');
                 } else {
 
@@ -295,7 +294,6 @@ class LoginController extends CI_Controller {
                     } else {
                         $this->session->set_flashdata('err', "Invalid credentails, Please try with correct details.");
                     }
-
                     return redirect(base_url(''), 'refresh');
                 }
                
@@ -306,7 +304,6 @@ class LoginController extends CI_Controller {
             if (isset($_SESSION['isUserSession']['labels']) && $_SESSION['isUserSession']['labels'] == "LD1") {
                 $redirect_home_url = "loan-kyc-docs/";
             }
-            
             return redirect(base_url($redirect_home_url . $this->encrypt->encode($_SESSION['isUserSession']['labels'])), 'refresh');
         }
     }
@@ -508,8 +505,6 @@ class LoginController extends CI_Controller {
             $this->form_validation->set_rules('gender', 'Gender', 'required|trim');
             $this->form_validation->set_rules('marital_status', 'Marital Status', 'required|trim');
             if ($this->form_validation->run() == FALSE) {
-                echo "if called : ";
-                print_r($_POST);
                 exit;
                 $this->session->set_flashdata('err', validation_errors());
                 return redirect(base_url('editProfile/' . $user_id), 'refresh');

@@ -4048,12 +4048,12 @@ Capitalized terms used herein but not defined shall have the same meanings given
         $num1 = (int) filter_var($pre_loan->loan_no, FILTER_SANITIZE_NUMBER_INT);
         $num1 = $num1 + 1;
 
-        $prefix_loan_no = "SOTK";
+        $prefix_loan_no = "POS";
 
         $envSet = ENVIRONMENT;
 
         if ($envSet == "production") {
-            $prefix_loan_no = "SOTK";
+            $prefix_loan_no = "POS";
         }
 
         $loan_no = $prefix_loan_no . str_pad(($num1), 11, "0", STR_PAD_LEFT); //16 chars

@@ -4,8 +4,7 @@ foreach ($master_bre_category as $bre_category_data) {
     $bre_category_name = $bre_category_data['m_bre_cat_name'];
     ?>
     <details class = "bre_result_category">
-
-        <summary class = "bre_result_category_name"><span><?= $bre_category_name ?></span></summary> 
+        <summary class = "bre_result_category_name"><span><?= $bre_category_name ?></span><?php if($bre_category_name == "Bureau Criteria" && agent == "CA"){ ?> <button style="float:right; margin-right:64px; border:none; padding:4px; border-radius:16px; background-color: chocolate; color:white; " onclick="bypass_bureau_bre()">By Pass</button><?php } ?></summary> 
         <div class="content">
             <table>
                 <thead>

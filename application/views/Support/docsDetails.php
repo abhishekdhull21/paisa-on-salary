@@ -42,7 +42,7 @@
                                                             <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
                                                             <div class="row">
                                                                 <div class="col-md-6">
-                                                                    <input type="text" class="form-control" name="lead_id" id="lead_id" required="" value="<?php if($docsInfo['lcr_lead_id']!=''){echo $docsInfo['lcr_lead_id'];}else{ echo $_POST['lead_id'];} ?>" placeholder="Please enter lead id*" onkeypress="if (isNaN(String.fromCharCode(event.keyCode)))
+                                                                    <input type="text" class="form-control" name="lead_id" id="lead_id" required="" value="<?php if( isset($doc) && $docsInfo['lcr_lead_id']!=''){echo $docsInfo['lcr_lead_id'];}else{ echo isset($_POST['lead_id']) ?  $_POST['lead_id'] : "";} ?>" placeholder="Please enter lead id*" onkeypress="if (isNaN(String.fromCharCode(event.keyCode)))
                                                                             return false;">
                                                                 </div>
                                                                 <div class="col-md-6">

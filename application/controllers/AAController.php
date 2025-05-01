@@ -54,7 +54,7 @@ class AAController extends CI_Controller {
 				"mobileNumber" => $mobile,
 				"consentDescription" => "CONSENT FOR BANK STATEMENT",
 				"consentArtifactName" => "BANK_STATEMENT_PERIODIC",
-				"redirectUrl" => "https://paisaonsalary.com/account-consent-thank-you?refstr=" . $enc_lead_id
+				"redirectUrl" => "https://paisaonsalary.in/account-consent-thank-you?refstr=" . $enc_lead_id
 			);
 			$json_request = json_encode($requestArray);
 			$endUrl = 'accountAggregator/consent-request-plus';

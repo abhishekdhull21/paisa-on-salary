@@ -525,7 +525,7 @@ class TaskController extends CI_Controller {
 			<p style="color:#000;">I therefore by means of the present legal notice call upon you the notice to make the payment of the aforesaid amount Rs <strong>' . $totalinterest . '</strong> to my client immediately after receipt of this notice by you, failing which my client shall be constrained to initiate legal proceedings against you under the provisions of section 318, 337 & 338 of THE Bhartiya Nyaya Sanhita 2023 entirely at your cost, risk, and responsibility.</p>
 			<p style="color:#000;">A copy of this notice has been retained in my office for further reference, record, and action.</p><br/>
 			<p style="color:#000;" class="signature">Yours faithfully</p>
-			<img src="https://crm.paisaonsalary.com/public/images/sign.png" style="float: right;width: 100px;margin-right: 31px;"/><br/><br/>
+			<img src="https://crm.paisaonsalary.in/public/images/sign.png" style="float: right;width: 100px;margin-right: 31px;"/><br/><br/>
 			<p style="color:#000;clear: both;" class="signature"><strong>(HARSH TRIKHA)<br>Advocate</strong></p>
 		</section>
     </div>
@@ -1796,7 +1796,7 @@ class TaskController extends CI_Controller {
                 echo json_encode($json);
                 exit;
             }
-            $sql = "SELECT DISTINCT LD.lead_id, LD.lead_data_source_id, LD.lead_status_id, LD.lead_screener_assign_user_id, LD.lead_branch_id, LD.user_type, C.pancard";
+            $sql = "SELECT DISTINCT LD.lead_id, LD.lead_data_source_id,LD.mobile, LD.lead_status_id, LD.lead_screener_assign_user_id, LD.lead_branch_id, LD.user_type, C.pancard";
             $sql .= " ,C.first_name,C.middle_name,sur_name,C.gender,C.pancard_ocr_verified_status";
             $sql .= " ,C.email_verified_status, C.customer_digital_ekyc_flag, CAM.cam_appraised_monthly_income";
             $sql .= " ,CAM.cam_status, CAM.eligible_loan, CAM.loan_recommended, CAM.processing_fee_percent, CAM.roi, CAM.admin_fee as total_pf_with_gst, CAM.adminFeeWithGST as calculated_gst, CAM.total_admin_fee as net_pf_without_gst";
@@ -1810,6 +1810,7 @@ class TaskController extends CI_Controller {
 
             $sql2 = $this->db->query($sql);
             $cam = $sql2->row();
+            // echo "data: ", print_r($cam);
 
 
             $approval_loan_amount = ($cam->cam_appraised_monthly_income * 0.6); //60% of monthly income;
@@ -1982,7 +1983,7 @@ class TaskController extends CI_Controller {
                     'cif_company_name' => $personalAndEmployment['employer_name'],
                     'cif_company_website' => $personalAndEmployment['emp_website'],
                     'cif_company_type_id' => $personalAndEmployment['emp_employer_type'],
-                    'cif_aadhaar_same_as_residence' => ($personalAndEmployment['C.aa_same_as_current_address'] == "YES") ? 1 : 0,
+                    'cif_aadhaar_same_as_residence' => isset($personalAndEmployment['C.aa_same_as_current_address']) ? (($personalAndEmployment['C.aa_same_as_current_address'] == "YES") ? 1 : 0) : 0,
                     'cif_aadhaar_address_1' => $personalAndEmployment['aa_current_house'],
                     'cif_aadhaar_address_2' => $personalAndEmployment['aa_current_locality'],
                     'cif_aadhaar_landmark' => $personalAndEmployment['aa_current_landmark'],
@@ -2001,15 +2002,18 @@ class TaskController extends CI_Controller {
 
 
                 // $query_cif = $this->db->select('cif_id, cif_number, cif_pancard, cif_mobile')->where('cif_pancard', $cam->pancard)->from('cif_customer')->get();
-                $query_cif = $this->db->select('cif_mobile')->where('cif_mobile', $cam->mobile)->from('cif_customer')->get();
-
+                // if (isset($cam->mobile)) {
+                    $query_cif = $this->db->select('cif_mobile')
+                        ->where('cif_mobile', $cam->mobile)
+                        ->from('cif_customer')
+                        ->get();
                 if ($query_cif->num_rows() > 0) {
 
                     $cif = $query_cif->row_array();
+                    // print_r($cif);
+                    $customer_id =isset($cif['cif_number'])? $cif['cif_number'] : $cif['cif_mobile'];
 
-                    $customer_id = $cif['cif_number'];
-
-                    $cif_id = $cif['cif_id'];
+                    // $cif_id = $cif['cif_id'];
 
                     $customer_data['cif_updated_by'] = $user_id;
                     $customer_data['cif_updated_on'] = date("Y-m-d H:i:s");
@@ -2026,6 +2030,7 @@ class TaskController extends CI_Controller {
                     $customer_data['cif_created_on'] = date("Y-m-d H:i:s");
                     $cif_flag = $this->db->insert('cif_customer', $customer_data);
                 }
+            // }
 
                 // if (empty($cif_flag)) {
                 //     $json['err'] = 'CIF is unable to create. Please check with IT Team.';

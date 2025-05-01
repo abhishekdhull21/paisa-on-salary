@@ -1,13 +1,13 @@
 
 <?php
 
-function aadhaar_esign_api_call($method_name = "", $lead_id = 0, $request_array = array()) {
+function aadhaar_esign_api_call_digitap($method_name = "", $lead_id = 0, $request_array = array()) {
     common_log_writer(4, "Aadhaar Esign started | $lead_id | $method_name");
 
     $responseArray = array("status" => 0, "errors" => "");
 
     $opertion_array = array(
-        "UPLOAD_ESIGN_FILE" => 1,
+        "AADHAAR_VERIFY" => 1,
         "AADHAAR_ESIGN" => 2,
         "DOWNLOAD_ESIGN_FILE" => 3,
     );
@@ -15,7 +15,7 @@ function aadhaar_esign_api_call($method_name = "", $lead_id = 0, $request_array 
     $method_id = $opertion_array[$method_name];
 
     if ($method_id == 1) {
-        $responseArray = esign_document_upload_api_call($method_id, $lead_id, $request_array);
+        $responseArray = digitap_aadhaar_verify_api_call($method_id, $lead_id, $request_array);
     } else if ($method_id == 2) {
         $responseArray = esign_aadhaar_request_api_call($method_id, $lead_id, $request_array);
     } else if ($method_id == 3) {
@@ -29,9 +29,9 @@ function aadhaar_esign_api_call($method_name = "", $lead_id = 0, $request_array 
     return $responseArray;
 }
 
-function esign_document_upload_api_call($method_id, $lead_id = 0, $request_array = array()) {
+function digitap_aadhaar_verify_api_call($method_id, $lead_id = 0, $request_array = array()) {
 
-    common_log_writer(4, "esign_document_upload_api_call started | $lead_id");
+    common_log_writer(4, "digitap_aadhaar_verify_api_call started | $lead_id");
 
     require_once (COMP_PATH . '/includes/integration/integration_config.php');
 
@@ -47,8 +47,8 @@ function esign_document_upload_api_call($method_id, $lead_id = 0, $request_array
     $errorMessage = "";
     $curlError = "";
 
-    $type = "SIGNZY_API";
-    $sub_type = "UPLOAD_ESIGN_DOCUMENT";
+    $type = "DIGITAP_API";
+    $sub_type = "AADHAAR_ESIGN";
 
     $hardcode_response = false;
 
@@ -194,9 +194,9 @@ function esign_document_upload_api_call($method_id, $lead_id = 0, $request_array
         //     throw new Exception($token_return_array['errors']);
         // }
 
-        $base64String_file = COMP_DOC_PATH . $sanction_letter_file_name;
+        // $base64String_file = COMP_DOC_PATH . $sanction_letter_file_name;
 
-        $base64String = base64_encode(file_get_contents(COMP_DOC_PATH . $sanction_letter_file_name));
+        // $base64String = base64_encode(file_get_contents(COMP_DOC_PATH . $sanction_letter_file_name));
 
         // $apiRequestJson = '{
         //                     "base64String":"' . $base64String . '",
@@ -239,85 +239,66 @@ function esign_document_upload_api_call($method_id, $lead_id = 0, $request_array
         // curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
 
         $curl = curl_init();
+        $apiKey = getenv('DIGITAP_ACCESS_KEY'); // Or hardcode if needed
+        $website_url = WEBSITE_URL;
+        $uid =  uniqid("aadhaar_{$lead_id}_", true);
 
+
+        $payload = [
+            "uid" => $uid,
+            "serviceId" => "3",
+            "firstName" => $first_name,
+            "mobile" => $mobile,
+            "isHideExplanationScreen" => false,
+            "isSendOtp" => false,
+            // "redirectionUrl" => "https://webhook.site/b46e1352-0d73-4b54-8bb6-c72771e346a3?lead_id=59",
+            "redirectionUrl" => $website_url."sanction-uidai-verify-response/$lead_id",
+        ];
         curl_setopt_array($curl, array(
-          CURLOPT_URL => 'https://api.signzy.app/api/v3/contract/initiate',
-          CURLOPT_RETURNTRANSFER => true,
-          CURLOPT_TIMEOUT_MS => 20000,
-          CURLOPT_ENCODING => '',
-          CURLOPT_MAXREDIRS => 10,
-          CURLOPT_TIMEOUT => 0,
-          CURLOPT_FOLLOWLOCATION => true,
-          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-          CURLOPT_CUSTOMREQUEST => 'POST',
-          CURLOPT_POSTFIELDS =>'{
-            "pdf": "'.$base64String.'",
-            "contractName": "Esign Letter",
-            "contractExecuterName": "Signzy",
-            "successRedirectUrl": "https://paisaonsalary.in/sanction-esign-response?lead_id='.$lead_id.'",
-            "failureRedirectUrl": "https://paisaonsalary.in/",
-            "contractTtl": 10000,
-            "eSignProvider": "nsdl",
-            "nameMatchThreshold": "0.50",
-            "allowSignerGenderMatch": true,
-            "allowSignerYOBMatch": true,
-            "allowUidLastFourDigitsMatch": true,
-            "emudhraCustomization": {
-                "logoURL": "",
-                "headerColour": "",
-                "buttonColour": "",
-                "maskedAadhaarField": "0",
-                "secondaryButtonColour": "",
-                "pageBackgroundColour": "",
-                "pageTextColour": "",
-                "footerBackgroundColour": "",
-                "footerTextColour": "",
-                "successTextColour": "",
-                "errorTextColour": "",
-                "errorBackgroundColour": "",
-                "linkTextColour": "",
-                "infoIconColour": "",
-                "textFieldBorderColour": ""
-            },
-            "signerdetail": [
-                {
-                    "signerName": "'.$customer_full_name.'",
-                    "signerMobile": "'.$mobile.'",
-                    "signerEmail": "'.$email.'",
-                    "signerGender": "'.$gender.'",
-                    "uidLastFourDigits": "'.$aadhar_no_last_4_digit.'",
-                    "signerYearOfBirth": "'.$dob.'",
-                    "signatureType": "AADHAARESIGN-OTP",
+            CURLOPT_URL => $apiUrl,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS =>json_encode($payload),
+            CURLOPT_HTTPHEADER => array(
+              'authorization: '.$apiKey,
+              'content-type: application/json'
+            ),
+          ));
+    
+        // $response = curl_exec($curl);
+        // $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+        // $error = curl_error($curl);
+        // curl_close($curl);
+    
+        // // Check for cURL errors or API errors
+        // if ($error) {
+        //     return ['success' => false, 'error' => $error];
+        // }
+    
+        // $result = json_decode($response, true);
+    
+        // if ($httpCode === 200 && isset($result['code']) && $result['code'] === '200') {
+        //     return [
+        //         'success' => true,
+        //         'url' => $result['model']['url'],
+        //         'transactionId' => $result['model']['transactionId'],
+        //         'kycUrl' => $result['model']['kycUrl'],
+        //     ];
+        // } else {
+        //     return [
+        //         'success' => false,
+        //         'error' => $result['message'] ?? 'Unknown error from Digitap',
+        //         'raw' => $response,
+        //     ];
+        // }
 
-                    "signatures": [
-                        {
-                            "pageNo": [
-                                "All"
-                            ],
-                            "signaturePosition": [
-                                "BottomLeft"
-                            ]
-                        }
-                    ]
-                }
-            ],
-            "workflow": true,
-            "isParallel": false,
-            "redirectTime": 5,
-            "locationCaptureMethod": "ip",
-            "initiationEmailSubject": "Please sign the document received on your email",
-            "customerMailList": [
-                "'.$email.'",
-                "info@paisaonsalary.com"
-            ],
 
-            "emailPdfCustomNameFormat": "SIGNERNAME"
-        }',
-          CURLOPT_HTTPHEADER => array(
-            'Authorization: ScTTTviEmhU1EPT79VM6QV9NUHImPkBm',
-            'Content-Type: application/json'
-          ),
-        ));
+
 
 
         $apiResponseJson = curl_exec($curl);
@@ -348,11 +329,11 @@ function esign_document_upload_api_call($method_id, $lead_id = 0, $request_array
 
                 if (!empty($apiResponseData)) {
 
-                    if (!empty($apiResponseData['customerId'])) {
+                    if (!empty($apiResponseData['code']) || $apiResponseData['code'] == "200") {
 
-                        if (!empty($apiResponseData['signerdetail'][0]['workflowUrl'])) {
+                        if (!empty($apiResponseData['model']["url"])) {
                             $apiStatusId = 1;
-                            $directURL = $apiResponseData['signerdetail'][0]['workflowUrl'];
+                            $directURL = $apiResponseData['model']["url"];
                         } else {
                             throw new ErrorException("Uploaded document details does not received from API.");
                         }

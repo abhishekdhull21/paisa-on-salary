@@ -930,14 +930,22 @@ class CollectionController extends CI_Controller {
                                 $total_repayment_amount = unformatMoney($repaymentDetails['total_repayment_amount']); // paybale principle + intenerest + panelity
                                 $repayment_amount_without_penality = unformatMoney($repaymentDetails['repayment_amount']); //paybale principle + intenerest
                                 $advance_interest_amount_deducted = unformatMoney($repaymentDetails['advance_interest_amount_deducted']); //advance intesrest
-                                $repayment_amount_without_penality = $repayment_amount_without_penality + $advance_interest_amount_deducted;
-
+                                $repayment_amount_without_penality = is_numeric($repayment_amount_without_penality) ? $repayment_amount_without_penality : 0;
+                                $advance_interest_amount_deducted = is_numeric($advance_interest_amount_deducted) ? $advance_interest_amount_deducted : 0;
+                                
+                                $repayment_amount_without_penality += $advance_interest_amount_deducted;
                                 if ($repayment_type == 16) {
 
                                     //preclosure date
                                     if (strtotime($payment_verify_date) <= strtotime($repaymentDetails['repayment_date'])) {
 										$repayment_with_real_interest = isset($repaymentDetails['repayment_with_real_interest']) ? $repaymentDetails['repayment_with_real_interest'] : $total_repayment_amount ;
-                                        if (($total_payment_received + $received_amount + $discount - $refund) == $total_repayment_amount) {
+                                        $total_payment_received   = is_numeric($total_payment_received)   ? (float)$total_payment_received   : 0;
+                                        $received_amount          = is_numeric($received_amount)          ? (float)$received_amount          : 0;
+                                        $discount                 = is_numeric($discount)                 ? (float)$discount                 : 0;
+                                        $refund                   = is_numeric($refund)                   ? (float)$refund                   : 0;
+                                        $total_repayment_amount   = is_numeric($total_repayment_amount)   ? (float)$total_repayment_amount   : 0;
+                                        
+                                        if (($total_payment_received + $received_amount + $discount - $refund) == $total_repayment_amount) { 
                                             $update_loan_array['loan_interest_discount_amount'] = $discount;
                                         }
 										else if (($total_payment_received + $received_amount + $discount - $refund) == $repayment_with_real_interest) {
