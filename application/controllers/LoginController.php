@@ -573,55 +573,20 @@ class LoginController extends CI_Controller {
                 $this->db->set('otp', $otp)->where('user_id', $user_id)->update('users');
 
                 $subject = BRAND_NAME . " FINTECH FORGOT PASSWORD | $name | Reset Datetime : " . date("d-m-Y H:i:s");
+                $this->load->library('user_agent'); // Ensure this is loaded
 
-                $message = "<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>
-                        <html xmlns='http://www.w3.org/1999/xhtml'>
-                            <head>
-                            <link href='https://allfont.net/allfont.css?fonts=courier' rel='stylesheet' type='text/css' />
-                                <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
-                                <title>' . $subject . '</title>
-                            </head><table width='650' border='1' cellspacing='0' cellpadding='0' style='border:1px solid #000'>
-                                    <tr bgcolor='#ededed'>
-                                      <td height='20' style='color:#000;' valign='top' colspan='2'><strong>&nbsp;Dear " . $name . ",</strong></td>
-                                    </tr>
-                                    <tr bgcolor='#ededed'>
-                                      <td height='20' style='color:#000;' valign='top'><strong>&nbsp;URL</strong></td>
-                                      <td height='20' style='color:#000;' valign='top'><strong>&nbsp;" . base_url() . "</strong></td>
-                                    </tr>
-                                    <tr bgcolor='#ededed'>
-                                      <td height='20' style='color:#000;' valign='top'><strong>&nbsp;Login User</strong></td>
-                                      <td height='20' style='color:#000;' valign='top'><strong>&nbsp;$email</strong></td>
-                                    </tr>
-                                    <tr bgcolor='#ededed'>
-                                      <td height='20' style='color:#000;' valign='top'><strong>&nbsp;One Time Password (OTP)</strong></td>
-                                      <td height='20' style='color:#000;' valign='top'><strong>&nbsp;" . $otp . "</strong></td>
-                                    </tr>
-                                    <tr bgcolor='#ededed'>
-                                      <td height='20' style='color:#000;' valign='top'><strong>&nbsp;User IP</strong></td>
-                                      <td height='20' style='color:#000;' valign='top'><strong>&nbsp;" . ip . "</strong></td>
-                                    </tr>
-                                    <tr bgcolor='#ededed'>
-                                      <td height='20' style='color:#000;' valign='top'><strong>&nbsp;Platform</strong></td>
-                                      <td height='20' style='color:#000;' valign='top'><strong>&nbsp;" . $this->agent->platform() . "</strong></td>
-                                    </tr>
-                                    </tr>
-                                    <tr bgcolor='#ededed'>
-                                      <td height='20' style='color:#000;' valign='top'><strong>&nbsp;Browser & Version</strong></td>
-                                      <td height='20' style='color:#000;' valign='top'><strong>&nbsp;" . $this->agent->browser() . ' ' . $this->agent->version() . "</strong></td>
-                                    </tr>
-                                    <tr bgcolor='#ededed'>
-                                      <td height='20' style='color:#000;' valign='top'><strong>&nbsp;Agent String</strong></td>
-                                      <td height='20' style='color:#000;' valign='top'><strong>&nbsp;" . $this->agent->agent_string() . "</strong></td>
-                                    </tr>
-                                    <tr bgcolor='#ededed'>
-                                      <td height='20' style='color:#000;' valign='top'><strong>&nbsp;Password Change Activity</strong></td>
-                                      <td height='20' style='color:#000;' valign='top'><strong>&nbsp;" . date('d-m-Y H:i:s', strtotime(date('Y-m-d H:i:s'))) . "</strong></td>
-                                    </tr>
-                      
-                                    <tr bgcolor='#ededed'>
-                                      <td height='20' style='color:#000;' valign='top' colspan='3'><strong>&nbsp;If you have any query regarding lms.<br>Contact us on email - " . TECH_EMAIL . " (IT-Support)</strong></td>
-                                    </tr>
-                                  </table></html>";
+                $data = [
+                    'subject'     => 'Password Changed',
+                    'name'        => $name,
+                    'email'       => $email,
+                    'otp'         => $otp,
+                    'ip'          => ip,
+                    'platform'    => $this->agent->platform(),
+                    'browser'     => $this->agent->browser() . ' ' . $this->agent->version(),
+                    'user_agent'  => $this->agent->agent_string(),
+                    'change_time' => date('d-m-Y H:i:s'),
+                ];
+                $message = $message = $this->load->view('templates/forget_password.php', $data, TRUE);
 
                  require_once(COMPONENT_PATH . 'includes/functions.inc.php');
                  common_send_email($email, $subject, $message);

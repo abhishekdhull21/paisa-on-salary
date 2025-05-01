@@ -216,14 +216,15 @@ function common_send_email(
                 $apiKey = getenv('MAIL_GUN_API_KEY');
                 $domain = getenv('MAIL_GUN_DOMAIN');
                 $url = "https://api.mailgun.net/v3/{$domain}/messages";
-
+            
+                // Base fields
                 $fields = [
                     'from'    => $from_email,
                     'to'      => $to_email,
                     'subject' => $subject,
                 ];
             
-                // Handle message type
+                // Detect message type: HTML or plain text
                 if (stripos($message, 'DOCTYPE html') !== false || stripos($message, '<html') !== false) {
                     $fields['html'] = $message;
                 } else {
@@ -235,32 +236,32 @@ function common_send_email(
                     $fields['cc'] = $cc_email;
                 }
             
-                $attachment_path = "temp_upload/".$attachment_path;
-                
-                // Attach file if provided and file exists
-                $fields['attachment'] = new CURLFile(
-                    realpath($attachment_path),
-                    mime_content_type($attachment_path),
-                    $fileName
-                );
+                // Handle file attachment
+                if (!empty($attachment_path)) {
+                    $full_path = realpath(UPLOAD_TEMP_PATH . $attachment_path);
+                    if ($full_path && file_exists($full_path)) {
+                        $mime_type = mime_content_type($full_path) ?: 'application/octet-stream';
+                        $fields['attachment'] = new CURLFile($full_path, $mime_type, $fileName ?? basename($full_path));
+                    } else {
+                        return ['success' => false, 'error' => 'Attachment file not found.'];
+                    }
+                }
             
-                // Initialize cURL
+                // Initialize and send cURL request
                 $curl = curl_init();
-            
                 curl_setopt_array($curl, [
-                    CURLOPT_URL => $url,
+                    CURLOPT_URL            => $url,
                     CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_POST => true,
-                    CURLOPT_USERPWD => "api:{$apiKey}",
-                    CURLOPT_POSTFIELDS => $fields,
-                    CURLOPT_SAFE_UPLOAD => true, // Important for file upload
+                    CURLOPT_POST           => true,
+                    CURLOPT_USERPWD        => "api:{$apiKey}",
+                    CURLOPT_POSTFIELDS     => $fields,
+                    CURLOPT_SAFE_UPLOAD    => true,
                 ]);
             
-                // echo "Email sent: ";
                 $response = curl_exec($curl);
             
+                // Handle cURL errors
                 if (curl_errno($curl)) {
-                    // cURL error occurred
                     $error_msg = curl_error($curl);
                     curl_close($curl);
                     return ['success' => false, 'error' => $error_msg];
@@ -277,7 +278,6 @@ function common_send_email(
                     $error = $result['message'] ?? 'Unknown error sending email.';
                     return ['success' => false, 'error' => $error];
                 }
-                // break;
 
             default:
                 $error = "Invalid email method specified.";

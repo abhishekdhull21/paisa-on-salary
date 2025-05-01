@@ -2,3 +2,7 @@ system/cache
 ./application/config/database.php
 .development.env
 .production.env
+.upload
+/upload
+temp_upload
+./temp_upload
