@@ -1,25 +1,18 @@
 <IfModule mod_headers.c>
-    # Set allowed origins (all subdomains of paisaonsalary.in and localhost with any port)
-    SetEnvIf Origin "^https?://(.*\.)?paisaonsalary\.in(:[0-9]+)?$" ALLOW_ORIGIN=$0
-    SetEnvIf Origin "^https?://localhost(:[0-9]+)?$" ALLOW_ORIGIN=$0
+    # Allow origins: valueleaf.salaryontime.com, salaryontime.com, and localhost (any port)
+    SetEnvIf Origin "^https?://(api\.paisaonsalary.com\.com|paisaonsalary\.com)$" AccessControlAllowOrigin=$0
+    SetEnvIf Origin "^https?://localhost(:[0-9]+)?$" AccessControlAllowOrigin=$0
 
-    # Apply CORS headers
-    Header always set Access-Control-Allow-Origin %{ALLOW_ORIGIN}e env=ALLOW_ORIGIN
-    Header always set Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE"
-    Header always set Access-Control-Allow-Headers "Authorization, Content-Type, Accept, Auth"
-    Header always set Access-Control-Max-Age "86400"
-    Header always set Access-Control-Allow-Credentials "true"
+    # Set CORS headers only if origin matched
+    Header always set Access-Control-Allow-Origin %{AccessControlAllowOrigin}e env=AccessControlAllowOrigin
+    Header always set Access-Control-Allow-Methods "POST, GET, OPTIONS, DELETE, PUT" env=AccessControlAllowOrigin
+    Header always set Access-Control-Allow-Headers "Content-Type, Authorization, Accept, Auth" env=AccessControlAllowOrigin
+    Header always set Access-Control-Max-Age "86400" env=AccessControlAllowOrigin
+    Header always set Access-Control-Allow-Credentials "true" env=AccessControlAllowOrigin
 </IfModule>
 
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-
-    # Handle preflight OPTIONS requests
-    RewriteCond %{REQUEST_METHOD} OPTIONS
-    RewriteRule ^(.*)$ $1 [R=200,L]
-
-    # Route all other requests to index.php
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ index.php/$1 [L]
-</IfModule>
+RewriteEngine On
+#RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule (.*) index.php/$1
