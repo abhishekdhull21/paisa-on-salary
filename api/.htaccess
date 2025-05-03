@@ -1,20 +1,12 @@
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-    # Redirect to HTTPS (optional)
-    # RewriteCond %{HTTPS} off
-    # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-
-    # Remove 'index.php' from URLs
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ index.php/$1 [L]
+<IfModule mod_headers.c>
+    Header always set Access-Control-Allow-Origin "*"
+    Header always set Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE"
+    Header always set Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+    Header always set Access-Control-Max-Age "86400"
 </IfModule>
 
-# Prevent directory listing (optional)
-Options -Indexes
-
-# Security: Deny access to sensitive files
-<FilesMatch "\.(env|log|htaccess|htpasswd|ini|phps|fla|psd|bat|sh)$">
-    Order Allow,Deny
-    Deny from all
-</FilesMatch>
+# Enable rewrite for CodeIgniter
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php/$1 [L]
