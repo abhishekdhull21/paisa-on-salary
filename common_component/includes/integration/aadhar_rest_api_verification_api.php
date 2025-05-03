@@ -105,6 +105,7 @@ return $response_array;
 }
 
 function verifyAadhaarWithDigitap($lead_id,$request_array = array()) {
+    try{
     common_log_writer(5, "User Started verification and OTP verification | $lead_id");
     require_once (COMP_PATH . '/includes/integration/integration_config.php');
 
@@ -144,8 +145,8 @@ function verifyAadhaarWithDigitap($lead_id,$request_array = array()) {
     $customer_full_name = "";
     $token_string = "";
 
-    $aadhaar_no_last_4_digit = "5596";
-    $aadhaar_no = "5596";
+    $aadhaar_no_last_4_digit = "";
+    $aadhaar_no = "";
     $customer_dob = "";
     $lead_remarks= "";
 
@@ -175,8 +176,8 @@ function verifyAadhaarWithDigitap($lead_id,$request_array = array()) {
     // $digilockerDetails = $leadModelObj->getDigilockerApiLog($lead_id, 2);
     // $digilocker_log_data = !empty($digilockerDetails['digilocker_log_data']) ? $digilockerDetails['digilocker_log_data'] : "";
     // return $digilockerDetails ;
-    $aadhaar_no_last_4_digit = 5596;// $digilocker_log_data['ekyc_aadhaar_no'];
-    $aadhaar_no  = 5596;
+    $aadhaar_no_last_4_digit = $aadhaar_no;// $digilocker_log_data['ekyc_aadhaar_no'];
+    // $aadhaar_no  = 5596;
 
     $url = 'https://svc.digitap.ai/ent/v3/kyc/submit-otp';
     $api_key = getenv("DIGITAP_ACCESS_KEY");
@@ -209,69 +210,10 @@ function verifyAadhaarWithDigitap($lead_id,$request_array = array()) {
         CURLOPT_HTTPHEADER => $headers,
     ]);
 
-    // $response = curl_exec($curl);
-    // $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-    // $error = curl_error($curl);
-
-    // curl_close($curl);
-
-    // if ($error) {
-    //     return [
-    //         'success' => false,
-    //         'error' => "cURL Error: $error"
-    //     ];
-    // }
-
-    // $decodedResponse = json_decode($response,  true);
-
-
-    // if ($httpCode === 200 && isset($decodedResponse['status']) && $decodedResponse['status'] === 'success' && $decodedResponse['code'] == 200) {
-        
-    //     return [
-    //         'success' => true,
-    //         'data' => $decodedResponse->model
-    //     ];
-    // } else {
-    //     return [
-    //         'success' => false,
-    //         'error' => $decodedResponse['message'] ?? $decodedResponse['msg'] ?? 'Unknown error occurred',
-    //         'response' => $decodedResponse
-    //     ];
-    // }
 
     try {
-        // $apiResponseJson = curl_exec($curl);
-        $apiResponseJson =  json_encode([
-            "code" => "200",
-            "model" => [
-                "adharNumber" => "743580245596",
-                "uniqueId" => "6815c649b6c21",
-                "referenceId" => "559620250503130308174",
-                "maskedAdharNumber" => "xxxxxxxx5596",
-                "name" => "Abhishek",
-                "gender" => "M",
-                "dob" => "02-11-1998",
-                "careOf" => "S/O: Satbir",
-                "passCode" => "1234",
-                "link" => "https://ekyc-docs-prod.s3.ap-south-1.amazonaws.com/OKYC/6815c649b6c21/75f3e8db-d4ed-4876-9594-26f65786e04d.zip?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20250503T073308Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3599&X-Amz-Credential=AKIA2GKW2SD6UNEDCKVN%2F20250503%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Signature=1df8f88795480b7f4c18099769d8cf0b6605dd71772cc1020f848bd7b5747767",
-                "address" => [
-                    "house" => "",
-                    "street" => "",
-                    "landmark" => "",
-                    "loc" => "ramrai",
-                    "po" => "Ram Rai",
-                    "dist" => "Jind",
-                    "subdist" => "Jind",
-                    "vtc" => "Ramrai (11)",
-                    "pc" => "126102",
-                    "state" => "Haryana",
-                    "country" => "India"
-                ],
-                "image" => "base/64imagedata"
-            ],
-            "msg" => "success"
-        ]);
-    
+        $apiResponseJson = curl_exec($curl);
+
         if ($debug == 1) {
             echo "<br/><br/> =======Response======<br/><br/>" . $apiResponseJson;
         }
@@ -316,8 +258,9 @@ function verifyAadhaarWithDigitap($lead_id,$request_array = array()) {
     if ($apiStatusId == 1) {
         $lead_remarks = "DIGITAP Aadhaar API CALL(Success) | Aadhaar : $aadhaar_no_last_4_digit";
         $aadhaarDob = DateTime::createFromFormat('d-m-Y', $aadhaarData['dob']);
-        // $customerDob = DateTime::createFromFormat('d/m/Y', $customer_dob);
-        $customerDob = DateTime::createFromFormat('d/m/Y', "02/11/1998");
+        $customerDob = DateTime::createFromFormat('d/m/Y', $customer_dob);
+        // $customerDob = DateTime::createFromFormat('d/m/Y', "02/11/1998");
+        
         $aadhaarDob = $aadhaarDob->format('Y-m-d');
         $customerDob =  $customerDob->format('Y-m-d');
         // Checking if UID and DOB match
@@ -413,6 +356,9 @@ function verifyAadhaarWithDigitap($lead_id,$request_array = array()) {
     ];
     
     return ($response_array);
+}catch(Exception $e){
+    return array("success"=>false, "status"=>0, "message"=> $errorMessage = $e->getMessage());
+}
     
 }
 
