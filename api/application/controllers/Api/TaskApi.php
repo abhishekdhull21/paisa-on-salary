@@ -2146,59 +2146,59 @@ class TaskApi extends REST_Controller {
             $post = $this->security->xss_clean($_POST);
         }
 
-                        return $this->response(array('Status' => 0, 'Message' => "default error"));
+        return $this->response(array('Status' => 0, 'Message' => "default error"));
 
-        // return $this->response(array("S"=>1));
+        // // return $this->response(array("S"=>1));
         
-        // $headers = $this->input->request_headers();
-        // $token = $this->_token();
-        // $header_validation = ($headers['Accept'] == "application/json") && ($token['token_Leads'] == base64_decode($headers['Auth']));
+        // // $headers = $this->input->request_headers();
+        // // $token = $this->_token();
+        // // $header_validation = ($headers['Accept'] == "application/json") && ($token['token_Leads'] == base64_decode($headers['Auth']));
         
-        // if ($_SERVER['REQUEST_METHOD'] == 'POST' && $header_validation) {
-            $this->form_validation->set_data($post);
-            $this->form_validation->set_rules("processId", "Process ID", "required|trim");
-            $this->form_validation->set_rules("shareCode", "Share Code", "required|trim|regex_match[/^\d{4}$/]");
-            $this->form_validation->set_rules("otp", "OTP", "required|trim|numeric|exact_length[6]");
-            $this->form_validation->set_rules("transactionId", "Transaction ID", "required|trim|regex_match[/^\d+$/]");
-            $this->form_validation->set_rules("codeVerifier", "Code Verifier", "required|trim");
-            $this->form_validation->set_rules("fwdp", "FWDP", "required|trim");
-            if ($this->form_validation->run() == FALSE) {
-                return json_encode($this->response(['Status' => 0, 'Message' => validation_errors()], REST_Controller::HTTP_OK));
-            } else {
-                require_once (COMPONENT_PATH . 'CommonComponent.php');
-                $CommonComponent = new CommonComponent();
+        // // if ($_SERVER['REQUEST_METHOD'] == 'POST' && $header_validation) {
+        //     $this->form_validation->set_data($post);
+        //     $this->form_validation->set_rules("processId", "Process ID", "required|trim");
+        //     $this->form_validation->set_rules("shareCode", "Share Code", "required|trim|regex_match[/^\d{4}$/]");
+        //     $this->form_validation->set_rules("otp", "OTP", "required|trim|numeric|exact_length[6]");
+        //     $this->form_validation->set_rules("transactionId", "Transaction ID", "required|trim|regex_match[/^\d+$/]");
+        //     $this->form_validation->set_rules("codeVerifier", "Code Verifier", "required|trim");
+        //     $this->form_validation->set_rules("fwdp", "FWDP", "required|trim");
+        //     if ($this->form_validation->run() == FALSE) {
+        //         return json_encode($this->response(['Status' => 0, 'Message' => validation_errors()], REST_Controller::HTTP_OK));
+        //     } else {
+        //         require_once (COMPONENT_PATH . 'CommonComponent.php');
+        //         $CommonComponent = new CommonComponent();
                 
                 
-                require_once(COMPONENT_PATH . 'includes/functions.inc.php');
-                $processId = $post['processId'];
+        //         require_once(COMPONENT_PATH . 'includes/functions.inc.php');
+        //         $processId = $post['processId'];
                 
-                try {
-                    $lead_id = decryptLeadID($processId);
-                } catch (Exception $e) {
-                    return $this->response([
-                    'status' => false,
-                    'error' => $e->getMessage()
-                ], REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
-            }          
-            $shareCode      = $post['shareCode'];
-            $otp            = $post['otp'];
-            $transactionId  = $post['transactionId'];
-            $codeVerifier   = $post['codeVerifier'];
-            $fwdp           = $post['fwdp'];
-            $validateXml    = $post['validateXml'];
+        //         try {
+        //             $lead_id = decryptLeadID($processId);
+        //         } catch (Exception $e) {
+        //             return $this->response([
+        //             'status' => false,
+        //             'error' => $e->getMessage()
+        //         ], REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+        //     }          
+        //     $shareCode      = $post['shareCode'];
+        //     $otp            = $post['otp'];
+        //     $transactionId  = $post['transactionId'];
+        //     $codeVerifier   = $post['codeVerifier'];
+        //     $fwdp           = $post['fwdp'];
+        //     $validateXml    = $post['validateXml'];
 
-            // Then build your request array like this
-            $request_array = array(
-                'shareCode'     => $shareCode,
-                'otp'           => $otp,
-                'transactionId' => $transactionId,
-                'codeVerifier'  => $codeVerifier,
-                'fwdp'          => $fwdp,
-                'validateXml'   => $validateXml
-            );
-            $response = $CommonComponent->call_aadhaar_verification_response_rest_api_digitap("VERIFY_AADHAAR_OTP",$lead_id, $request_array);
-            // $response = aadhaar_digitap_api_call("GENERATE_AADHAAR_VERIFY",$lead_id,$request);
-            $this->response($response);
+        //     // Then build your request array like this
+        //     $request_array = array(
+        //         'shareCode'     => $shareCode,
+        //         'otp'           => $otp,
+        //         'transactionId' => $transactionId,
+        //         'codeVerifier'  => $codeVerifier,
+        //         'fwdp'          => $fwdp,
+        //         'validateXml'   => $validateXml
+        //     );
+        //     $response = $CommonComponent->call_aadhaar_verification_response_rest_api_digitap("VERIFY_AADHAAR_OTP",$lead_id, $request_array);
+        //     // $response = aadhaar_digitap_api_call("GENERATE_AADHAAR_VERIFY",$lead_id,$request);
+        //     $this->response($response);
 
 
 
