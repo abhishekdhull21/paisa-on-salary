@@ -2091,10 +2091,9 @@ class TaskApi extends REST_Controller {
             // } 
             try {
                 $lead_id = decryptLeadID($processId);
-                $lead_detail = $this->Tasks->get_lead_details($lead_id);
-                if(empty($lead_detail) || $lead_detail->status != 1 ){
+                $lead_detail = $this->Tasks->get_lead_customer_details($lead_id);
+                if(empty($lead_detail) || $lead_detail["status"] != 1 ){
                     return $this->response(array("success"=>false, "message"=>"The link is either invalid or has expired."));
-
                 }
 
                 $aadhaarNumber =  $post['aadhaar'];
