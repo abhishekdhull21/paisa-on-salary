@@ -1,27 +1,12 @@
 <IfModule mod_headers.c>
-    # Match localhost and any paisaonsalary.* domain
-    SetEnvIf Origin "^(https?://(localhost(:[0-9]+)?|([a-zA-Z0-9.-]+\.)?paisaonsalary\.(com|in)))$" ACAO=$0
+    # Allow localhost (with or without port)
+    SetEnvIf Origin "^http://localhost(:[0-9]+)?$" AccessControlAllowOrigin=$0
 
-    Header always set Access-Control-Allow-Origin %{ACAO}e env=ACAO
-    Header always set Access-Control-Allow-Credentials "true" env=ACAO
-    Header always set Access-Control-Allow-Methods "POST, GET, OPTIONS, DELETE, PUT" env=ACAO
-    Header always set Access-Control-Allow-Headers "Content-Type, Authorization, Accept, Auth" env=ACAO
-    Header always set Access-Control-Max-Age "86400" env=ACAO
+    # Allow any subdomain or TLD like paisaonsalary.com, .in, .co.in, etc.
+    SetEnvIf Origin "^https?://([a-zA-Z0-9.-]+\.)?paisaonsalary\.(com|in|co\.in)$" AccessControlAllowOrigin=$0
+
+    Header always set Access-Control-Allow-Origin %{AccessControlAllowOrigin}e env=AccessControlAllowOrigin
+    Header always set Access-Control-Allow-Methods "POST, GET, OPTIONS, DELETE, PUT" env=AccessControlAllowOrigin
+    Header always set Access-Control-Allow-Headers "Content-Type, Authorization, Accept, Auth" env=AccessControlAllowOrigin
+    Header always set Access-Control-Max-Age "86400" env=AccessControlAllowOrigin
 </IfModule>
-
-<IfModule mod_rewrite.c>
-    RewriteEngine On
-    RewriteBase /api/  # 👈 Set this to your subfolder path
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ index.php/$1 [L]
-</IfModule>
-
-# Handle preflight requests directly
-<Limit OPTIONS>
-    Header always set Access-Control-Allow-Origin "*"
-    Header always set Access-Control-Allow-Methods "POST, GET, OPTIONS, DELETE, PUT"
-    Header always set Access-Control-Allow-Headers "Content-Type, Authorization, Accept, Auth"
-    Header always set Access-Control-Max-Age "86400"
-    Require all granted
-</Limit>
