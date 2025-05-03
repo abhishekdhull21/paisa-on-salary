@@ -12,15 +12,15 @@ class TaskApi extends REST_Controller {
     public function __construct() {
         parent::__construct();
             // Handle preflight CORS request
-        if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-            header("Access-Control-Allow-Origin: " . $_SERVER['HTTP_ORIGIN']);
-            header("Access-Control-Allow-Credentials: true");
-            header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
-            header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization");
-            header("Access-Control-Max-Age: 86400");
-            http_response_code(200);
-            exit;
-        }
+        // if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+        //     header("Access-Control-Allow-Origin: " . $_SERVER['HTTP_ORIGIN']);
+        //     header("Access-Control-Allow-Credentials: true");
+        //     header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+        //     header("Access-Control-Allow-Headers: Origin, X-Requested-With, Content-Type, Accept, Authorization");
+        //     header("Access-Control-Max-Age: 86400");
+        //     http_response_code(200);
+        //     exit;
+        // }
         $this->load->model('Task_Model', 'Tasks');
         date_default_timezone_set('Asia/Kolkata');
         define('created_on', date('Y-m-d H:i:s'));
