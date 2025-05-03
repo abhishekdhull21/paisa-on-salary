@@ -544,7 +544,7 @@ $config['rest_language'] = 'english';
   | will access it through a browser
   |
  */
-$config['check_cors'] = FALSE;
+$config['check_cors'] = TRUE;
 
 /*
   |--------------------------------------------------------------------------
@@ -605,5 +605,5 @@ $config['allowed_cors_origins'] = [
   'https://paisaonsalary.in',
   'https://*.paisaonsalary.in',  // Allow all subdomains
   'https://localhost',
-  'http://localhost',
+  'http://localhost:3000',
 ];
