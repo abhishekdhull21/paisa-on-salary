@@ -2145,7 +2145,9 @@ class TaskApi extends REST_Controller {
         if (empty($post)) {
             $post = $this->security->xss_clean($_POST);
         }
-        
+
+                        return json_encode($this->response(array('Status' => 0, 'Message' => "default error"), REST_Controller::HTTP_OK));
+
         // return $this->response(array("S"=>1));
         
         // $headers = $this->input->request_headers();
