@@ -1,10 +1,25 @@
-RewriteEngine On
+<IfModule mod_headers.c>
+    # Set allowed origins (all subdomains of paisaonsalary.in and localhost with any port)
+    SetEnvIf Origin "^https?://(.*\.)?paisaonsalary\.in(:[0-9]+)?$" ALLOW_ORIGIN=$0
+    SetEnvIf Origin "^https?://localhost(:[0-9]+)?$" ALLOW_ORIGIN=$0
 
-# Handle preflight (OPTIONS) requests directly
-RewriteCond %{REQUEST_METHOD} OPTIONS
-RewriteRule ^(.*)$ $1 [R=200,L]
+    # Apply CORS headers
+    Header always set Access-Control-Allow-Origin %{ALLOW_ORIGIN}e env=ALLOW_ORIGIN
+    Header always set Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE"
+    Header always set Access-Control-Allow-Headers "Authorization, Content-Type, Accept, Auth"
+    Header always set Access-Control-Max-Age "86400"
+    Header always set Access-Control-Allow-Credentials "true"
+</IfModule>
 
-# Your existing rewrite rules
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule (.*) index.php/$1
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Handle preflight OPTIONS requests
+    RewriteCond %{REQUEST_METHOD} OPTIONS
+    RewriteRule ^(.*)$ $1 [R=200,L]
+
+    # Route all other requests to index.php
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php/$1 [L]
+</IfModule>
