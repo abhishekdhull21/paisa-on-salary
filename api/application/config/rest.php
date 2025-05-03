@@ -559,7 +559,8 @@ $config['allowed_cors_headers'] = [
     'X-Requested-With',
     'Content-Type',
     'Accept',
-    'Access-Control-Request-Method'
+    'Access-Control-Request-Method',
+     'Authorization'
 ];
 
 /*
@@ -588,7 +589,7 @@ $config['allowed_cors_methods'] = [
   | source domain
   |
  */
-$config['allow_any_cors_domain'] = FALSE;
+$config['allow_any_cors_domain'] = TRUE;
 
 /*
   |--------------------------------------------------------------------------
