@@ -83,16 +83,15 @@ function generateAadhaarWithDigitap($lead_id,$request_array = array()) {
     $decodedResponse = json_decode($response,  true);
 
 
-    if ($httpCode === 200 && isset($decodedResponse['status']) && $decodedResponse['status'] === 'success' && $decodedResponse['code'] == 200) {
+    if ( $decodedResponse['code'] == 200) {
         return [
             'success' => true,
-            'data' => $decodedResponse->model
+            'message' => $decodedResponse['model']['uidaiResponse']['message'],
+            'data' => $decodedResponse['model']
         ];
     } else {
         return [
             'success' => false,
-            'key' =>$api_key,
-            'lead' =>$lead_id,
             'error' => $decodedResponse['message'] ?? $decodedResponse['msg'] ?? 'Unknown error occurred',
             'response' => $decodedResponse
         ];
@@ -101,7 +100,6 @@ function generateAadhaarWithDigitap($lead_id,$request_array = array()) {
 
     // echo json_encode($response_array);
     
-return $response_array;
 }
 
 function verifyAadhaarWithDigitap($lead_id,$request_array = array()) {
