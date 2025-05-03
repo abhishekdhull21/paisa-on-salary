@@ -1,18 +1,25 @@
 <IfModule mod_headers.c>
-    # Allow origins: valueleaf.salaryontime.com, salaryontime.com, and localhost (any port)
-    SetEnvIf Origin "^https?://(api\.paisaonsalary.com\.com|paisaonsalary\.com)$" AccessControlAllowOrigin=$0
+    # Match allowed origins (salaryontime.com domains and localhost with any port)
+    SetEnvIf Origin "^https?://(valueleaf\.salaryontime\.com|salaryontime\.com)$" AccessControlAllowOrigin=$0
     SetEnvIf Origin "^https?://localhost(:[0-9]+)?$" AccessControlAllowOrigin=$0
 
-    # Set CORS headers only if origin matched
+    # Allow CORS from matching origins
     Header always set Access-Control-Allow-Origin %{AccessControlAllowOrigin}e env=AccessControlAllowOrigin
-    Header always set Access-Control-Allow-Methods "POST, GET, OPTIONS, DELETE, PUT" env=AccessControlAllowOrigin
-    Header always set Access-Control-Allow-Headers "Content-Type, Authorization, Accept, Auth" env=AccessControlAllowOrigin
-    Header always set Access-Control-Max-Age "86400" env=AccessControlAllowOrigin
     Header always set Access-Control-Allow-Credentials "true" env=AccessControlAllowOrigin
+    Header always set Access-Control-Allow-Methods "GET, POST, OPTIONS, PUT, DELETE" env=AccessControlAllowOrigin
+    Header always set Access-Control-Allow-Headers "Origin, X-Requested-With, Content-Type, Accept, Authorization" env=AccessControlAllowOrigin
+    Header always set Access-Control-Max-Age "86400" env=AccessControlAllowOrigin
 </IfModule>
 
-RewriteEngine On
-#RewriteBase /
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule (.*) index.php/$1
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Allow preflight OPTIONS request to pass through
+    RewriteCond %{REQUEST_METHOD} OPTIONS
+    RewriteRule ^(.*)$ $1 [R=200,L]
+
+    # Route to index.php if file/folder doesn't exist
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php/$1 [L]
+</IfModule>
