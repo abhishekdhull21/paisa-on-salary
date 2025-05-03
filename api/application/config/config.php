@@ -26,15 +26,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 
 // $config['base_url'] = 'https://api.salaryontime.in/';
-$config['base_url'] = 'http://localhost/suryalms-main/api/';
-$xco_path ='C:/xampp/htdocs/suryalms-main/common_component/';
-define("BASE_PATH","C:/xampp/htdocs/suryalms-main/");
+$config['base_url'] = 'http://localhost/pos/api/';
+$xco_path = getenv("WWW_PATH").'common_component/';
+define("BASE_PATH","C:/xampp/htdocs/pos/");
 // $xco_path = FCPATH . 'common_component/';
+if(!defined('UPLOAD_PATH')){
+  define("UPLOAD_PATH", BASE_PATH."upload/");
+}
 
-define("UPLOAD_PATH", BASE_PATH."upload/");
+
+if(!defined('COMPONENT_PATH')){
+  define("COMPONENT_PATH", $xco_path);
+}
 
 //Component path
-define("COMPONENT_PATH", $xco_path);
 /*
   |--------------------------------------------------------------------------
   | Index File

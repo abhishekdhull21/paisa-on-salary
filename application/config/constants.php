@@ -233,4 +233,7 @@ define("BLOG", WEBSITE_URL . "public/blog/");
 
 
 define("BY_PASS_OCR_KYC", TRUE);
+define('ENCRYPTION_METHOD', 'AES-256-CBC');
+define('SECRET_KEY', getenv("SECRET_KEY")); // replace with a secure key
+define('SECRET_IV', getenv('SECRET_IV'));
 

@@ -5935,8 +5935,8 @@ Capitalized terms used herein but not defined shall have the same meanings given
                                     <p><strong>Kasar Credit & Capital Private Limited</strong><br>
                                     G -51, Krishna Apra Business Square,Netaji Subhash Place, New Delhi - 110034,<br>
                                     +91-88000 02890,<br>
-                                    info@paisaonsalary.in,<br>
-                                    <a href="https://paisaonsalary.in">https://www.paisaonsalary.in</a><br>
+                                    info@paisaonsalary.com,<br>
+                                    <a href="https://paisaonsalary.com">https://www.paisaonsalary.com</a><br>
                                     Date : ' . $sanction_date . ' </p>
                                 </div>
                             <div class="customer">
@@ -5956,7 +5956,7 @@ Capitalized terms used herein but not defined shall have the same meanings given
                                     <li>Repayment Amount: ' . number_format(round($camDetails->repayment_amount, 0), 2) . '/-</li>
                                 </ul>
                                 <p>Your loan has been sanctioned with the above-mentioned terms and conditions. The loan amount will be disbursed directly to your designated bank account within ' . $sanction_date . ', subject to the completion of any remaining formalities.</p>
-                                <p>Please carefully review the loan agreement, including the terms, conditions, and repayment schedule. Should you have any questions or require clarification regarding the loan terms, feel free to contact our customer service team at +91-88000 02890 or email us at info@paisaonsalary.in .</p>
+                                <p>Please carefully review the loan agreement, including the terms, conditions, and repayment schedule. Should you have any questions or require clarification regarding the loan terms, feel free to contact our customer service team at +91-88000 02890 or email us at info@paisaonsalary.com .</p>
                                 <p>Kindly ensure that you adhere to the repayment schedule to avoid any unnecessary penalties or charges. Timely repayment will also help you maintain a positive credit history with our institution.</p>
                                 <p>We appreciate your trust in Kasar Credit & Capital Private Limited, and we assure you of our dedicated support in meeting your financial requirements.</p>
                                 <p>Thank you for choosing Kasar Credit & Capital Private Limited. We look forward to a mutually beneficial relationship.</p>
@@ -6030,7 +6030,7 @@ Capitalized terms used herein but not defined shall have the same meanings given
                             <div class="loan-terms">
                                 <p>Kindly Note:</p>
                                 <p>Non-payment of loan on time will adversely affect your Credit score, further reducing your chances of getting Re loan again. Upon approval, the processing fee will be deducted from your Sanction amount and the balance amount will be disbursed to your account.</p>
-                                <p>This Sanction letter is valid for 24 Hours only. You can Prepay/Repay the loan amount using our link <br> <a href="https://paisaonsalary.in/repay-loan"target="_blank"style="color: #4447fd; text-decoration: blink">Payment Link</a>
+                                <p>This Sanction letter is valid for 24 Hours only. You can Prepay/Repay the loan amount using our link <br> <a href="https://paisaonsalary.com/repay-loan"target="_blank"style="color: #4447fd; text-decoration: blink">Payment Link</a>
                                 </td>.</p>
 
                                 <h2>Agreed Terms and Conditions:</h2>
@@ -7165,174 +7165,32 @@ Capitalized terms used herein but not defined shall have the same meanings given
         $sql = "SELECT LD.lead_id, LD.lead_status_id, concat_ws(' ', LC.first_name, LC.middle_name, LC.sur_name) as customer_name, LD.email";
         $sql .= " FROM leads LD INNER JOIN lead_customer LC ON LC.customer_lead_id=LD.lead_id ";
         $sql .= " WHERE LD.lead_id=$lead_id";
-
+        
         $sql = $this->db->query($sql)->row();
-
+        
         $to = $sql->email;
-
+        
         if (!empty($to)) {
-
+            
             $lead_status_id = $sql->lead_status_id;
-
+            
             $customer_name = $sql->customer_name;
-
-            $enc_lead_id = $this->encrypt->encode($lead_id);
-
-            // $digital_ekyc_url = base_url("aadhaar-veri-request") . "?refstr=" . $enc_lead_id;
-            $digital_ekyc_url = base_url("aadhaar-veri-request") . "?lead_id=" . $lead_id;
-
-            $message = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-                            <html xmlns="http://www.w3.org/1999/xhtml">
-                                <head>
-                                    <meta http-equiv = "Content-Type" content = "text/html; charset=utf-8" />
-                                    <title>Digital E-KYC</title>
-                                </head>
-                                <body>
-                                    <table width = "800" border = "0" align = "center" cellpadding = "0" cellspacing = "0" style = "border:solid 1px #ddd;font-family:Arial, Helvetica, sans-serif;">
-                                        <tr>
-                                            <td width = "800" colspan = "2" style = "background:url(' . EKYC_HEADER_BACK . ');" >
-                                                <table width = "100%" border = "0" cellpadding = "0" cellspacing = "0">
-                                                    <tr>
-                                                        <td width = "25%" valign = "top"><a href = "' . WEBSITE_URL . '" target = "_blank"><img src = "https://www.paisaonsalary.in/public/images/final_logo.png" alt = "logo" width = "200" height = "50" style = "margin-top:10px;margin-left:12px;"></a></td>
-                                                        <td width = "64%" align = "center" valign = "middle"><strong style = "color:#fff; font-size:20px;">DIGITAL E-KYC</strong></td>
-                                                        <!-- <td width = "11%" align = "right"><img src = "' . EKYC_LINES . '" width = "26" height = "147" /></td> -->
-                                                    </tr>
-                                                </table>
-
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan = "2" valign = "top"><table width = "100%" border = "0" cellpadding = "0" cellspacing = "0" style = "padding:0px 10px;">
-                                                    <tr>
-                                                        <td width = "50%" rowspan = "10" valign = "top" style = "border-right:solid 1px #8180e0;"><table width = "100%" border = "0">
-                                                                <tr>
-                                                                    <td align = "center" valign = "middle">&nbsp;
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td valign = "middle"><span style = "font-weight:bold; font-size:25px; color:#8180e0;">Dear ' . $customer_name . ' </span></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align = "center">&nbsp;
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><p style = "font-size: 14px;margin: 0px;padding-left: 10px;line-height: 25px;">We thank you for showing interest in ' . WEBSITE . ' . Your loan application has been assigned for credit approval.</p></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align = "center">&nbsp;
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><p style = "font-size: 14px;margin: 0px;padding-left: 10px;line-height: 25px;">In order to process your loan application further, please do the e-kyc via DigiLocker using your Aadhaar.</p></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align = "center">&nbsp;
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><p style = "font-size: 14px;margin: 0px;padding-left: 10px;line-height: 25px;">Once you click on the Digital E-KYC button, You will redirect to the DigiLocker portal, where you need to follow the steps given in <b>"How it Works"</b> on your right side.</p></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align = "center">&nbsp;
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td><p style = "font-size: 14px;margin: 0px;padding-left: 10px;line-height: 25px;">Kindly click on the below button to proceed.</p></td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align = "center">&nbsp;
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td align = "center"><a href = "' . $digital_ekyc_url . '" style = "background: #8180e0;color: #fff;padding: 7px 15px;border-radius: 3px;text-decoration: blink;">Digital E-KYC</a></td>
-                                                                </tr>
-                                                                <!-- <tr>
-                                                                    <td align = "center"><img src = "' . EKYC_LINES . '" alt = "line" width = "26" height = "10" /></td>
-                                                                </tr> -->
-                                                                <tr>
-                                                                    <td><br><p style = "font-size: 14px;margin: 0px;padding-left: 10px;line-height: 20px;">If you are not able to click on the above button, then please copy and paste this URL <a href = "' . $digital_ekyc_url . '">' . $digital_ekyc_url . ' </a> in the browser to proceed.</p></td>
-                                                                </tr>
-                                                            </table></td>
-                                                        <td width = "0" rowspan = "10" align = "center">&nbsp;
-                                                        </td>
-                                                        <td colspan = "2" align = "left">&nbsp;
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td colspan = "2" align = "center"><span style = "font-weight:bold; font-size:25px; color:#8180e0;">How it Works</span></td>
-                                                    </tr>
-
-                                                    <!-- <tr>
-                                                        <td colspan = "2" align = "left"><img src = "' . EKYC_LINES . '" alt = "line" width = "26" height = "5" /></td>
-                                                    </tr> -->
-
-                                                    <tr>
-                                                        <!-- <td width = "23%" align = "left"><a href = "' . EKYC_IMAGES_1_SHOW . '" target = "_blank"><img src = "' . EKYC_IMAGES_1 . '" alt = "1st" width = "172" height = "103" /></a></td> -->
-                                                        <td width = "35%" valign = "top">
-                                                            <p style = "color: #8180e0;font-size:18px;margin: 0px;padding-left: 10px;"><strong>First Step</strong></p>
-                                                            <p style = "font-size: 14px;margin: 0px;padding-left: 10px;line-height: 20px;">Please enter your 12 digits Aadhaar No. and press next.</p>
-                                                        </td>
-                                                    </tr>
-                                                    <!-- <tr>
-                                                        <td colspan = "2" align = "left"><img src = "' . EKYC_LINES . '" alt = "line" width = "26" height = "5" /></td>
-                                                    </tr> -->
-                                                    <tr>
-                                                        <!-- <td align = "left"><a href = "' . EKYC_IMAGES_2_SHOW . '" target = "_blank"><img src = "' . EKYC_IMAGES_2 . '" alt = "2nd" width = "171" height = "103" /></a></td> -->
-                                                        <td align = "left" valign = "top">
-                                                            <p style = "color: #8180e0;font-size:18px;margin: 0px;padding-left: 10px;"><strong>Second Step</strong></p>
-                                                            <p style = "font-size: 14px;margin: 0px;padding-left: 10px;line-height: 20px;">Please enter the OTP received in your registered mobile no. with Aadhaar and press continue.</p>
-                                                        </td>
-                                                    </tr>
-                                                    <!-- <tr>
-                                                        <td colspan = "2" align = "left"><img src = "' . EKYC_LINES . '" alt = "line" width = "26" height = "5" /></td>
-                                                    </tr> -->
-                                                    <tr>
-                                                        <!-- <td align = "left"><a href = "' . EKYC_IMAGES_3_SHOW . '" target = "_blank"><img src = "' . EKYC_IMAGES_3 . '" alt = "3rd" width = "173" height = "103" /></a></td> -->
-                                                        <td align = "left" valign = "top"><p style = "color: #8180e0;font-size:18px;margin: 0px;padding-left: 10px;"><strong>Third Step</strong></p>
-                                                            <p style = "font-size: 14px;margin: 0px;padding-left: 10px;line-height: 20px;">Press allow to give access of your DigiLocker account for documents verification.</p></td>
-                                                    </tr>
-                                                    <!-- <tr>
-                                                        <td colspan = "2" align = "left"><img src = "' . EKYC_LINES . '" alt = "line" width = "26" height = "5" /></td>
-                                                    </tr> -->
-                                                    <tr>
-                                                        <!-- <td align = "left"><a href = "' . EKYC_IMAGES_4_SHOW . '" target = "_blank"><img src = "' . EKYC_IMAGES_4 . '" alt = "4th" width = "173" height = "102" /></a></td> -->
-                                                        <td align = "left" valign = "top"><p style = "color: #8180e0;font-size:18px;margin: 0px;padding-left: 10px;"><strong>Thank You</strong></p>
-                                                            <p style = "font-size: 14px;margin: 0px;padding-left: 10px;line-height: 20px;">Your approval to access DigiLocker account for E-KYC has been successfully submitted.</p></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td valign = "top" style = "border-right:solid 1px #8180e0;">&nbsp;
-                                                        </td>
-                                                        <td align = "center">&nbsp;
-                                                        </td>
-                                                        <td align = "left">&nbsp;
-                                                        </td>
-                                                        <td align = "left" valign = "top">&nbsp;
-                                                        </td>
-                                                    </tr>
-
-                                                </table>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan = "4" align = "center" valign = "middle" style = "border-top:solid 1px #ddd; padding-top:5px;">
-                                                <a href = "' . LINKEDIN_LINK . '" target = "_blank"> <img src = "https://paisaonsalary.in/public/images/linkedin.png" alt = "linkdin" width = "32" height = "32" /></a>
-                                                <a href = "' . INSTAGRAM_LINK . '" target = "_blank"> <img src = "https://paisaonsalary.in/public/images/instagram.png" alt = "instagram" width = "32" height = "32" /></a>
-                                                <a href = "' . FACEBOOK_LINK . '" target = "_blank"> <img src = "https://paisaonsalary.in/public/images/facebook.png" alt = "facebook" width = "32" height = "32" /></a>
-                                                <a href = "' . TWITTER_LINK . '" target = "_blank" style = "color:#fff;"> <img src = "https://paisaonsalary.in/public/images/twitter.png" alt = "twitter" width = "32" height = "32" /> </a>
-                                                <a href = "' . YOUTUBE_LINK . '" target = "_blank" style = "color:#fff;"> <img src = "https://paisaonsalary.in/public/images/youtube.png" alt = "youtube" width = "32" height = "32" /> </a>
-                                                <!-- <a href = "' . APPLE_STORE_LINK . '" target = "_blank"> <img src = "https://paisaonsalary.in/public/images/googleplay.png" alt = "google_play" width = "100" height = "30" style = "border-radius: 50px;"></a> -->
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td colspan = "4" align = "center" valign = "middle" bgcolor = "#8180e0" style = "padding:10px; color:#fff; font-weight:normal; font-size:16px;"><a href = "tel:' . REGISTED_MOBILE . '" style = "color:#fff; text-decoration:blink;"><img src = "https://paisaonsalary.in/public/images/phone.jpg" width = "16" height = "16" alt = "phone-icon" style = "margin-bottom: -2px;margin-right:3px"> ' . REGISTED_MOBILE . ' </a> <a href = "' . WEBSITE_URL . '" target = "_blank" style = "color:#fff; text-decoration:blink;"><img src = "https://paisaonsalary.in/public/images/favicon.png" width = "16" height = "16" alt = "web-icon" style = "margin-bottom: -2px;"> ' . WEBSITE . ' </a> <img src = "https://paisaonsalary.in/public/images/email.jpg" width = "16" height = "16" alt = "email-icon" style = "margin-bottom: -2px;"><a href = "mailto:' . INFO_EMAIL . '" style = "color:#fff; text-decoration:blink;">' . INFO_EMAIL . ' </a></td>
-                                        </tr>
-                                    </table>
-                                </body>
-                            </html>';
-
+            
+            // $enc_lead_id = $this->encrypt->encode($lead_id);
+            
             require_once(COMPONENT_PATH . 'includes/functions.inc.php');
+            // $digital_ekyc_url = base_url("aadhaar-veri-request") . "?refstr=" . $enc_lead_id;
+            $enc_lead_id = encryptLeadID($lead_id);
+            // $digital_ekyc_url = base_url("aadhaar-veri-request") . "?processId=" . $enc_lead_id;
+            $digital_ekyc_url = base_url("aadhaar-veri-request") . "?processId=" . $enc_lead_id;
+
+            $data = [
+                'customer_name'     => $customer_name,
+                'digital_ekyc_url'  => $digital_ekyc_url,
+            ];
+            
+            $message = $this->load->view('templates/ekyc_email', $data, true);
+
 
             $return_array = common_send_email($to, BRAND_NAME . '  | DIGITAL EKYC : ' . $customer_name, $message);
 
@@ -7342,13 +7200,12 @@ Capitalized terms used herein but not defined shall have the same meanings given
 
 
 
-            if ($return_array['status'] == 1) {
+            if (isset($return_array['status']) && $return_array['status'] == 1) {
                 $lead_remark = "Digital E-KYC email sent successfully.";
                 $data = "true";
             } else {
                 $lead_remark = "Digital E-KYC email sending failed.";
                 $data = "false";
-                // echo "init";
             }
 
             $this->insertLeadFollowupLog($lead_id, $lead_status_id, $lead_remark);

@@ -86,30 +86,35 @@ defined('EXIT__AUTO_MIN') OR define('EXIT__AUTO_MIN', 9); // lowest automaticall
 defined('EXIT__AUTO_MAX') OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 // cibil api key
 
-define("UPLOAD_PATH", "C:/xampp/htdocs/suryalms-main/upload/");
+define("COMPONENT_PATH", getenv("WWW_PATH")."common_component/");
+// define("COMP_PATH", COMPONENT_PATH);
+define("UPLOAD_PATH", getenv("WWW_PATH")."upload/");
 
 define("COLLEX_DOC_URL", 'http://salaryontime.in/direct-document-file/'); //production
-define("LMS_URL", "http://localhost/suryalms-main/");
-define("WEBSITE_URL", "https://salaryontime.com/");
-define("WEBSITE", "salaryontime.com");
+define("LMS_URL", getenv("WEBSITE_URL") ?? "http://localhost/pos/");
+define("WEBSITE_URL", getenv("WEBSITE_URL") ?? "http://localhost/pos/");
+define("WEBSITE", getenv("WEBSITE"));
 
-// define("UPLOAD_PATH", "C:/xampp/htdocs/suryalms-main/upload/");
-define("TEMP_DOC_PATH", "C:/xampp/htdocs/suryalms-main/temp_upload/");
-define("COMPONENT_PATH", "C:/xampp/htdocs/suryalms-main/common_component/");
+// define("UPLOAD_PATH", "C:/xampp/htdocs/pos/upload/");
+define("TEMP_DOC_PATH", getenv("WWW_PATH")."temp_upload/");
 
 define("API_DOC_S3_FLAG", true); //true=> Store in S3 bucket , false=> Physical store.
 
-define("LMS_COMPANY_LOGO", LMS_URL . "/public_html/salaryontime.in/front/img/company_logo.png");
-define("LMS_BRAND_LOGO", LMS_URL . "/salaryontime.in//public/front/img/brand_logo.jpg");
+define("LMS_COMPANY_LOGO", LMS_URL . "public/front/img/company_logo.jpg");
+define("LMS_BRAND_LOGO", LMS_URL . "public/front/img/brand_logo.jpg");
 
 define("COMPANY_NAME", getenv("COMPANY_NAME"));
 define("BRAND_NAME", getenv("BRAND_NAME"));
 define("REGISTED_ADDRESS", "NSP");
 define("REGISTED_MOBILE", "+91-8282824-633");
 
-define("TECH_EMAIL", "tech.team@salaryontime.com");
-define("INFO_EMAIL", "tech.team@salaryontime.com");
-define("CARE_EMAIL", "tech.team@salaryontime.com");
-define("RECOVERY_EMAIL", "tech.team@salaryontime.com");
-
+define("TECH_EMAIL", getenv("TECH_EMAIL"));
+define("INFO_EMAIL", getenv("MAIN_EMAIL"));
+define("CARE_EMAIL", getenv("MAIN_EMAIL"));
+define("RECOVERY_EMAIL", getenv("MAIN_EMAIL"));
+define("COLLECTION_EMAIL", getenv("MAIN_EMAIL"));
+define("CTO_EMAIL", getenv("MAIN_EMAIL"));
+define('ENCRYPTION_METHOD', getenv('ENCRYPTION_METHOD'));
+define('SECRET_KEY', getenv('SECRET_KEY')); // replace with a secure key
+define('SECRET_IV', getenv('SECRET_IV'));
 // *****  TEMPLETE VARIABLES *******

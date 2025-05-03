@@ -9,7 +9,7 @@ set_time_limit(0);
 date_default_timezone_set('Asia/Calcutta');
 
 // $xco_path = 'C:/xampp/htdocs/suryalms-main/common_component';
-$xco_path = FCPATH . 'common_component/';
+$xco_path = getenv('WWW_PATH') . 'common_component/';
 
 define("COMP_PATH", $xco_path);
 define("COMP_ENVIRONMENT", 'development'); //production
@@ -144,6 +144,15 @@ class CommonComponent {
         require_once(COMP_PATH . '/includes/integration/payday_aadhaar_digilocker_api.php');
 
         $return_array = aadhaar_digilocker_api_call('DIGILOCKER_GET_DETAILS', $lead_id, array());
+
+        return $return_array;
+    }
+
+    public function call_aadhaar_verification_response_rest_api_digitap($method_name,$lead_id,$request_array) {
+
+        require_once(COMP_PATH . '/includes/integration/aadhar_rest_api_verification_api.php');
+
+        $return_array = aadhaar_digitap_api_call($method_name, $lead_id, $request_array);
 
         return $return_array;
     }

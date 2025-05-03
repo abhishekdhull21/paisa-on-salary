@@ -197,7 +197,7 @@ $refrenceData = getrefrenceData('lead_customer_references', $leadDetails->lead_i
                 </div>
 
                 <div class="col-md-6">
-                    <label class="labelField">Residing Since</label>
+                    <label class="labelField">Residing Since<span class="required_Fields">*</span></label>
                     <input type="text" class="form-control inputField" id="residenceSince" name="residenceSince" autocomplete="off">
                 </div>
             </div>

@@ -55,6 +55,28 @@
      */
 define('ENVIRONMENT', 'development');
 
+$envFile = dirname(__DIR__) . DIRECTORY_SEPARATOR . ".". ENVIRONMENT . '.env';
+// const string __DIR__ = "c:\\xampp\\htdocs\\pos\\api"
+
+// $envFile = 'c:\xampp\htdocs\pos\.' . ENVIRONMENT . '.env';
+
+if (file_exists($envFile)) {
+    $lines = file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
+    foreach ($lines as $line) {
+        if (strpos(trim($line), '#') === 0) {
+            continue; // Skip comments
+        }
+
+        list($key, $value) = array_pad(explode('=', $line, 2), 2, null);
+        if ($key !== null && $value !== null && getenv($key) === false) {
+            putenv(trim($key) . '=' . trim($value));
+            $_ENV[trim($key)] = trim($value);
+            $_SERVER[trim($key)] = trim($value);
+        }
+    }
+}
+
 /*
      * ---------------------------------------------------------------
      * ERROR REPORTING

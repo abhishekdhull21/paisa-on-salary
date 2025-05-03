@@ -159,3 +159,9 @@ $route['checkInstantAppVersion']['post'] = 'Api/ANDROIDAPP/InstantJourneyControl
 $route['sendInstantOTP']['post'] = 'Api/ANDROIDAPP/InstantJourneyController/appLogin';
 
 
+//************* Web API *****************//
+// send aadhar otp
+$route['request/aadhaar/otp']['post'] = 'Api/TaskApi/genrateAadhaarOTP';
+$route['request/aadhaar/verify']['post'] = 'Api/TaskApi/verifyAadhaarOTP';
+
+

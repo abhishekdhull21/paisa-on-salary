@@ -2055,6 +2055,183 @@ class TaskApi extends REST_Controller {
         }
     }
 
+    public function genrateAadhaarOTP_post() {
+        
+        $input_data = file_get_contents("php://input");
+        $post = $this->security->xss_clean(json_decode($input_data, true));
+
+        if (empty($post)) {
+            $post = $this->security->xss_clean($_POST);
+        }
+
+        // return $this->response(array("S"=>1));
+
+        $headers = $this->input->request_headers();
+        // $token = $this->_token();
+        // $header_validation = ($headers['Accept'] == "application/json") && ($token['token_Leads'] == base64_decode($headers['Auth']));
+
+        // if ($_SERVER['REQUEST_METHOD'] == 'POST' && $header_validation) {
+        $this->form_validation->set_data($post);
+        $this->form_validation->set_rules("aadhaar", "Aadhar Number", "required|trim|numeric|is_natural|regex_match[/^[0-9]+$/]");
+        $this->form_validation->set_rules("processId", "Process ID", "required|trim");
+        if ($this->form_validation->run() == FALSE) {
+            return json_encode($this->response(['Status' => 0, 'Message' => validation_errors()], REST_Controller::HTTP_OK));
+        } else {
+            require_once (COMPONENT_PATH . 'CommonComponent.php');
+            $CommonComponent = new CommonComponent();
+            require_once(COMPONENT_PATH . 'includes/functions.inc.php');
+
+            $processId = $post['processId'];
+            // try{
+
+                // $lead_id = decryptLeadID($processId);
+            // }catch(err){
+            //     return $this->response(err);
+
+            // } 
+            try {
+                $lead_id = decryptLeadID($processId);
+                $lead_detail = $this->Tasks->get_lead_details($lead_id);
+                if(empty($lead_detail) || $lead_detail->status != 1 ){
+                    return $this->response(array("success"=>false, "message"=>"The link is either invalid or has expired."));
+
+                }
+
+                $aadhaarNumber =  $post['aadhaar'];
+                $request = array(  'aadhaar' => $post['aadhaar']);
+                $response = $CommonComponent->call_aadhaar_verification_response_rest_api_digitap("GENERATE_AADHAAR_OTP",$lead_id,$request);
+                // return json_encode($response);
+
+                return $this->response($response);
+
+            } catch (Exception $e) {
+                return $this->response([
+                    'status' => false,
+                    'error' => $e->getMessage()
+                ], REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+            } 
+            // if ($response->success) {
+            //     $statusCode = $responseData->data;
+            //     // $isValidAadhaar = $statusCode->isValidAadhaar;
+
+            //     // if ($isValidAadhaar) {
+            //     //     // Retrieve the Aadhar number from the input data
+
+            //     //     $aadharNumber = isset($post['aadhaarNumber']) ? $post['aadhaarNumber'] : '';
+
+            //     //     // Update the Aadhar number in the database
+            //     //     $update_aadhar_no = array(
+            //     //         'aadhar_no' => substr($aadharNumber, -4)
+            //     //     );
+
+            //     //     $this->db->where('customer_lead_id', $lead_id)->update('lead_customer', $update_aadhar_no);
+
+
+            //     //     return json_encode($this->response(['message' => 'Aadhar verification successful.', 'Status' => 1, 'result' => $responseData->data->requestId], REST_Controller::HTTP_OK));
+            //     // } else if (!empty($responseData->error)) {
+            //     //     return json_encode($this->response(['Status' => 0, 'Message' => $responseData->error->message, 'result' => $responseData->data->requestId], REST_Controller::HTTP_OK));
+            //     // } else {
+            //     //     return json_encode($this->response(['Status' => 0, 'Message' => 'Some error occured please try again later'], REST_Controller::HTTP_OK));
+            //     // }
+            // } else {
+            //     return json_encode($this->response(['Status' => 0, 'Message' => $response->error ?? 'Some error occured try again later'], REST_Controller::HTTP_OK));
+            // }
+        }
+    }
+
+    public function verifyAadhaarOTP_post() {
+        
+        $input_data = file_get_contents("php://input");
+        $post = $this->security->xss_clean(json_decode($input_data, true));
+        if (empty($post)) {
+            $post = $this->security->xss_clean($_POST);
+        }
+        
+        // return $this->response(array("S"=>1));
+        
+        // $headers = $this->input->request_headers();
+        // $token = $this->_token();
+        // $header_validation = ($headers['Accept'] == "application/json") && ($token['token_Leads'] == base64_decode($headers['Auth']));
+        
+        // if ($_SERVER['REQUEST_METHOD'] == 'POST' && $header_validation) {
+            $this->form_validation->set_data($post);
+            $this->form_validation->set_rules("processId", "Process ID", "required|trim");
+            $this->form_validation->set_rules("shareCode", "Share Code", "required|trim|regex_match[/^\d{4}$/]");
+            $this->form_validation->set_rules("otp", "OTP", "required|trim|numeric|exact_length[6]");
+            $this->form_validation->set_rules("transactionId", "Transaction ID", "required|trim|regex_match[/^\d+$/]");
+            $this->form_validation->set_rules("codeVerifier", "Code Verifier", "required|trim");
+            $this->form_validation->set_rules("fwdp", "FWDP", "required|trim");
+            if ($this->form_validation->run() == FALSE) {
+                return json_encode($this->response(['Status' => 0, 'Message' => validation_errors()], REST_Controller::HTTP_OK));
+            } else {
+                require_once (COMPONENT_PATH . 'CommonComponent.php');
+                $CommonComponent = new CommonComponent();
+                
+                
+                require_once(COMPONENT_PATH . 'includes/functions.inc.php');
+                $processId = $post['processId'];
+                
+                try {
+                    $lead_id = decryptLeadID($processId);
+                } catch (Exception $e) {
+                    return $this->response([
+                    'status' => false,
+                    'error' => $e->getMessage()
+                ], REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+            }          
+            $shareCode      = $post['shareCode'];
+            $otp            = $post['otp'];
+            $transactionId  = $post['transactionId'];
+            $codeVerifier   = $post['codeVerifier'];
+            $fwdp           = $post['fwdp'];
+            $validateXml    = $post['validateXml'];
+
+            // Then build your request array like this
+            $request_array = array(
+                'shareCode'     => $shareCode,
+                'otp'           => $otp,
+                'transactionId' => $transactionId,
+                'codeVerifier'  => $codeVerifier,
+                'fwdp'          => $fwdp,
+                'validateXml'   => $validateXml
+            );
+            $response = $CommonComponent->call_aadhaar_verification_response_rest_api_digitap("VERIFY_AADHAAR_OTP",$lead_id, $request_array);
+            // $response = aadhaar_digitap_api_call("GENERATE_AADHAAR_VERIFY",$lead_id,$request);
+            $this->response($response);
+
+
+
+            // return json_encode($response);
+
+        //    return $this->response($response);
+            // if ($response->success) {
+            //     $statusCode = $responseData->data;
+            //     // $isValidAadhaar = $statusCode->isValidAadhaar;
+
+            //     // if ($isValidAadhaar) {
+            //     //     // Retrieve the Aadhar number from the input data
+
+            //     //     $aadharNumber = isset($post['aadhaarNumber']) ? $post['aadhaarNumber'] : '';
+
+            //     //     // Update the Aadhar number in the database
+            //     //     $update_aadhar_no = array(
+            //     //         'aadhar_no' => substr($aadharNumber, -4)
+            //     //     );
+
+            //     //     $this->db->where('customer_lead_id', $lead_id)->update('lead_customer', $update_aadhar_no);
+
+
+            //     //     return json_encode($this->response(['message' => 'Aadhar verification successful.', 'Status' => 1, 'result' => $responseData->data->requestId], REST_Controller::HTTP_OK));
+            //     // } else if (!empty($responseData->error)) {
+            //     //     return json_encode($this->response(['Status' => 0, 'Message' => $responseData->error->message, 'result' => $responseData->data->requestId], REST_Controller::HTTP_OK));
+            //     // } else {
+            //     //     return json_encode($this->response(['Status' => 0, 'Message' => 'Some error occured please try again later'], REST_Controller::HTTP_OK));
+            //     // }
+            // } else {
+            //     return json_encode($this->response(['Status' => 0, 'Message' => $response->error ?? 'Some error occured try again later'], REST_Controller::HTTP_OK));
+            // }
+        }
+    }
 
 
     public function getCustomerBankverify_post() {

@@ -124,6 +124,9 @@ class CI_Log {
 
 		isset(self::$func_overload) OR self::$func_overload = (extension_loaded('mbstring') && ini_get('mbstring.func_overload'));
 
+		if(!isset($config['log_path'])){
+			$config['log_path'] = "";
+		}
 		$this->_log_path = ($config['log_path'] !== '') ? $config['log_path'] : APPPATH.'logs/';
 		$this->_file_ext = (isset($config['log_file_extension']) && $config['log_file_extension'] !== '')
 			? ltrim($config['log_file_extension'], '.') : 'php';
@@ -133,6 +136,10 @@ class CI_Log {
 		if ( ! is_dir($this->_log_path) OR ! is_really_writable($this->_log_path))
 		{
 			$this->_enabled = FALSE;
+		}
+
+		if(!isset($config['log_threshold'])){
+			$config['log_threshold'] =0;
 		}
 
 		if (is_numeric($config['log_threshold']))

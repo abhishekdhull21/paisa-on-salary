@@ -3916,7 +3916,9 @@ if (isset($leadDetails) && isset($leadDetails->lead_status_id) && isset($agent))
                     if (response.msg) {
                         // history.back(1);
                         catchSuccess(response.msg);
-                        window.location.reload();
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 1500);
                     } else {
                         $('#application_errors').html(response.err);
                         $('#application_errors').show();

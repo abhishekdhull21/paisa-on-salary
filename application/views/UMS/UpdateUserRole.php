@@ -342,21 +342,22 @@ if (!empty($enc_user_role_id) && $user_data['user_role_type_id'] == 13) {
                                                                             <div class="col-md-6" id="div_screener_id">
 
                                                                                 <label><span class="span">*</span>Reporting</label>
+                                                                                <?php
+                                                                                $selectedUserRoleId = is_array($getMappedCreditHead) ? $getMappedCreditHead['user_role_id'] ?? null : $getMappedCreditHead;
+                                                                                ?>
+
                                                                                 <select class="form-control" name="reporting_id" id="reporting_id" required>
                                                                                     <option value="">Select</option>
-                                                                                    <?php
-                                                                                    if (!empty($getCreditHead)) {
+                                                                                    <?php if (!empty($getCreditHead)) {
                                                                                         foreach ($getCreditHead as $value) {
                                                                                     ?>
-                                                                                            <option value="<?= $value['user_role_id'] ?>" <?php
-                                                                                                                                            if ($getMappedCreditHead['user_role_id'] == $value['user_role_id']) {
-                                                                                                                                                echo "selected";
-                                                                                                                                            }
-                                                                                                                                            ?>><?= $value['name'] ?></option>
+                                                                                        <option value="<?= $value['user_role_id'] ?>" 
+                                                                                            <?= ($selectedUserRoleId == $value['user_role_id']) ? 'selected' : '' ?>>
+                                                                                            <?= $value['name'] ?>
+                                                                                        </option>
                                                                                     <?php
                                                                                         }
-                                                                                    }
-                                                                                    ?>
+                                                                                    } ?>
                                                                                 </select>
                                                                             </div>
                                                                         </div>
@@ -386,11 +387,11 @@ if (!empty($enc_user_role_id) && $user_data['user_role_type_id'] == 13) {
                                                                                     if (!empty($getCreditHead)) {
                                                                                         foreach ($getCreditHead as $value) {
                                                                                     ?>
-                                                                                            <option value="<?= $value['user_role_id'] ?>" <?php
-                                                                                                                                            if ($getMappedCreditHead['user_role_id'] == $value['user_role_id']) {
-                                                                                                                                                echo "selected";
-                                                                                                                                            }
-                                                                                                                                            ?>><?= $value['name'] ?></option>
+                                                                                        <option value="<?= $value['user_role_id'] ?>" <?php
+                                                                                        if ($getMappedCreditHead['user_role_id'] == $value['user_role_id']) {
+                                                                                            echo "selected";
+                                                                                        }
+                                                                                        ?>><?= $value['name'] ?></option>
                                                                                     <?php
                                                                                         }
                                                                                     }

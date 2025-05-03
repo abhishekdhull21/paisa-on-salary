@@ -216,8 +216,7 @@ function common_send_email(
                 $apiKey = getenv('MAIL_GUN_API_KEY');
                 $domain = getenv('MAIL_GUN_DOMAIN');
                 $url = "https://api.mailgun.net/v3/{$domain}/messages";
-            
-                // Base fields
+
                 $fields = [
                     'from'    => $from_email,
                     'to'      => $to_email,
@@ -510,4 +509,24 @@ if (!function_exists('downloadDocument')) {
     }
 
 }
+
+function encryptLeadID($lead_id) {
+    $key = hash('sha256', SECRET_KEY);
+    $iv = substr(hash('sha256', SECRET_IV), 0, 16); // AES-256 needs 16-byte IV
+
+    $encrypted = openssl_encrypt($lead_id, ENCRYPTION_METHOD, $key, 0, $iv);
+    return base64_encode($encrypted); // safe for URLs
+}
+
+function decryptLeadID($encrypted_id) {
+    $key = hash('sha256', SECRET_KEY);
+    $iv = substr(hash('sha256', SECRET_IV), 0, 16);
+
+    $decoded = base64_decode($encrypted_id);
+    $decrypted = openssl_decrypt($decoded, ENCRYPTION_METHOD, $key, 0, $iv);
+
+    return $decrypted;
+}
+
+
 ?>
