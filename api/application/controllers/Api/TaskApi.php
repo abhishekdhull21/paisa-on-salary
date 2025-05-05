@@ -21,6 +21,8 @@ class TaskApi extends REST_Controller {
         //     http_response_code(200);
         //     exit;
         // }
+        log_message('error', 'Request reached controller: ' . $_SERVER['REQUEST_METHOD']);
+
         $this->load->model('Task_Model', 'Tasks');
         date_default_timezone_set('Asia/Kolkata');
         define('created_on', date('Y-m-d H:i:s'));

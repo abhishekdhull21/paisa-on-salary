@@ -54,6 +54,7 @@
      * NOTE: If you change these, also change the error_reporting() code below
      */
 define('ENVIRONMENT', 'development');
+file_put_contents('debug.log', "CodeIgniter loaded: " . date('c') . "\n", FILE_APPEND);
 
 $envFile = dirname(__DIR__) . DIRECTORY_SEPARATOR . ".". ENVIRONMENT . '.env';
 // const string __DIR__ = "c:\\xampp\\htdocs\\pos\\api"
