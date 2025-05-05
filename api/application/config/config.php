@@ -26,9 +26,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 
 // $config['base_url'] = 'https://api.salaryontime.in/';
-$config['base_url'] = 'http://localhost/pos/api/';
+$config['base_url'] = getenv('SERVER_API_URL') ?? 'http://localhost/pos/api/';
 $xco_path = getenv("WWW_PATH").'common_component/';
-define("BASE_PATH","C:/xampp/htdocs/pos/");
+define("BASE_PATH",getenv("WWW_PATH")."api/");
 // $xco_path = FCPATH . 'common_component/';
 if(!defined('UPLOAD_PATH')){
   define("UPLOAD_PATH", BASE_PATH."upload/");
