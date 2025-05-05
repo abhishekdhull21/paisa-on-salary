@@ -1,8 +1,10 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    # Redirect to HTTPS (optional)
-    # RewriteCond %{HTTPS} off
-    # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+    RewriteBase /
+
+    # Skip rewriting if request is for /api or a real file/folder
+    RewriteCond %{REQUEST_URI} ^/api [NC]
+    RewriteRule ^ - [L]
 
     # Remove 'index.php' from URLs
     RewriteCond %{REQUEST_FILENAME} !-f
