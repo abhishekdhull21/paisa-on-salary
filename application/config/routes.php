@@ -518,6 +518,10 @@ $route['aadhaar-veri-response'] = 'ApiCallBackController/digilockerResponse';
 
 $route['defaultLoginRole/(:num)'] = 'LoginController/defaultLoginRole/$1';
 $route['check_session_status/(:num)'] = 'LoginController/checkSessionStatus/$1';
+$route['aadhaar-veri-request/(:any)'] = 'LoginController/aadhaar_veri_request/$1';
+$route['aadhaar-veri-request-genrate-otp'] = 'LoginController/aadhaar_veri_request_genrate_otp';
+$route['aadhaar-veri-request-verify-otp'] = 'LoginController/aadhaar_veri_request_verify_otp';
+
 
 /* * **************Dcoument releted all work will be here*************** */
 $route['view-document-file/(:any)/(:any)'] = 'DocsController/viewUploadedDocument/$1/$2';

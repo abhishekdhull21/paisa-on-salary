@@ -799,4 +799,137 @@ class LoginController extends CI_Controller {
         }
     }
 
+    
+    public function aadhaar_veri_request($processId) {
+        $data = array("processId"=>$processId);
+        // echo "yes there!!";
+        $this->load->view('Verification/aadhaar_veri_request', $data);
+
+    }
+
+    public function aadhaar_veri_request_genrate_otp() {
+
+            require_once (COMPONENT_PATH . 'CommonComponent.php');
+            $CommonComponent = new CommonComponent();
+            require_once(COMPONENT_PATH . 'includes/functions.inc.php');
+
+            $processId = $_POST['processId'];
+
+            try {
+                $lead_id = decryptLeadID($processId);
+                $lead_detail = $this->Tasks->getCustomerDetails($lead_id);
+                // echo json_encode(array("success"=>false,   "message"=>"The link is either invalid or has expired."));
+                // return;
+                if(empty($lead_detail) || !isset($lead_detail["status"])){
+                    echo json_encode(array("success"=>false, "message"=>"The link is either invalid or has expired."));
+                    return;
+                }
+
+                $request = array(  'aadhaar' => $_POST['aadhaar']);
+                $response = $CommonComponent->call_aadhaar_verification_response_rest_api_digitap("GENERATE_AADHAAR_OTP",$lead_id,$request);
+                // return json_encode($response);
+                echo json_encode($response);
+                return;
+                // return $this->response($response);
+
+            } catch (Exception $e) {
+                return json_encode([
+                    'status' => false,
+                    'error' => $e->getMessage()
+                ], REST_Controller::HTTP_INTERNAL_SERVER_ERROR);
+            } 
+    }
+    public function aadhaar_veri_request_verify_otp()
+    {
+        // Parse JSON or fallback to $_POST
+        $input_data = file_get_contents("php://input");
+        $post = $this->security->xss_clean(json_decode($input_data, true));
+
+        if (empty($post)) {
+            $post = $this->security->xss_clean($this->input->post());
+        }
+
+        // Optional: Validate request headers (if required)
+        $headers = $this->input->request_headers();
+        // Sample token logic (adjust according to your app)
+        // $token = $this->_token();
+        // $header_validation = isset($headers['Accept'], $headers['Auth']) &&
+        //     $headers['Accept'] === "application/json" &&
+        //     $token['token_Leads'] === base64_decode($headers['Auth']);
+
+        // if ($_SERVER['REQUEST_METHOD'] === 'POST' && $header_validation) {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Set data and validation rules
+            $this->form_validation->set_data($post);
+            $this->form_validation->set_rules("processId", "Process ID", "required|trim");
+            // $this->form_validation->set_rules("shareCode", "Share Code", "required|trim|regex_match[/^\d{4}$/]");
+            $this->form_validation->set_rules("otp", "OTP", "required|trim|numeric|exact_length[6]");
+            $this->form_validation->set_rules("transactionId", "Transaction ID", "required|trim|regex_match[/^\d+$/]");
+            $this->form_validation->set_rules("codeVerifier", "Code Verifier", "required|trim");
+            $this->form_validation->set_rules("fwdp", "FWDP", "required|trim");
+
+
+
+
+            if ($this->form_validation->run() === FALSE) {
+                return $this->output
+                    ->set_content_type('application/json')
+                    ->set_output(json_encode([
+                        'success' => false,
+                        'message' => 'Invalid Request',
+                        'errors' => $this->form_validation->error_array()
+                    ]));
+            }
+
+            // Proceed with your Aadhaar OTP verification logic here
+            // For example, call external UIDAI API or process data
+            require_once (COMPONENT_PATH . 'CommonComponent.php');
+            $CommonComponent = new CommonComponent();
+            
+            
+            require_once(COMPONENT_PATH . 'includes/functions.inc.php');
+            $processId = $post['processId'];
+            
+            try {
+                $lead_id = decryptLeadID($processId);
+            } catch (Exception $e) {
+                return $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode([
+                    'status' => false,
+                    'error' => $e->getMessage()
+                ]));
+        }          
+        $shareCode      = rand(1000, 9999);
+        $otp            = $post['otp'];
+        $transactionId  = $post['transactionId'];
+        $codeVerifier   = $post['codeVerifier'];
+        $fwdp           = $post['fwdp'];
+        $validateXml    = true;
+
+        // Then build your request array like this
+        $request_array = array(
+            'shareCode'     => $shareCode,
+            'otp'           => $otp,
+            'transactionId' => $transactionId,
+            'codeVerifier'  => $codeVerifier,
+            'fwdp'          => $fwdp,
+            'validateXml'   => $validateXml
+        );
+        $response = $CommonComponent->call_aadhaar_verification_response_rest_api_digitap("VERIFY_AADHAAR_OTP",$lead_id, $request_array);
+        // $response = aadhaar_digitap_api_call("GENERATE_AADHAAR_VERIFY",$lead_id,$request);
+        // $this->response($response);
+
+            return $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode($response));
+        } else {
+            return $this->output
+                ->set_content_type('application/json')
+                ->set_output(json_encode([
+                    'success' => false,
+                    'msg' => 'Invalid request method'
+                ]));
+        }
+    }
 }

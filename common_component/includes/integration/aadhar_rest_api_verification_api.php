@@ -83,16 +83,26 @@ function generateAadhaarWithDigitap($lead_id,$request_array = array()) {
     $decodedResponse = json_decode($response,  true);
 
 
-    if ($httpCode === 200 && isset($decodedResponse['status']) && $decodedResponse['status'] === 'success' && $decodedResponse['code'] == 200) {
+    if ( $decodedResponse['code'] == 200) {
+        $message = "Otp sent on your registered number.";
+        if (is_array($decodedResponse) &&
+            isset($decodedResponse['model']) &&
+            is_array($decodedResponse['model']) &&
+            isset($decodedResponse['model']['uidaiResponse']) &&
+            is_array($decodedResponse['model']['uidaiResponse']) &&
+            isset($decodedResponse['model']['uidaiResponse']['message'])) {
+
+            $message = $decodedResponse['model']['uidaiResponse']['message'];
+
+        }
         return [
             'success' => true,
-            'data' => $decodedResponse->model
+            'message' => $message,
+            'data' => $decodedResponse['model']
         ];
     } else {
         return [
             'success' => false,
-            'key' =>$api_key,
-            'lead' =>$lead_id,
             'error' => $decodedResponse['message'] ?? $decodedResponse['msg'] ?? 'Unknown error occurred',
             'response' => $decodedResponse
         ];
@@ -101,7 +111,6 @@ function generateAadhaarWithDigitap($lead_id,$request_array = array()) {
 
     // echo json_encode($response_array);
     
-return $response_array;
 }
 
 function verifyAadhaarWithDigitap($lead_id,$request_array = array()) {
@@ -229,7 +238,7 @@ function verifyAadhaarWithDigitap($lead_id,$request_array = array()) {
             curl_close($curl);
             $apiResponseData = json_decode($apiResponseJson, true);
     
-            if (!empty($apiResponseData) && $apiResponseData['code'] == "200" && $apiResponseData['msg'] == "success") {
+            if (!empty($apiResponseData) && $apiResponseData['code'] == "200") {
                 $aadhaarData = $apiResponseData['model'];
     
                 if (!empty($aadhaarData['adharNumber']) && !empty($aadhaarData['dob'])) {
@@ -312,17 +321,17 @@ function verifyAadhaarWithDigitap($lead_id,$request_array = array()) {
             // Handle cases where Aadhaar number or DOB doesn't match
             if (substr($aadhaarData['adharNumber'], -4) != $aadhaar_no) {
                 $apiStatusId = 7;
-                $lead_remarks .= "<br/>Result: Aadhaar number mismatch.".$aadhaar_no." ".substr($aadhaarData['adharNumber'], -4);
+                $lead_remarks .= "<br/>Aadhaar number mismatch.".$aadhaar_no." ".substr($aadhaarData['adharNumber'], -4);
             } elseif ($aadhaarDob != $customerDob) {
                 $apiStatusId = 6;
-                $lead_remarks .= "<br/>Result: Aadhaar DOB mismatch.".$aadhaarDob." ".$customerDob;
+                $lead_remarks .= "<br/>Aadhaar DOB mismatch.".$aadhaarDob." ".$customerDob;
             } else {
                 $apiStatusId = 8;
-                $lead_remarks .= "<br/>Result: Aadhaar last four digits and DOB not matched.".substr($aadhaarData['adharNumber'], -4) . $aadhaar_no . $aadhaarDob . $customerDob;
+                $lead_remarks .= "<br/>Aadhaar last four digits and DOB not matched.".substr($aadhaarData['adharNumber'], -4) . $aadhaar_no . $aadhaarDob . $customerDob;
             }
         }
     } else {
-        $lead_remarks = "DigiTap Aadhaar API CALL(Failed) | Aadhaar : $aadhaar_no_last_4_digit | Error: " . $errorMessage;
+        $lead_remarks =  $errorMessage;
     }
     
     $leadModelObj->insertApplicationLog($lead_id, $lead_status_id, $lead_remarks);
@@ -346,12 +355,12 @@ function verifyAadhaarWithDigitap($lead_id,$request_array = array()) {
     
     // Preparing the response array
     $response_array = [
-        'status' => $apiStatusId,
+        'success' => $apiStatusId == 5,
         // 'data' => $aadhaarData,
         'errors' => !empty($errorMessage) ? $errorMessage : "",
         'message' => $lead_remarks,
-        'request_json' => $apiRequestJson,
-        'response_json' => $apiResponseData,
+        // 'request_json' => $apiRequestJson,
+        // 'response_json' => $apiResponseData,
         // 'aadhaar_image' => $aadhaar_image
     ];
     
