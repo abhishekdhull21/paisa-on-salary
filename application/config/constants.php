@@ -131,10 +131,11 @@ define("LMS_COMPANY_MIS_LOGO", LMS_URL . "public/front/img/company_logo.jpg");
 define("LMS_BRAND_LOGO", LMS_URL . "public/front/img/brand_logo.jpg");
 define("BANK_STATEMENT_UPLOAD", getenv("WWW_PATH")."application/helpers/integration/");
 define("COMPANY_NAME",getenv("COMPANY_NAME"));
-define("RBI_LICENCE_NUMBER", "B-14.01843");
-define('CONTACT_PERSON', 'AJAY Sheokand');
-define("REGISTED_ADDRESS", "G -51, Krishna Apra Business Square, Netaji Subhash Place, New Delhi - 110034");
-define("REGISTED_MOBILE", "+91-8800002890");
+define("RBI_LICENCE_NUMBER", "14.01466");
+define('CONTACT_PERSON', 'Manish');
+define("REGISTED_ADDRESS", "BASEMENT, S-370, Malviya Nagar, Panchsheel Park, NEW DELHI,
+South West Delhi, Delhi, 110017");
+define("REGISTED_MOBILE", "+91-9660236005");
 define("BRAND_NAME",getenv("BRAND_NAME"));
 
 define("TECH_EMAIL", getenv("TECH_EMAIL"));
