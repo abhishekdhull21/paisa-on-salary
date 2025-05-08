@@ -821,99 +821,125 @@ class ApiCallBackController extends CI_Controller {
     }
 
     private function error_page_html($tag_line, $redirect_url = null) {
-
-        if (empty($redirect_url)) {
-            $return_button = '<a href="' . WEBSITE_URL . '" class="back-to-home-page">Back to Home Page</a>';
-        } else {
-            $return_button = '<a href="' . $redirect_url . '" class="back-to-home-page">Please continue the journey</a>';
-        }
-
-        $html = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-                    <html xmlns="http://www.w3.org/1999/xhtml">
-                    <head>
-                        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-                        <title>Thank You</title>
-                       
-                        <link rel="stylesheet" href="' . WEBSITE_URL . 'public/css/bootstrap.min.css?v=1.9"/>
-                       
-                    </head>
-                    
-                    <body style="background: #8180e0">
-                        <style>
-                        .ekyc_thnk {position: absolute;top: 0;bottom: 0;left: 0;right: 0;margin: auto;width: 600px;height: 310px;padding: 20px;border: 
-                            solid 1px #8180e0;background: #fff;border-radius: 20px;box-shadow: 0 0 13px #8180e0;text-align: center;}
-                            .oops {font-size: 40px;font-weight: bold;color: #8180e0;}
-                        .we-cant {font-size: 17px;font-weight: normal;color: #525252;line-height: 25px;}
-                        .error {color: #525252;font-weight: bold;font-size: 17px;margin: 30px 0px 21px 0px;}.back-to-home-page {background: #8180e0;color: #fff;padding: 15px 20px;border-radius: 3px;font-weight: bold;}.back-to-home-page:hover {background: #8180e0;
-                            color: #fff;text-decoration: blink;}.error-page-marging {margin-top: 80px;text-align: center;}.follow-us {
-                            font-weight: bold;color: #0363a3;margin-top: 32px;line-height: 38px;}
-                        
-                        @media all and (max-width: 320px),(max-width: 375px),(max-width: 384px),(max-width: 414px),(max-device-width: 450px),(max-device-width: 480px),(max-device-width: 540px) {
-                            .ekyc_thnk {
-                                position: relative;
-                                top: 0;
-                                bottom: 0;
-                                left: 0;
-                                right: 0;
-                                margin: 50% auto;
-                                width: 100%;
-                                height: auto;
-                                padding: 25px 20px;
-                                border: solid 1px #8180e0;
-                                background: #fff;
-                                border-radius: 20px;
-                                box-shadow: 0 0 13px #8180e0;
-                                text-align: center;
-                                float: left;
-                            }
-                            .ekyc_thnk p>img{
-                                width: 65% !important;
-                                margin-top: 5%;
-                            }
-                            .oops {font-size: 63px;
-                                padding: 3% 0; font-weight: 900;color: #0068a5;margin: 0px;}
-                                .we-cant {    font-size: 27px;
-                                    font-weight: bold;
-                                    color: #00334b;
-                                    line-height: 47px;}
-                            .error {    color: #00334b;
-                                font-weight: bold;
-                                font-size: 27px;
-                                margin: 10px 0px 20px 0px;
-                                width: 100%;
-                                float: left;}
-                            .back-to-home-page {    background: #d42452;
-                                color: #fff;
-                                padding: 20px;
-                                border-radius: 3px;
-                                font-weight: 500;
-                                font-size: 26px !important;
-                                margin: 6% 0 0 0;
-                                position: relative;
-                                text-transform: uppercase;
-                                border-radius: 22px;
-                                width: 100%;
-                                float: left;}
-                            .error-page-marging {margin-top: 0px;}
-                        }
-                        </style>
-                    
-                        <div class="ekyc_thnk">
-                        <p>
-                            <img
-                            src="' . LMS_BRAND_LOGO . '"
-                            alt="thanks"
-                            style="border-bottom: dotted 1px #b31c43; padding-bottom: 10px;width: 300px;"/>
-                        </p>
-                        <div class="oops">Oops!!! Error Occurred.</div>
-                        <div class="we-cant">' . $tag_line . '</div><br/><br/>
-                        ' . $return_button . '
-                        </div>
-                    </body>
-                    </html>';
+   
+            $return_button = '<p class="muted-close-text">
+                                <small style="font-size: 12px; color: #999;">
+                                    If this was unexpected, you can try again shortly. If the issue continues, please contact support.<br/>
+                                    You may now safely close this window.
+                                </small>
+                            </p>';
+    
+        $html = '<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>Error - Something Went Wrong</title>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+        <style>
+            :root {
+                --primary-color: #4a67d6;
+                --danger-color: #d72638;
+            }
+            * {
+                box-sizing: border-box;
+            }
+            body {
+                font-family: "Inter", sans-serif;
+                background-color: #f4f6fa;
+                margin: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100vh;
+                animation: fadeIn 0.8s ease-in-out;
+            }
+            .container {
+                background: #fff;
+                padding: 40px 30px;
+                border-radius: 16px;
+                box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+                text-align: center;
+                max-width: 450px;
+                width: 90%;
+                animation: slideUp 0.8s ease-out;
+            }
+            .logo {
+                width: 150px;
+                margin-bottom: 20px;
+            }
+            .icon {
+                width: 72px;
+                height: 72px;
+                color: var(--danger-color);
+                margin-bottom: 20px;
+                animation: pulse 1.5s infinite;
+            }
+            .oops {
+                font-size: 26px;
+                font-weight: 700;
+                color: var(--danger-color);
+            }
+            .we-cant {
+                font-size: 16px;
+                color: #444;
+                margin: 20px 0;
+            }
+            .btn {
+                display: inline-block;
+                background-color: var(--primary-color);
+                color: #fff;
+                text-decoration: none;
+                padding: 14px 24px;
+                font-weight: 600;
+                border-radius: 10px;
+                transition: all 0.3s ease;
+            }
+            .btn:hover {
+                background-color: #3b56b0;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(74, 103, 214, 0.4);
+            }
+    
+            @keyframes fadeIn {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
+    
+            @keyframes slideUp {
+                from { transform: translateY(40px); opacity: 0; }
+                to { transform: translateY(0); opacity: 1; }
+            }
+    
+            @keyframes pulse {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.1); }
+            }
+    
+            @media (max-width: 480px) {
+                .oops { font-size: 22px; }
+                .we-cant { font-size: 15px; }
+                .btn { width: 100%; padding: 14px; }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z"/>
+            </svg>
+            <div class="oops">Oops!</div>
+            <div class="we-cant">' . $tag_line . '</div>
+            ' . $return_button . '
+        </div>
+    </body>
+    </html>';
+                // <img class="logo" src="' . LMS_BRAND_LOGO . '" alt="Logo" />
 
         return $html;
     }
+    
+    
 
     private function ekyc_request_html($url) {
 

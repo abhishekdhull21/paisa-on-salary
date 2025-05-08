@@ -358,7 +358,7 @@ function bre_rule_engine($lead_id, $request_array = array()) {
         $customer_office_email_verified_status = (trim(strtoupper($app_data['alternate_email_verified_status'])) == "YES") ? "YES" : "NO";
 
         $customer_aadhar_no = $app_data['aadhar_no'];
-        $customer_digital_ekyc_flag = BY_PASS_OCR_KYC ? 1 : $app_data['customer_digital_ekyc_flag'];
+        $customer_digital_ekyc_flag = $app_data['customer_digital_ekyc_flag'];
         $customer_residence_pincode = $app_data['cr_residence_pincode'];
         $customer_aadhaar_pincode = $app_data['aa_cr_residence_pincode'];
         $aadhaar_ocr_verified_status = BY_PASS_OCR_KYC ? 1 : $app_data['aadhaar_ocr_verified_status'];

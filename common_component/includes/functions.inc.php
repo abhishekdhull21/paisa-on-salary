@@ -272,7 +272,7 @@ function common_send_email(
                 $result = json_decode($response, true);
             
                 if ($statusCode == 200 && isset($result['message']) && stripos($result['message'], "Queued") !== false) {
-                    return ['success' => true];
+                    return ['success' => true, "status"=>1];
                 } else {
                     $error = $result['message'] ?? 'Unknown error sending email.';
                     return ['success' => false, 'error' => $error];
