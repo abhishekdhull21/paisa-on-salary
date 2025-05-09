@@ -1483,10 +1483,10 @@
 
                 if ((res.loan_status !== '') && ((res.loan_status == 'SANCTION') || (res.loan_status == 'DISBURSED-PENDING') || (res.loan_status != 'DISBURSED'))) {
                     <?php if (agent == "DS1" || agent == "CR2" || agent == "CR3") { ?>
-                        // if (res.loan_status == 'DISBURSED-PENDING' || res.loan_status == 'SANCTION') {
-                            // html += '<tr><th class="thbg">Resend Sanction Email</th><td colspan="4"><input type="checkbox" name="resendAgreementLetter" id="resendAgreementLetter" onclick="resendAgreementLetter(&quot;' + lead_id + '&quot;)"></td></tr>';
+                        if (res.loan_status == 'DISBURSED-PENDING' || res.loan_status == 'SANCTION') {
+                            html += '<tr><th class="thbg">Resend Sanction Email</th><td colspan="4"><input type="checkbox" name="resendAgreementLetter" id="resendAgreementLetter" onclick="resendAgreementLetter(&quot;' + lead_id + '&quot;)"></td></tr>';
                             html += '<tr><th class="thbg">Resend Sanction Email</th><td colspan="4"><input type="checkbox" name="resendSanctionLetter" id="resendSanctionLetter" onclick="resendSanctionLetter(&quot;' + lead_id + '&quot;)"></td></tr>';
-                        // }
+                        }
                     <?php } else { ?>
                         html += '<tr><th class="thbg">Payable Account</th><td>' + ((res.company_account_no) ? res.company_account_no : "-") + '</td><th class="thbg">Channel</th><td>' + ((res.channel) ? res.channel : '-') + '</td></tr>';
                         html += '<tr><th class="thbg">MOP</th><td>' + ((res.mode_of_payment) ? res.mode_of_payment : "-") + '</td><th class="thbg">Disbursal Reference No.</th><td colspan="4">' + ((res.disburse_refrence_no) ? res.disburse_refrence_no : '-') + '</td></tr>';
