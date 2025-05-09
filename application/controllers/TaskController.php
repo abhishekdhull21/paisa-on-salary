@@ -2192,6 +2192,315 @@ class TaskController extends CI_Controller {
         }
     }
 
+        public function resendSanctionLetter() {
+
+        $user_id = !empty($_SESSION['isUserSession']['user_id']) ? $_SESSION['isUserSession']['user_id'] : 0;
+        $cam_blacklist_removed_flag = 0;
+        $allow_sanction_head = array(65, 2, 3);
+
+        if ($this->input->server('REQUEST_METHOD') == 'POST') {
+
+            $lead_id = $this->input->post('lead_id');
+            $lead_id =  $this->encrypt->decode($lead_id);
+
+            $remarks = strip_tags($this->input->post('remarks'));
+
+            if (empty($remarks)) {
+              $remarks = "Sanction letter email resent!!";
+                
+            }
+            $sql = "SELECT DISTINCT LD.lead_id, LD.lead_data_source_id,LD.mobile, LD.lead_status_id, LD.lead_screener_assign_user_id, LD.lead_branch_id, LD.user_type, C.pancard";
+            $sql .= " ,C.first_name,C.middle_name,sur_name,C.gender,C.pancard_ocr_verified_status";
+            $sql .= " ,C.email_verified_status, C.customer_digital_ekyc_flag, CAM.cam_appraised_monthly_income";
+            $sql .= " ,CAM.cam_status, CAM.eligible_loan, CAM.loan_recommended, CAM.processing_fee_percent, CAM.roi, CAM.admin_fee as total_pf_with_gst, CAM.adminFeeWithGST as calculated_gst, CAM.total_admin_fee as net_pf_without_gst";
+            $sql .= " ,CAM.disbursal_date, CAM.repayment_date, CAM.tenure, CAM.repayment_amount, CAM.net_disbursal_amount, CAM.cam_advance_interest_amount";
+            $sql .= " ,CAM.cam_processing_fee_gst_type_id, C.customer_bre_run_flag";
+            $sql .= " FROM leads LD";
+            $sql .= " INNER JOIN lead_customer C ON(LD.lead_id=C.customer_lead_id)";
+            $sql .= " INNER JOIN credit_analysis_memo CAM ON(LD.lead_id=CAM.lead_id)";
+            $sql .= " INNER JOIN customer_employment CE ON(LD.lead_id=CE.lead_id)";
+            $sql .= " WHERE LD.lead_id=" . $lead_id;
+
+            $sql2 = $this->db->query($sql);
+            $cam = $sql2->row();
+            // echo "data: ", print_r($cam);
+
+
+            $approval_loan_amount = ($cam->cam_appraised_monthly_income * 0.6); //60% of monthly income;
+            $approval_loan_roi = $cam->roi;
+            $lead_data_source_id = $cam->lead_data_source_id;
+
+            if (empty($user_id)) {
+                $json['err'] = "Session Expired";
+                echo json_encode($json);
+            } else if (($sql2->num_rows() == 0)) {
+                $json['err'] = "CAM details not found.";
+                echo json_encode($json);
+            } else if (($cam->cam_status == 0)) {
+                $json['err'] = "Something found wrong in CAM, Please re-check";
+                echo json_encode($json);
+            } else if (empty($cam->eligible_loan)) {
+                $json['err'] = "Eligible loan amount cannot be empty.";
+                echo json_encode($json);
+            } else if ($cam->email_verified_status != "YES" && false) {
+                $json['err'] = "Personal email id is not verified";
+                echo json_encode($json);
+                //} else if ($cam->customer_bre_run_flag != 1) {
+                //$json['err'] = "Please run the BRE.";
+                //echo json_encode($json);
+            } else if (ENVIRONMENT == 'production' && !in_array($cam->pancard_ocr_verified_status, array(1, 2))) {
+                $json['err'] = "Customer e-kyc not verified.";
+                echo json_encode($json);
+            } else if ($cam->loan_recommended >= 40000 && !in_array($user_id, $allow_sanction_head)) {
+                $json['err'] = "Loan Recommended is more than 50K, Please recommend this case to sanction head only.";
+                echo json_encode($json);
+            } else if (!empty($approval_loan_amount) && $cam->loan_recommended > $approval_loan_amount && !in_array($user_id, $allow_sanction_head)) {
+                $json['err'] = "Loan Recommended is more than 60% of customer income. Please recommend this case to sanction head only.";
+                echo json_encode($json);
+            } else if ($cam->tenure < 7 && !in_array($user_id, $allow_sanction_head)) {
+                $json['err'] = "Loan Tenure is less than 7 days. Please recommend this case to sanction head only.";
+                echo json_encode($json);
+            } else if (($cam->tenure < 7 || $cam->tenure > 370)) {
+                $json['err'] = "Loan Tenure cannot be less than 7 days or greater than 370 days.";
+                echo json_encode($json);
+            } else if ($cam->loan_recommended > 1000000) {
+                $json['err'] = "Loan Recommended is more than 10 lac, We does not allowed this loan amount.";
+                echo json_encode($json);
+            } else if ($cam->loan_recommended > 115000 && !in_array($user_id, array(210))) {
+                $json['err'] = "Loan Recommended is more than Rs. 1,15,000, We does not allowed this loan amount.";
+                echo json_encode($json);
+            } else if (empty($approval_loan_roi)) {
+                $json['err'] = "Loan Recommened ROI cannot be empty";
+            } else if ($approval_loan_roi > 2) {
+                $json['err'] = "Loan Recommened ROI is higher then 2%";
+                echo json_encode($json);
+            } else {
+
+
+
+    
+                $bankingDataReturnArr = $this->Tasks->getCustomerAccountDetails($lead_id);
+
+                // print_r($bankingDataReturnArr);
+
+                if ($bankingDataReturnArr['status'] === 1) {
+
+                    $bankingDetails = $bankingDataReturnArr['banking_data'];
+
+                    if (empty($bankingDetails)) {
+
+                        $json['err'] = 'Customer banking details not found.';
+                        echo json_encode($json);
+                        return false;
+                    } else {
+                        $beneName = !empty($bankingDetails["beneficiary_name"]) ? $bankingDetails["beneficiary_name"] : "";
+                        $beneAccNo = !empty($bankingDetails["account"]) ? $bankingDetails["account"] : "";
+                        $beneIFSC = !empty($bankingDetails["ifsc_code"]) ? $bankingDetails["ifsc_code"] : "";
+                    }
+                } else {
+                    $json['err'] = 'Please verify the customer banking details.';
+                    echo json_encode($json);
+                    return false;
+                }
+
+                $customerReference = $this->Tasks->getCustomerReferenceDetails($lead_id);
+
+                if (count($customerReference['customer_reference']) < 2) {
+                    $json['err'] = "Please add customer reference - " . count($customerReference['customer_reference']);
+                    echo json_encode($json);
+                    return false;
+                }
+
+                $queryCustomerPersonal = $this->Tasks->customerPersonalDetails(['LD.lead_id' => $lead_id]);
+
+                $personalAndEmployment = $queryCustomerPersonal->row_array();
+
+                $customer_data = [
+                    'cif_first_name' => !empty($personalAndEmployment['first_name']) ? $personalAndEmployment['first_name'] : "",
+                    'cif_middle_name' => !empty($personalAndEmployment['middle_name']) ? $personalAndEmployment['middle_name'] : "",
+                    'cif_sur_name' => !empty($personalAndEmployment['sur_name']) ? $personalAndEmployment['sur_name'] : "",
+                    'cif_gender' => ((strtoupper($personalAndEmployment['gender']) == 'MALE') ? 1 : 2),
+                    'cif_dob' => !empty($personalAndEmployment['dob']) ? $personalAndEmployment['dob'] : "",
+                    'cif_personal_email' => $personalAndEmployment['email'],
+                    'cif_office_email' => $personalAndEmployment['alternate_email'],
+                    'cif_mobile' => $personalAndEmployment['mobile'],
+                    'cif_alternate_mobile' => $personalAndEmployment['alternate_mobile'],
+                    'cif_residence_address_1' => $personalAndEmployment['current_house'],
+                    'cif_residence_address_2' => $personalAndEmployment['current_locality'],
+                    'cif_residence_landmark' => $personalAndEmployment['current_landmark'],
+                    'cif_residence_city_id' => ($personalAndEmployment['res_city_id']) ? $personalAndEmployment['res_city_id'] : 0,
+                    'cif_residence_state_id' => ($personalAndEmployment['res_state_id']) ? $personalAndEmployment['res_state_id'] : 0,
+                    'cif_residence_pincode' => $personalAndEmployment['cr_residence_pincode'],
+                    'cif_residence_since' => $personalAndEmployment['current_residence_since'],
+                    'cif_residence_type' => $personalAndEmployment['current_residence_type'],
+                    'cif_residence_residing_with_family' => $personalAndEmployment['current_residing_withfamily'],
+                    'cif_aadhaar_no' => $personalAndEmployment['aadhar_no'],
+                    'cif_office_address_1' => $personalAndEmployment['emp_house'],
+                    'cif_office_address_2' => $personalAndEmployment['emp_street'],
+                    'cif_office_address_landmark' => $personalAndEmployment['emp_landmark'],
+                    'cif_office_city_id' => ($personalAndEmployment['office_city_id']) ? $personalAndEmployment['office_city_id'] : 0,
+                    'cif_office_state_id' => ($personalAndEmployment['office_state_id']) ? $personalAndEmployment['office_state_id'] : 0,
+                    'cif_office_pincode' => $personalAndEmployment['emp_pincode'],
+                    'cif_company_name' => $personalAndEmployment['employer_name'],
+                    'cif_company_website' => $personalAndEmployment['emp_website'],
+                    'cif_company_type_id' => $personalAndEmployment['emp_employer_type'],
+                    'cif_aadhaar_same_as_residence' => isset($personalAndEmployment['C.aa_same_as_current_address']) ? (($personalAndEmployment['C.aa_same_as_current_address'] == "YES") ? 1 : 0) : 0,
+                    'cif_aadhaar_address_1' => $personalAndEmployment['aa_current_house'],
+                    'cif_aadhaar_address_2' => $personalAndEmployment['aa_current_locality'],
+                    'cif_aadhaar_landmark' => $personalAndEmployment['aa_current_landmark'],
+                    'cif_aadhaar_city_id' => $personalAndEmployment['aa_current_city_id'],
+                    'cif_aadhaar_state_id' => $personalAndEmployment['aa_current_state_id'],
+                    'cif_aadhaar_pincode' => $personalAndEmployment['aa_cr_residence_pincode'],
+                    'cif_office_working_since' => $personalAndEmployment['emp_residence_since'],
+                    'cif_office_designation' => $personalAndEmployment['emp_designation'],
+                    'cif_office_department' => $personalAndEmployment['emp_department'],
+                    'cif_income_type' => $personalAndEmployment['income_type'],
+                    'cif_digital_ekyc_flag' => $personalAndEmployment['customer_digital_ekyc_flag'],
+                    'cif_digital_ekyc_datetime' => $personalAndEmployment['customer_digital_ekyc_done_on'],
+                    'cif_pancard_verified' => $personalAndEmployment['pancard_verified_status'],
+                    'cif_pancard_verified_on' => $personalAndEmployment['pancard_verified_on']
+                ];
+
+
+                // $query_cif = $this->db->select('cif_id, cif_number, cif_pancard, cif_mobile')->where('cif_pancard', $cam->pancard)->from('cif_customer')->get();
+                // if (isset($cam->mobile)) {
+                    $query_cif = $this->db->select('cif_mobile')
+                        ->where('cif_mobile', $cam->mobile)
+                        ->from('cif_customer')
+                        ->get();
+                if ($query_cif->num_rows() > 0) {
+
+                    $cif = $query_cif->row_array();
+                    // print_r($cif);
+                    $customer_id =isset($cif['cif_number'])? $cif['cif_number'] : $cif['cif_mobile'];
+
+                    // $cif_id = $cif['cif_id'];
+
+                    $customer_data['cif_updated_by'] = $user_id;
+                    $customer_data['cif_updated_on'] = date("Y-m-d H:i:s");
+                    //  $cif_flag = $this->Tasks->globalUpdate(['cif_id' => $cif_id], $customer_data, 'cif_customer');
+                } else {
+
+                    $last_row = $this->db->select('cif_id as customer_id')->from('cif_customer')->order_by('cif_id', 'desc')->limit(1)->get()->row();
+                    $str = preg_replace('/\D/', '', $last_row->customer_id);
+                    $customer_id = "FTC" . str_pad(($str + 1), 8, "0", STR_PAD_LEFT); // FTC00000004
+
+                    $customer_data['cif_pancard'] = trim($cam->pancard);
+                    $customer_data['cif_number'] = $customer_id;
+                    $customer_data['cif_created_by'] = $user_id;
+                    $customer_data['cif_created_on'] = date("Y-m-d H:i:s");
+                    $cif_flag = $this->db->insert('cif_customer', $customer_data);
+                }
+            // }
+
+                // if (empty($cif_flag)) {
+                //     $json['err'] = 'CIF is unable to create. Please check with IT Team.';
+                //     echo json_encode($json);
+                //     return false;
+                // }
+
+                //if customer is blacklisted before and removed from the list then we need to tag the same
+                //$isBlackListedRemoved = $this->Tasks->checkBlackListedCustomer($lead_id, 1);
+
+                // print_r($lead_id); die;
+
+                // if ($isBlackListedRemoved['status'] == 1) {
+                //     $cam_blacklist_removed_flag = 1;
+                // }
+
+                // $this->Tasks->globalUpdate(['lead_id' => $lead_id], ['customer_id' => $customer_id], 'leads');
+                // $this->Tasks->globalUpdate(['lead_id' => $lead_id], ['customer_id' => $customer_id], 'customer_employment');
+                // $this->Tasks->globalUpdate(['lead_id' => $lead_id], ['customer_id' => $customer_id], 'docs');
+                // $this->Tasks->globalUpdate(['lead_id' => $lead_id], ['customer_id' => $customer_id], 'customer_banking');
+                // $this->Tasks->globalUpdate(['lead_id' => $lead_id], ['customer_id' => $customer_id, 'cam_blacklist_removed_flag' => $cam_blacklist_removed_flag, 'cam_sanction_remarks' => addslashes($remarks)], 'credit_analysis_memo');
+
+                $pdf_return = $this->Tasks->gererateSanctionLetter($lead_id);
+
+                // if ($pdf_return['status'] == 0) {
+
+                //     $json['err'] = $pdf_return['errors'];
+                //     echo json_encode($json);
+                //     return false;
+                // }
+
+                        $status = "SANCTION";
+                        $stage = "S12";
+                        $lead_status_id = 12;
+
+         
+                            $sanction_remark = $remarks;
+                            $sanction_remark .= "<br/>Sanctioned";
+                            // $sanction_remark .= "<br/>Sanctioned Email: Resent!!";
+                            if ($cam_blacklist_removed_flag == 1) {
+                                $sanction_remark .= "<br>Blacklist Removed: YES";
+                            }
+
+                            $sanction_remark .= "<br>Eligible Loan Amt (Rs.): " . (!empty($cam->eligible_loan) ? $cam->eligible_loan : "");
+                            $sanction_remark .= "<br>Approved Loan Amt (Rs.): " . (!empty($cam->loan_recommended) ? $cam->loan_recommended : "");
+                            $sanction_remark .= "<br>Approved ROI (%): " . (!empty($cam->roi) ? round($cam->roi, 2) : "");
+                            $sanction_remark .= "<br>Approved Tenure (Days): " . (!empty($cam->tenure) ? $cam->tenure : "");
+                            $sanction_remark .= "<br>Approved Processing Fee: " . (!empty($cam->processing_fee_percent) ? round($cam->processing_fee_percent, 2) . "%" : "");
+                            $sanction_remark .= "<br>18% GST is " . (($cam->cam_processing_fee_gst_type_id == 2) ? "Exclusive" : "Inclusive");
+                            $sanction_remark .= "<br>Approved Total Admin Fee (Rs.): " . (!empty($cam->total_pf_with_gst) ? round($cam->total_pf_with_gst, 2) : "");
+                            $sanction_remark .= "<br>Approved Admin Fee 18% GST (Rs.): " . (!empty($cam->calculated_gst) ? round($cam->calculated_gst, 2) : "");
+                            $sanction_remark .= "<br>Approved Net Admin Fee (Rs.): " . (!empty($cam->net_pf_without_gst) ? round($cam->net_pf_without_gst, 2) : "");
+                            $sanction_remark .= "<br>Disbursal Date : " . (!empty($cam->disbursal_date) ? date("d-m-Y", strtotime($cam->disbursal_date)) : "");
+                            $sanction_remark .= "<br>Net Disbursal Amt (Rs.): " . (!empty($cam->net_disbursal_amount) ? $cam->net_disbursal_amount : "");
+                            $sanction_remark .= "<br>Repayment Date : " . (!empty($cam->repayment_date) ? date("d-m-Y", strtotime($cam->repayment_date)) : "");
+                            $sanction_remark .= "<br>Repayment Amt (Rs.): " . (!empty($cam->repayment_amount) ? $cam->repayment_amount : "");
+
+                            $lead_followup_insert_array = [
+                                'lead_id' => $lead_id,
+                                'customer_id' => $customer_id,
+                                'user_id' => $user_id,
+                                'status' => $status,
+                                'stage' => $stage,
+                                'lead_followup_status_id' => $lead_status_id,
+                                'remarks' => addslashes($sanction_remark),
+                                'created_on' => date("Y-m-d H:i:s")
+                            ];
+
+                            $this->Tasks->insert($lead_followup_insert_array, 'lead_followup');
+
+                            if ($cam->customer_digital_ekyc_flag == 2) {
+
+                                $lead_followup_insert_array = [
+                                    'lead_id' => $lead_id,
+                                    'customer_id' => $customer_id,
+                                    'user_id' => $user_id,
+                                    'status' => $status,
+                                    'stage' => $stage,
+                                    'lead_followup_status_id' => $lead_status_id,
+                                    'remarks' => "Re-EKYC Needed due to error on ekyc api",
+                                    'created_on' => date("Y-m-d H:i:s")
+                                ];
+                            }
+                            $data['msg'] = 'Application Sanctioned Email Re-sent';
+                            //
+                            //if ($lead_data_source_id == 2) {
+
+                            $sendLetter = $this->Tasks->sendSanctionMail($lead_id);
+                            // print_r($sendLetter); die;
+
+                            // if ($sendLetter['status'] == 1) {
+                            //     $data['msg'] = 'Application Sanctioned.';
+                            // } else {
+                            //     $data['msg'] = 'Application Sanctioned. Email sent error : ' . $sendLetter['error'];
+                            // }
+                            // }
+                            echo json_encode($data);
+                       
+                    
+                // } else {
+                //     $json['err'] = "Unable to generate loan number.";
+                //     echo json_encode($json);
+                // }
+            }
+        } else {
+            $json['err'] = "Invalid access.";
+            echo json_encode($json);
+        }
+    }
     public function leadRecommend() {
 
         //   error_reporting(E_ALL);

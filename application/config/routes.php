@@ -156,6 +156,7 @@ $route['upload'] = 'TaskController/error_page';
 ////////////////////////////////////////////////////////////////////
 
 $route['sanctionLetter/(:num)'] = 'TaskController/sanctionLetter/$1';
+$route['resendSanctionLetter'] = 'TaskController/resendSanctionLetter';
 $route['followUp'] = 'TaskController/followUp';
 $route['TaskList'] = 'TaskController/TaskList';
 $route['initiateFiCPV'] = 'TaskController/initiateFiCPV';

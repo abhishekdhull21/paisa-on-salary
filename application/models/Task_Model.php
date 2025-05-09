@@ -5191,15 +5191,16 @@ Capitalized terms used herein but not defined shall have the same meanings given
         $lead_data_source_id = $camDetails->lead_data_source_id;
         require_once(COMPONENT_PATH . 'includes/functions.inc.php');
         $link_value= '';
-        $verification_genrate_res  = generate_aadhaar_verification_url_digitap($lead_id,$camDetails->first_name,$camDetails->mobile);
-        // echo "verification_genrate_res: <br />";
-        // print_r($verification_genrate_res);
-        if ($verification_genrate_res['success']) {
-            // echo "Redirect user to: " . $verification_genrate_res['url'];
-            $link_value = $verification_genrate_res['url'];
-        } else {
-            echo "Error generating KYC link: " . $verification_genrate_res['error'];
-        }
+        // Genrating the verification URL from UI
+        // $verification_genrate_res  = generate_aadhaar_verification_url_digitap($lead_id,$camDetails->first_name,$camDetails->mobile);
+        // // echo "verification_genrate_res: <br />";
+        // // print_r($verification_genrate_res);
+        // if ($verification_genrate_res['success']) {
+        //     // echo "Redirect user to: " . $verification_genrate_res['url'];
+        //     $link_value = $verification_genrate_res['url'];
+        // } else {
+        //     echo "Error generating KYC link: " . $verification_genrate_res['error'];
+        // }
 
         $email = $camDetails->email;
         // print_r($email); die;
