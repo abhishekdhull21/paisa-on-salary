@@ -7186,7 +7186,7 @@ South West Delhi, Delhi, 110017,<br>
             // $digital_ekyc_url = base_url("aadhaar-veri-request") . "?refstr=" . $enc_lead_id;
             $enc_lead_id = encryptLeadID($lead_id);
             // $digital_ekyc_url = base_url("aadhaar-veri-request") . "?processId=" . $enc_lead_id;
-            $digital_ekyc_url = base_url("aadhaar-veri-request") . "?processId=" . $enc_lead_id;
+            $digital_ekyc_url = base_url("aadhaar-veri-request") . "/" . $enc_lead_id;
 
             $data = [
                 'customer_name'     => $customer_name,

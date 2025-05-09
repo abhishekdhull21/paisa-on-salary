@@ -41,7 +41,7 @@
       <!-- Aadhaar Input -->
       <div class="mb-3">
         <label for="aadharNumber" class="form-label">Aadhaar Number</label>
-        <input type="number" class="form-control" id="aadharNumber" value="123456789012" maxlength="12" pattern="\d{12}" required placeholder="Enter 12-digit Aadhaar">
+        <input type="number" class="form-control" id="aadharNumber"  maxlength="12" pattern="\d{12}" required placeholder="Enter 12-digit Aadhaar">
       </div>
 
       <!-- Send OTP -->

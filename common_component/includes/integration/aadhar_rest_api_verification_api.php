@@ -301,8 +301,8 @@ function verifyAadhaarWithDigitap($lead_id,$request_array = array()) {
     
             // Prepare the Aadhaar data to be saved
             $aadhaar_array = [
-                'aa_current_house' => $aadhaar_complete_address,
-                'aa_current_locality' => $aadhaar_loc,
+                'aa_current_house' => $aadhaar_complete_address ?? $aadhaarData['address']['vtc'],
+                'aa_current_locality' => $aadhaar_loc ?? $aadhaar_complete_address ?? $aadhaar_district,
                 'aa_current_landmark' => $aadhaarData['address']['landmark'],
                 'aa_current_state' => $aadhaar_state,
                 'aa_current_state_id' => $m_state_id,
