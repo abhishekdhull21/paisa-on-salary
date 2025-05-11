@@ -398,7 +398,7 @@ date_default_timezone_set("Asia/Calcutta");
 $session_file_path = date('Ymd') . '_session';
 $config['sess_driver'] = 'files';
 $config['sess_cookie_name'] = 'ci_session';
-$config['sess_expiration'] = 7200; // 0 min
+$config['sess_expiration'] = 172800; // 2 days in seconds
 $config['sess_save_path'] = BASEPATH . 'cache/sessions/' . $session_file_path;
 $config['sess_match_ip'] = TRUE;
 $config['sess_match_useragent'] = TRUE;
