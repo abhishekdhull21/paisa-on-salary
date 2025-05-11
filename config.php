@@ -399,11 +399,11 @@ date_default_timezone_set("Asia/Calcutta");
 $session_file_path = date('Ymd') . '_session';
 $config['sess_driver'] = 'files';
 $config['sess_cookie_name'] = 'ci_session';
-$config['sess_expiration'] = 7200; // 0 min
+$config['sess_expiration'] = 172800; // 2 days in seconds
 $config['sess_save_path'] = BASEPATH . 'cache/sessions/' . $session_file_path;
 $config['sess_match_ip'] = TRUE;
 $config['sess_match_useragent'] = TRUE;
-$config['sess_time_to_update'] = 300;
+$config['sess_time_to_update'] = 1800; // 30 minutes
 $config['sess_regenerate_destroy'] = FALSE;
 $config['sess_expire_on_close'] = TRUE;
 
