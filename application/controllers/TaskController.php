@@ -2481,7 +2481,8 @@ class TaskController extends CI_Controller {
 
                             $sendLetter = $this->Tasks->sendSanctionMail($lead_id);
                             // print_r($sendLetter); die;
-
+                            $data['pdf'] = $pdf_return;
+                            $data['emailRsp'] = $sendLetter;
                             // if ($sendLetter['status'] == 1) {
                             //     $data['msg'] = 'Application Sanctioned.';
                             // } else {

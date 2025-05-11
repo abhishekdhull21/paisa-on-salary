@@ -1484,7 +1484,7 @@
                 if ((res.loan_status !== '') && ((res.loan_status == 'SANCTION') || (res.loan_status == 'DISBURSED-PENDING') || (res.loan_status != 'DISBURSED'))) {
                     <?php if (agent == "DS1" || agent == "CR2" || agent == "CR3") { ?>
                         if (res.loan_status == 'DISBURSED-PENDING' || res.loan_status == 'SANCTION') {
-                            html += '<tr><th class="thbg">Resend Sanction Email</th><td colspan="4"><input type="checkbox" name="resendAgreementLetter" id="resendAgreementLetter" onclick="resendAgreementLetter(&quot;' + lead_id + '&quot;)"></td></tr>';
+                            // html += '<tr><th class="thbg">Resend Sanction Email</th><td colspan="4"><input type="checkbox" name="resendAgreementLetter" id="resendAgreementLetter" onclick="resendAgreementLetter(&quot;' + lead_id + '&quot;)"></td></tr>';
                             html += '<tr><th class="thbg">Resend Sanction Email</th><td colspan="4"><input type="checkbox" name="resendSanctionLetter" id="resendSanctionLetter" onclick="resendSanctionLetter(&quot;' + lead_id + '&quot;)"></td></tr>';
                         }
                     <?php } else { ?>

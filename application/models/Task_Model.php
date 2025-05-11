@@ -6117,8 +6117,8 @@ South West Delhi, Delhi, 110017,<br>
 
             $mpdf->WriteHTML($html_string);
 
-            $mpdf->Output(UPLOAD_TEMP_PATH . $file_name, 'F');
             $mpdf->Output($file_path_with_name, 'F');
+            $mpdf->Output(UPLOAD_TEMP_PATH . $file_name, 'F');
             //   print_r($file_path_with_name);die;
             if (file_exists($file_path_with_name)) {
 

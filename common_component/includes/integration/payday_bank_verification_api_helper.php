@@ -14,7 +14,7 @@ function bank_account_verification_api_call($method_name = "", $lead_id = 0, $re
         $responseArray = digitap_bank_account_verification_api($lead_id, $request_array);
         // $responseArray = signzy_bank_account_verification_api($lead_id, $request_array);
     } else {
-        $responseArray["error_msg"] = "invalid opertation called";
+        $responseArray["error_msg"] = "invalid operation called";
     }
 
     return $responseArray;
