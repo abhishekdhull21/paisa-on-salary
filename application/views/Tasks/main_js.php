@@ -3673,6 +3673,8 @@ if (isset($leadDetails) && isset($leadDetails->lead_status_id) && isset($agent))
 
         $('#formUserDocsData').submit(function(e) {
             e.preventDefault();
+            $('#btnSaveDocs').attr("disabled");
+            $('#btnSaveDocs').text("UPLOADING");
             $.ajax({
                 url: '<?= base_url("saveCustomerDocs") ?>',
                 type: 'POST',
@@ -3703,6 +3705,8 @@ if (isset($leadDetails) && isset($leadDetails->lead_status_id) && isset($agent))
                 },
                 complete: function() {
                     $("#cover").fadeOut(1750);
+                    $('#btnSaveDocs').attr("disabled", false);
+                    $('#btnSaveDocs').text("UPLOAD");
                 }
             });
         });
