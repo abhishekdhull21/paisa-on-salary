@@ -1,5 +1,4 @@
 <?php
-
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class Task_Model extends CI_Model {
@@ -5134,15 +5133,17 @@ Capitalized terms used herein but not defined shall have the same meanings given
         $mpdf->Output($file_path_with_name, 'F');
 
         if (file_exists($file_path_with_name)) {
-            $upload_return = uploadDocument($file_path_with_name, $lead_id, 2, 'pdf');
-            $file_disburse_name = $upload_return['file_name'];
-
-
+            if(defined('COMP_DOC_S3_FLAG') && COMP_DOC_S3_FLAG === true){
+                $upload_return = uploadDocument($file_path_with_name, $lead_id, 2, 'pdf');
+                $file_path_with_name = $upload_return['file_name'];
+            }
+            
             require_once(COMPONENT_PATH . 'includes/functions.inc.php');
-            $return_array = common_send_email($email, $subject, $message, "", "", "", "", $file_path_with_name, $file_disburse_name, 'disbursal_letter.pdf');
-
-            $return_array['status'] = 1;
-            $return_array['msg'] = "Disbursal Letter Send Successfully";
+            $return_array = common_send_email($email, $subject, $message, "", "", "", "", $file_path_with_name, 'disbursal_letter.pdf',false);
+            if($return_array["success"] === true){
+                $return_array['status'] = 1;
+                $return_array['msg'] = "Disbursal Letter Send Successfully";
+            }
 
             $update_disbursal_letter = ['loan_disbursal_letter' => $file_name];
             $this->db->where('lead_id', $lead_id)->update('loan', $update_disbursal_letter);
@@ -5151,13 +5152,21 @@ Capitalized terms used herein but not defined shall have the same meanings given
             $update_disbursal_time = ['lead_disbursal_approve_datetime' => date('Y-m-d H:i:s')];
             $this->db->where('lead_id', $lead_id)->update('leads', $update_disbursal_time);
 
+            $this->db->where('lead_id', $lead_id);
+            $query = $this->db->get('leads');
+
+            $updated_row = null;
+            if ($query->num_rows() > 0) {
+                $updated_row = $query->row_array(); // or row() for object
+            }
+
             $insertApiLog = array(
                 'created_on ' => date('Y-m-d H:i:s'),
-                'status' => $leadstatus,
-                'stage' => $leadStage,
+                'status' => is_object($updated_row) ? $updated_row->status : null,
+                'stage' => is_object($updated_row) ? $updated_row->stage : null,
                 'user_id' => $_SESSION['isUserSession']['user_id'],
                 'lead_id' => $lead_id,
-                'lead_followup_status_id' => $lead_status_id,
+                'lead_followup_status_id' => is_object($updated_row) ? $updated_row->lead_status_id : null,
                 'reason' => "Disbursal Letter Send successfully"
             );
             $this->db->insert('lead_followup', $insertApiLog);
@@ -5169,7 +5178,7 @@ Capitalized terms used herein but not defined shall have the same meanings given
 
 
         // require_once(COMPONENT_PATH . 'includes/functions.inc.php');
-        // $return_array = common_send_email($email,  $subject, $message, "","","","","", $file_name,'disbursal_letter.pdf');
+        // $return_array = common_send_email($email,  $subject, $message, "","","","", $file_name,'disbursal_letter.pdf');
         // return $return_array;
     }
 

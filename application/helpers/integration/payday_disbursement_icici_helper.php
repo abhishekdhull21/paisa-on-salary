@@ -46,11 +46,11 @@ if (!function_exists('payday_loan_disbursement_call')) {
         }
 
         if ($transRefNoCreateFlag) {//create the disbursement request
-            $tranRefNo = "LWUAT" . date("YmdHis") . rand(100, 999);
+            $tranRefNo = "POSPRD" . date("YmdHis") . rand(100, 999);
 
-            if ($envSet == 'production') {
-                $tranRefNo = "LWPRD" . date("YmdHis") . rand(100, 999);
-            }
+            // if ($envSet == 'production') {
+            //     $tranRefNo = "LWPRD" . date("YmdHis") . rand(100, 999);
+            // }
             $disb_trans_array = array();
             $disb_trans_array["disb_trans_lead_id"] = $lead_id;
             $disb_trans_array["disb_trans_reference_no"] = $tranRefNo;

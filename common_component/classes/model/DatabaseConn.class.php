@@ -9,9 +9,9 @@ class DatabaseConn {
     var $file_log_active = false;
     var $file_database_logger_name = null;
     var $database_server = 'localhost';
-    var $database_username = 'lmssot';
-    var $database_password = '{BUOmHlH$5jE';
-    var $database_name = 'lms_sotcrm';
+    var $database_username = 'root';
+    var $database_password = '';
+    var $database_name = 'pos-db';
   
 
     public function __construct() {
