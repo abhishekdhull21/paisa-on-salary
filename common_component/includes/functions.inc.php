@@ -101,7 +101,7 @@ function common_send_email(
     $reply_to = "",
     $attachment_path = "",
     $fileName = "",
-    $file_move = ""
+    $isTempUploadPath = true
 ) {
     $status = 0;
     $error = "";
@@ -237,7 +237,11 @@ function common_send_email(
             
                 // Handle file attachment
                 if (!empty($attachment_path)) {
-                    $full_path = realpath(UPLOAD_TEMP_PATH . $attachment_path);
+                    if($isTempUploadPath === true){
+                        $full_path = realpath(UPLOAD_TEMP_PATH . $attachment_path);
+                    }else{
+                        $full_path = realpath($attachment_path);
+                    }
                     if ($full_path && file_exists($full_path)) {
                         $mime_type = mime_content_type($full_path) ?: 'application/octet-stream';
                         $fields['attachment'] = new CURLFile($full_path, $mime_type, $fileName ?? basename($full_path));
