@@ -185,9 +185,9 @@ $hold_date = date('Y-m-d h:i:s', strtotime(timestamp . ' + 2 days'));
                                 <input type="hidden" name="leadIdForDocs" id="leadIdForDocs"> 
                                 <div id="documents" class="show">
                                     <div id="btndivUploadDocs">
-                                        <?php if (agent == 'CA' || (in_array(agent, ["CR1", "CR2"]) && in_array($leadDetails->stage, ["S2", "S3", "S5", "S6", "S11"]) && $leadDetails->customer_bre_run_flag==0)) { ?>
+                                        <?php if (agent == 'CA' || (in_array(agent, ["CR1", "CR2"]) && in_array($leadDetails->stage, ["S2", "S3", "S5", "S6", "S11"]) && $leadDetails->customer_bre_run_flag==0) || (agent == 'DS2' && in_array($leadDetails->lead_status_id, array( 11,12,13)))) { ?>
                                             <div style="background:#fff !important;">
-                                                <?php if (($leadDetails->lead_screener_assign_user_id == user_id && agent == "CR1" && in_array($leadDetails->stage, ["S2", "S3"])) || ($leadDetails->lead_credit_assign_user_id == user_id && agent == "CR2" && in_array($leadDetails->stage, ["S5", "S6", "S11"])) || agent == "CA") { ?>
+                                                <?php if (($leadDetails->lead_screener_assign_user_id == user_id && agent == "CR1" && in_array($leadDetails->stage, ["S2", "S3"])) || ($leadDetails->lead_credit_assign_user_id == user_id && agent == "CR2" && in_array($leadDetails->stage, ["S5", "S6", "S11"])) || agent == "CA" || (agent == 'DS2' && in_array($leadDetails->lead_status_id, array( 11,12,13)))) { ?>
 
                                                     <p id="selectDocsTypes" style="text-transform:uppercase; margin-top:20px;padding-left: 10px;padding-bottom: 15px;">
                                                         <?php
@@ -214,7 +214,7 @@ $hold_date = date('Y-m-d h:i:s', strtotime(timestamp . ' + 2 days'));
                                                     </p>
                                                 <?php } ?>
                                             </div> 
-                                            <?php if(agent == 'CA' || agent == 'CR1' || agent == 'CR2') { ?>  
+                                            <?php if(agent == 'CA' || agent == 'CR1' || agent == 'CR2' || agent == 'DS2') { ?>  
                                             <div style="background:#fff !important;">
                                               <!--<p><b>Generate link for customer Documents</b>&nbsp;&nbsp;<input type="checkbox" name="email_send" id="email_send" value="1" onclick="setSendLink('<?= $leadDetails->lead_id ?>','<?= $leadDetails->customer_id ?>',1)">&nbsp;<label for="email_send"><b>Send Email</b></label>&nbsp;&nbsp;&nbsp;<input type="checkbox" name="sms_send" id="sms_send" value="1" onclick="setSendLink('<?= $leadDetails->lead_id ?>','<?= $leadDetails->customer_id ?>',2)">&nbsp;<label for="sms_send"><b>Send SMS</b></label></p>-->
                                             </div> 

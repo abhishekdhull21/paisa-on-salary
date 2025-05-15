@@ -17,7 +17,7 @@
 </style>
 
 
-<?php if (agent == 'CA' || (agent == 'CR1' && !empty($leadDetails->lead_screener_assign_user_id) && $leadDetails->lead_screener_assign_user_id == user_id && in_array($leadDetails->lead_status_id, array(2, 3))) || (agent == 'CR2' && !empty($leadDetails->lead_credit_assign_user_id) && $leadDetails->lead_credit_assign_user_id == user_id && in_array($leadDetails->lead_status_id, array(5, 6, 11)) && $leadDetails->customer_bre_run_flag==0)) { ?>
+<?php if (agent == 'CA' || (agent == 'CR1' && !empty($leadDetails->lead_screener_assign_user_id) && $leadDetails->lead_screener_assign_user_id == user_id && in_array($leadDetails->lead_status_id, array(2, 3))) || (agent == 'CR2' && !empty($leadDetails->lead_credit_assign_user_id) && $leadDetails->lead_credit_assign_user_id == user_id && in_array($leadDetails->lead_status_id, array(5, 6, 11)) && $leadDetails->customer_bre_run_flag==0) || (agent == 'DS2' && in_array($leadDetails->lead_status_id, array( 11,12,13)))) { ?>
     <form id="formUserDocsData" method="post" enctype="multipart/form-data" style="float: left;width: 97%;margin:13px 13px 20px 0px;">
         <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
         <input type="hidden" name="lead_id" id="lead_id" value="<?= $this->encrypt->encode($leadDetails->lead_id) ?>">

@@ -1285,8 +1285,7 @@ class TaskController extends CI_Controller {
                 //                }
                 $config['file_name'] = $new_name;
                 $config['upload_path'] = FCPATH.'upload/';
-                // echo $config['upload_path'];
-                $config['allowed_types'] = 'pdf|jpg|png|jpeg';
+                $config['allowed_types'] = 'pdf|jpg|png|jpeg|mp4|avi|mov|wmv|flv|mkv';
                 $config['file_ext_tolower'] = true;
                 $this->upload->initialize($config);
                 if (!$this->upload->do_upload('file_name')) {
