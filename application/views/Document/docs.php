@@ -32,7 +32,7 @@
         </div>
 
         <div class="col-md-3" id="selectFileType">
-            <input type="file" class="form-control" name="file_name" id="file_name" accept="image/*,.jpeg, .png, .jpg,.pdf" required>
+            <input type="file" class="form-control" name="file_name" id="file_name" accept="image/*,video/*,.jpeg,.png,.jpg,.pdf,.mp4,.avi,.mov,.wmv,.flv,.mkv" required>
         </div>
 
         <div class="col-md-3">
