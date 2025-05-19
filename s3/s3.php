@@ -54,7 +54,7 @@ $config['secret_key'] = '8+/MmQ0eW5/eRzsp+ut94AKYNa/ZHnEhvTSQWb30';
 |
 */
 
-$config['bucket_name'] = 'bl-upload-files-dev';
+$config['bucket_name'] = getenv('S3_BUCKET_NAME');
 
 /*
 |--------------------------------------------------------------------------
@@ -65,7 +65,7 @@ $config['bucket_name'] = 'bl-upload-files-dev';
 |
 */
 
-$config['folder_name'] = 'bl-upload-files-dev-folder';
+$config['folder_name'] = getenv('S3_BUCKET_FOLDER');
 
 /*
 |--------------------------------------------------------------------------
@@ -76,7 +76,7 @@ $config['folder_name'] = 'bl-upload-files-dev-folder';
 |
 */
 
-$config['s3_url'] = 's3://bl-upload-files-dev/bl-upload-files-dev-folder/';
+$config['s3_url'] = 's3://' . $config['bucket_name'] . '/' . $config['folder_name'] . '/';
 
 /*
 |--------------------------------------------------------------------------
@@ -88,7 +88,7 @@ $config['s3_url'] = 's3://bl-upload-files-dev/bl-upload-files-dev-folder/';
 |
 */
 
-$config['get_from_enviroment'] = FALSE;
+$config['get_from_enviroment'] = TRUE;
 
 /*
 |--------------------------------------------------------------------------
@@ -98,7 +98,7 @@ $config['get_from_enviroment'] = FALSE;
 | Name for access key in enviroment
 |
 */
-$config['access_key_envname'] = 'S3_KEY';
+$config['access_key_envname'] = 'AWS_ACCESS_KEY';
 
 /*
 |--------------------------------------------------------------------------
@@ -108,7 +108,7 @@ $config['access_key_envname'] = 'S3_KEY';
 | Name for access key in enviroment
 |
 */
-$config['secret_key_envname'] = 'S3_SECRET';
+$config['secret_key_envname'] = 'AWS_SECRET_KEY';
 
 /*
 |--------------------------------------------------------------------------

@@ -3,6 +3,12 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
+require_once APPPATH . 'Aws/aws-autoloader.php';
+
+use Aws\S3\S3Client;
+use Aws\Exception\AwsException;
+
+
 if (!function_exists('traceObjectSelf')) {
 
     function traceObjectSelf($object_passed, $die = false) {
@@ -695,3 +701,82 @@ if (!function_exists('downloadDocument')) {
     }
 
 }
+
+
+if (!function_exists('get_s3_presigned_url')) {
+    function get_s3_presigned_url($file_name, $disposition = 'inline', $lifetime = 600, $https = true) {
+        // Make sure ENV vars are loaded
+        $bucket = getenv('S3_BUCKET_NAME');
+        $folder = getenv('S3_BUCKET_FOLDER');
+        $region = getenv('AWS_REGION') ?: 'ap-south-1'; // fallback
+        $key = getenv('AWS_ACCESS_KEY');
+        $secret = getenv('AWS_SECRET_KEY');
+
+        if (!$bucket || !$folder || !$key || !$secret) {
+            throw new Exception('Missing AWS S3 credentials or config');
+        }
+
+        $client = new Aws\S3\S3Client([
+            'version' => 'latest',
+            'region' => 'ap-south-1',
+            'credentials' => [
+                'key' => $key,
+                'secret' => $secret,
+            ],
+        ]);
+
+        $cmd = $client->getCommand('GetObject', [
+            'Bucket' => $bucket,
+            'Key'    => $folder . '/' . $file_name,
+            'ResponseContentDisposition' => "{$disposition}; filename=\"{$file_name}\"",
+        ]);
+
+        $request = $client->createPresignedRequest($cmd, '+' . $lifetime . ' seconds');
+
+        return (string) $request->getUri();
+    }
+}
+
+// if (!function_exists('get_s3_presigned_url')) {
+//     /**
+//      * Generate a pre-signed S3 URL for viewing or downloading
+//      *
+//      * @param string $file_name      The file name in S3
+//      * @param string $disposition    'inline' or 'attachment'
+//      * @param int $lifetime          Lifetime of the URL in seconds
+//      * @param bool $https            Use HTTPS or not
+//      * @param string|null $bucket    Optional custom bucket
+//      * @return string|false          Signed URL or false on error
+//      */
+//     function get_s3_presigned_url($file_name, $disposition = 'inline', $lifetime = 600, $https = true, $bucket = null)
+//     {
+//         // Get bucket and folder from .env or config
+//         $bucket = $bucket ?: getenv('S3_BUCKET_NAME');
+//         $folder = getenv('S3_BUCKET_FOLDER');
+//         $object_key = ltrim(($folder ? "$folder/" : '') . $file_name, '/');
+
+//         try {
+//             $client = get_s3_client();
+
+//             $cmd = $client->getCommand('GetObject', [
+//                 'Bucket' => $bucket,
+//                 'Key' => $object_key,
+//                 'ResponseContentDisposition' => "{$disposition}; filename=\"" . basename($file_name) . "\"",
+//             ]);
+
+//             $request = $client->createPresignedRequest($cmd, "+$lifetime seconds");
+
+//             $url = (string) $request->getUri();
+
+//             // Force HTTPS if needed
+//             if ($https) {
+//                 $url = preg_replace('/^http:/i', 'https:', $url);
+//             }
+
+//             return $url;
+//         } catch (AwsException $e) {
+//             log_message('error', 'S3 Presigned URL Error: ' . $e->getMessage());
+//             return false;
+//         }
+//     }
+// }
