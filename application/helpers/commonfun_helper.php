@@ -3,10 +3,7 @@
 if (!defined('BASEPATH'))
     exit('No direct script access allowed');
 
-require_once APPPATH . 'Aws/aws-autoloader.php';
 
-use Aws\S3\S3Client;
-use Aws\Exception\AwsException;
 
 
 if (!function_exists('traceObjectSelf')) {
