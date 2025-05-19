@@ -1837,8 +1837,8 @@ class TaskController extends CI_Controller {
             } else if (ENVIRONMENT == 'production' && !in_array($cam->pancard_ocr_verified_status, array(1, 2))) {
                 $json['err'] = "Customer e-kyc not verified.";
                 echo json_encode($json);
-            } else if ($cam->loan_recommended >= 40000 && !in_array($user_id, $allow_sanction_head)) {
-                $json['err'] = "Loan Recommended is more than 50K, Please recommend this case to sanction head only.";
+            } else if ($cam->loan_recommended >= 60000 && !in_array($user_id, $allow_sanction_head)) {
+                $json['err'] = "Loan Recommended is more than 60K, Please recommend this case to sanction head only.";
                 echo json_encode($json);
             } else if (!empty($approval_loan_amount) && $cam->loan_recommended > $approval_loan_amount && !in_array($user_id, $allow_sanction_head)) {
                 $json['err'] = "Loan Recommended is more than 60% of customer income. Please recommend this case to sanction head only.";
