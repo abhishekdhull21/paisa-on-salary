@@ -16,7 +16,7 @@ define("COMP_ENVIRONMENT", 'development'); //production
 define("COMP_DOC_URL", 'https://crm.paisaonsalary.in/direct-document-file/'); //production
 define("COMP_CRM_URL", 'https://crm.paisaonsalary.in/');
 define("COMP_WEBSITE_URL", 'https://crm.paisaonsalary.in/');
-define("COMP_DOC_S3_FLAG", false); //true=> Store in S3 bucket , false=> Physical store.
+define("COMP_DOC_S3_FLAG", true); //true=> Store in S3 bucket , false=> Physical store.
 define("COMP_DOC_PATH", FCPATH . 'upload' . DIRECTORY_SEPARATOR);
 require_once(COMP_PATH . "/includes/functions.inc.php");
 require_once(COMP_PATH . "/classes/model/BaseModel.class.php");

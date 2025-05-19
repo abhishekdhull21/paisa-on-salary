@@ -33,7 +33,7 @@ $config['verify_peer'] = TRUE;
 |
 */
 
-$config['access_key'] = 'AKIAY4D6C4ASAWFIX5OH';
+$config['access_key'] = getenv('AWS_ACCESS_KEY');
 
 /*
 |--------------------------------------------------------------------------
@@ -44,7 +44,7 @@ $config['access_key'] = 'AKIAY4D6C4ASAWFIX5OH';
 |
 */
 
-$config['secret_key'] = '8+/MmQ0eW5/eRzsp+ut94AKYNa/ZHnEhvTSQWb30';
+$config['secret_key'] = getenv('AWS_SECRET_KEY');
 
 /*
 |--------------------------------------------------------------------------
@@ -55,7 +55,7 @@ $config['secret_key'] = '8+/MmQ0eW5/eRzsp+ut94AKYNa/ZHnEhvTSQWb30';
 |
 */
 
-$config['bucket_name'] = 'bl-upload-files-dev';
+$config['bucket_name'] = getenv('S3_BUCKET_NAME');
 
 /*
 |--------------------------------------------------------------------------
@@ -66,7 +66,7 @@ $config['bucket_name'] = 'bl-upload-files-dev';
 |
 */
 
-$config['folder_name'] = 'bl-upload-files-dev-folder';
+$config['folder_name'] = getenv('S3_BUCKET_FOLDER');
 
 /*
 |--------------------------------------------------------------------------
@@ -77,7 +77,7 @@ $config['folder_name'] = 'bl-upload-files-dev-folder';
 |
 */
 
-$config['s3_url'] = 's3://bl-upload-files-dev/bl-upload-files-dev-folder/';
+$config['s3_url'] = 's3://' . rtrim(getenv("S3_BUCKET_NAME"), '/') . '/' . trim(getenv("S3_BUCKET_FOLDER"), '/') . '/';
 
 /*
 |--------------------------------------------------------------------------

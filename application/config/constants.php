@@ -111,6 +111,8 @@ define("UPLOAD_DISBURSAL_PATH", getenv("WWW_PATH")."upload/disburse_letter/");
 
 
 //define("LOANS_KYC_DOCS", "/kycdocs/loans/");
+define("COMP_DOC_S3_FLAG", true); //true=> Store in S3 bucket , false=> Physical store.
+
 
 define("FEEDBACK_WEB_PATH", getenv('WEBSITE_URL')."customer-feedback/");
 

@@ -6,3 +6,4 @@ system/cache
 /upload
 temp_upload
 ./temp_upload
+*.pdf

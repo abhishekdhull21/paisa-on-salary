@@ -4,7 +4,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 ini_set('max_execution_time', 3600);
 ini_set("memory_limit", "1024M");
 
-class TaskController extends CI_Controller {
+class TaskController extends CI_Controller
+{
 
     public $tbl_leads = 'leads LD';
     public $tbl_lead_followup = 'lead_followup LF';
@@ -14,7 +15,8 @@ class TaskController extends CI_Controller {
     public $tbl_customer_employment = "customer_employment CE";
     public $tbl_cam = "credit_analysis_memo CAM";
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->load->model('Leadmod', 'Leads');
         $this->load->model('Task_Model', 'Tasks');
@@ -23,6 +25,8 @@ class TaskController extends CI_Controller {
         $this->load->model('Docs_Model', 'Docs');
         $this->load->model('Users/Email_Model', 'Email');
         $this->load->model('Users/SMS_Model', 'SMS');
+        $this->load->helper('commonfun');
+
 
         date_default_timezone_set('Asia/Kolkata');
         $timestamp = date("Y-m-d H:i:s");
@@ -31,11 +35,13 @@ class TaskController extends CI_Controller {
         $login->index();
     }
 
-    public function error_page() {
+    public function error_page()
+    {
         $this->load->view('errors/index');
     }
 
-    public function index($stage) {
+    public function index($stage)
+    {
         // error_reporting(E_ALL);
         // ini_set("display_errors", 1);
         ini_set('max_execution_time', 3600);
@@ -77,10 +83,10 @@ class TaskController extends CI_Controller {
         /* if (in_array($stage, ['S14']) && $_SESSION['isUserSession']['labels'] == 'CR2'  && $_SESSION['isUserSession']['labels'] == 'CO3') {
             $conditions["LD.lead_credit_assign_user_id"] = $_SESSION['isUserSession']['user_id'];
         } */
-        if (in_array($stage, ['S14']) && ($_SESSION['isUserSession']['labels'] == 'CR2'  || $_SESSION['isUserSession']['labels'] == 'CO3')) {
+        if (in_array($stage, ['S14']) && ($_SESSION['isUserSession']['labels'] == 'CR2' || $_SESSION['isUserSession']['labels'] == 'CO3')) {
             $conditions["LD.lead_credit_assign_user_id"] = $_SESSION['isUserSession']['user_id'];
         }
-        if (in_array($stage, ['S14']) && ($_SESSION['isUserSession']['labels'] == 'CO1'  || $_SESSION['isUserSession']['labels'] == 'CO3')) {
+        if (in_array($stage, ['S14']) && ($_SESSION['isUserSession']['labels'] == 'CO1' || $_SESSION['isUserSession']['labels'] == 'CO3')) {
             $where_in['LD.lead_status_id'] = array(19, 12, 13, 14);
         }
 
@@ -314,7 +320,8 @@ class TaskController extends CI_Controller {
         $this->load->view('Tasks/GetLeadTaskList', $data);
     }
 
-    public function enquires() {
+    public function enquires()
+    {
         $this->load->library("pagination");
         $url = (base_url() . $this->uri->segment(1));
         $conditions = "enquiry.cust_enquiry_active='" . 1 . "' AND enquiry.cust_enquiry_deleted=0 AND (enquiry.cust_enquiry_lead_id IS NULL OR enquiry.cust_enquiry_lead_id=0)";
@@ -363,7 +370,8 @@ class TaskController extends CI_Controller {
         $this->load->view('Enquires/enquires', $data);
     }
 
-    public function getLeadDetails($leadId) {
+    public function getLeadDetails($leadId)
+    {
         // error_reporting(E_ALL);
         //   ini_set("display_errors", 1);
         ini_set('max_execution_time', 3600);
@@ -398,7 +406,8 @@ class TaskController extends CI_Controller {
     }
 
 
-    public function sendLegalnotice() {
+    public function sendLegalnotice()
+    {
         $lead_id = $this->input->post('lead_id');
         //  $lead_id = 4;
 
@@ -507,14 +516,14 @@ class TaskController extends CI_Controller {
 <body>
     <div class="container" style="font-family: Courier,arial;">
         <header>
-            <img src="'.WEBSITE_URL.'public/images/legal-header.jpg" width="800"> <!-- Adjust width to match container -->
+            <img src="' . WEBSITE_URL . 'public/images/legal-header.jpg" width="800"> <!-- Adjust width to match container -->
         </header>
         <section class="legal-notice">
 			<p style="color:#000;"><strong>DELHI</strong><br/><span style="float: right;">' . $current_date . '</span></p>
 			<p style="color:#000;">TO ,<br>SHRI/SMT <b> ' . $firstname . ' </b><br>R/O - <b>' . $current_house . ' </b></p><br/>
 			<h2 style="color:#000;">Legal Notice (without prejudice)</h2>
 			<p style="color:#000;">Sir/Ma\'am</p>
-			<p style="color:#000;">Under instructions from and on behalf of my client <strong style="background:#FFFF00;">'.BRAND_NAME.' PRIVATE LIMITED</strong> with the brand name <strong style="background:#FFFF00;">“PaisaOnSalary(POS)”</strong> having its office G-51 Ground Floor Krishna Apra Business Square Netaji Subhash Palace Pitampura New Delhi-110034, I address you as under.</p>
+			<p style="color:#000;">Under instructions from and on behalf of my client <strong style="background:#FFFF00;">' . BRAND_NAME . ' PRIVATE LIMITED</strong> with the brand name <strong style="background:#FFFF00;">“PaisaOnSalary(POS)”</strong> having its office G-51 Ground Floor Krishna Apra Business Square Netaji Subhash Palace Pitampura New Delhi-110034, I address you as under.</p>
 			<ol>
 				<li style="color:#000;">That you had approached my client for a short-term loan as you were in dire need of money on <strong>' . date('d, M Y', strtotime($final_disbursed_date)) . '</strong>.</li>
 				<li style="color:#000;">That pursuant to the terms and conditions of the Loan agreement form as agreed by you, you were provided the short-term loan of Rs. <strong>' . $loan_recommended . '</strong> with Loan No.<strong> ' . $loan_no . '</strong> at a mutually agreed rate of interest.</li>
@@ -532,7 +541,7 @@ class TaskController extends CI_Controller {
 </body>
 </html>
 ';
-// TODO: THIS EMAIL TEMPLATE SHOULD BE CHANGED ACCORDING TO YOUR NEEDS
+        // TODO: THIS EMAIL TEMPLATE SHOULD BE CHANGED ACCORDING TO YOUR NEEDS
         //echo $message; die;
         $file_name = "legal_letter_" . $lead_id . "_" . date('Ymd') . ".pdf";
         $file_path_with_name = UPLOAD_LEGAL_PATH . $file_name;
@@ -586,7 +595,8 @@ class TaskController extends CI_Controller {
     }
 
 
-    public function getLeadDetails_new($leadId) {
+    public function getLeadDetails_new($leadId)
+    {
         // error_reporting(E_ALL);
         //   ini_set("display_errors", 1);
 
@@ -618,7 +628,8 @@ class TaskController extends CI_Controller {
         $this->load->view('Tasks/main_js.php');
     }
 
-    public function getEnquiryDetails($cust_enquiry_id) {
+    public function getEnquiryDetails($cust_enquiry_id)
+    {
         $cust_enquiry_id = $this->encrypt->decode($cust_enquiry_id);
         $conditions = ['enquiry.cust_enquiry_id' => $cust_enquiry_id];
         $leadData = $this->Tasks->enquires($conditions);
@@ -632,7 +643,8 @@ class TaskController extends CI_Controller {
         $this->load->view('Enquires/enquiry_application', $data);
     }
 
-    public function getPincode($city_id) {
+    public function getPincode($city_id)
+    {
         $pincodeArr = $this->Tasks->getPincode($city_id);
         $json['pincode'] = $pincodeArr->result();
         echo json_encode($json);
@@ -666,38 +678,44 @@ class TaskController extends CI_Controller {
     //     //echo json_encode($result_array);
     // }
 
-    public function getCity($state_id = null) {
+    public function getCity($state_id = null)
+    {
         $cityArr = $this->Tasks->getCity($state_id);
         $json['city'] = $cityArr->result();
         echo json_encode($json);
     }
 
-    public function getState() {
+    public function getState()
+    {
         $stateArr = $this->Tasks->getState();
         // print_r($stateArr); die;
         $json['state'] = $stateArr->result();
         echo json_encode($json);
     }
 
-    public function getReligion() {
+    public function getReligion()
+    {
         $stateArr = $this->Tasks->getReligion();
         $json['religion'] = $stateArr->result();
         echo json_encode($json);
     }
 
-    public function getMaritalStatus() {
+    public function getMaritalStatus()
+    {
         $stateArr = $this->Tasks->getMaritalStatus();
         $json['MaritalStatus'] = $stateArr->result();
         echo json_encode($json);
     }
 
-    public function getQualification() {
+    public function getQualification()
+    {
         $stateArr = $this->Tasks->getQualification();
         $json['Qualification'] = $stateArr->result();
         echo json_encode($json);
     }
 
-    public function getSpouseOccupation() {
+    public function getSpouseOccupation()
+    {
         $stateArr = $this->Tasks->getSpouseOccupation();
         $json['SpouseOccupation'] = $stateArr->result();
         echo json_encode($json);
@@ -706,7 +724,8 @@ class TaskController extends CI_Controller {
     // Qualification
     // SpouseOccupation
 
-    public function apiPincode($pincode) {
+    public function apiPincode($pincode)
+    {
         $url = 'https://api.postalpincode.in/pincode/' . $pincode;
 
         $curl = curl_init();
@@ -730,7 +749,8 @@ class TaskController extends CI_Controller {
         echo json_encode($array);
     }
 
-    public function scmConfRequest() {
+    public function scmConfRequest()
+    {
         if ($this->input->post('user_id') == '') {
             $json['err'] = 'Session Expired.';
             echo json_encode($json);
@@ -782,7 +802,8 @@ class TaskController extends CI_Controller {
         }
     }
 
-    public function getLeadDisbursed1() {
+    public function getLeadDisbursed1()
+    {
         $limit = $this->input->post('limit');
         $start = $this->input->post('start');
         $data = $this->Tasks->leadDisbursed1($limit, $start);
@@ -835,7 +856,8 @@ class TaskController extends CI_Controller {
         echo $output;
     }
 
-    public function viewOldHistory($leadId) {
+    public function viewOldHistory($leadId)
+    {
         $lead_id = $this->encrypt->decode($leadId);
         $leadData = $this->Tasks->internalDedupe($lead_id);
         //        $data_source_array = $this->Tasks->getDataSourceList();
@@ -880,7 +902,7 @@ class TaskController extends CI_Controller {
                                 <td class="whitespace">' . (!empty($colum->loan_no) ? $colum->loan_no : '-') . '</td>
                                 <td class="whitespace"><span ' . (($colum->first_name == $lead_data['first_name']) ? 'style="color:red"' : '') . ' >' . $colum->first_name . ' </span>' . $colum->middle_name . ' ' . $colum->sur_name . '</td>
                                 <td class="whitespace"><span ' . (($colum->father_name == $lead_data['father_name']) ? 'style="color:red"' : '') . ' >' . (!empty($colum->father_name) ? $colum->father_name : '-') . '</span></td>
-                                <td class="whitespace"><span ' . (($colum->dob == $lead_data['dob']) ? 'style="color:red"' : '') . ' >'  . (!empty($colum->dob) ? date("d-m-Y", strtotime($colum->dob)) : '-') . '</span></td>
+                                <td class="whitespace"><span ' . (($colum->dob == $lead_data['dob']) ? 'style="color:red"' : '') . ' >' . (!empty($colum->dob) ? date("d-m-Y", strtotime($colum->dob)) : '-') . '</span></td>
                                 <td class="whitespace"><span ' . (($colum->pancard == $lead_data['pancard']) ? 'style="color:red"' : '') . ' >' . (!empty($colum->pancard) ? $colum->pancard : '-') . '</span></td>
 
                                 <td class="whitespace"><span ' . (($colum->mobile == $lead_data['mobile'] || $colum->mobile == $lead_data['alternate_mobile']) ? 'style="color:red"' : '') . ' >' . (!empty($colum->mobile) ? $colum->mobile : '-') . '</span></td>
@@ -909,7 +931,8 @@ class TaskController extends CI_Controller {
         echo json_encode($data);
     }
 
-    public function oldUserHistory($lead_id) {
+    public function oldUserHistory($lead_id)
+    {
         $sql = $this->db->select('pancard, mobile')->where('lead_id', $lead_id)->from('leads')->get();
         $result = $sql->row();
         $pancard = $result->pancard;
@@ -993,19 +1016,22 @@ class TaskController extends CI_Controller {
         $this->load->view('Tasks/oldHistory', $data);
     }
 
-    public function TaskList() {
+    public function TaskList()
+    {
         $this->index();
     }
 
-    public function getDocumentSubType($docs_type) {
+    public function getDocumentSubType($docs_type)
+    {
         $docs_type = str_ireplace("%20", " ", trim($docs_type));
         $docsSubMaster = $this->Docs->getDocumentSubType($docs_type);
         $data = $docsSubMaster->result();
         echo json_encode($data);
     }
 
-    public function getDocsUsingAjax($lead_id) {
-        $lead_id =  $this->encrypt->decode($lead_id);
+    public function getDocsUsingAjax($lead_id)
+    {
+        $lead_id = $this->encrypt->decode($lead_id);
         $leadDetails = $this->Tasks->getLeadDetails("LD.lead_id = $lead_id");
         $leadDetails = $leadDetails->row();
         // echo "lead Details: <br>";
@@ -1015,7 +1041,7 @@ class TaskController extends CI_Controller {
 
         $pancard = $sql->pancard;
 
-        $fetch = "D.lead_id, U.name, D.application_no, D.docs_id, D.docs_type, D.sub_docs_type, D.pwd, D.file, D.created_on";
+        $fetch = "D.lead_id,D.uploaded_on_s3, U.name, D.application_no, D.docs_id, D.docs_type, D.sub_docs_type, D.pwd, D.file, D.created_on";
 
         $cond_str = "(D.lead_id=" . $lead_id;
 
@@ -1064,6 +1090,35 @@ class TaskController extends CI_Controller {
                 } else {
                 }
                 //							<td class="whitespace">' . (($column->application_no != null) ? $column->application_no : '-') . '</td>
+                // echo "alfsadl=>".(isset($column->uploaded_on_s3) && $column->uploaded_on_s3 == 1).'\n';
+                if (isset($column->uploaded_on_s3) && $column->uploaded_on_s3 == 1) {
+                    $fileViewLink = get_s3_presigned_url($column->file, 'inline');       // for viewing
+                    $fileDownloadLink = get_s3_presigned_url($column->file, 'attachment'); // for downloading
+
+                    $download_view_section = '
+        <td class="whitespace">
+            <a href="' . $fileViewLink . '" target="_blank">
+                <i class="fa fa-eye" style="padding: 3px; color: #35b7c4; border: 1px solid #35b7c4;"></i>
+            </a>
+            ' . $deleteDocs . '
+            <a href="' . $fileDownloadLink . '">
+                <i class="fa fa-download" style="padding: 3px; color: #35b7c4; border: 1px solid #35b7c4;"></i>
+            </a>
+        </td>';
+                } else {
+                    // fallback for local file
+                    $download_view_section = '
+        <td class="whitespace">
+            <a href="' . base_url("upload/" . $column->file) . '" target="_blank">
+                <i class="fa fa-eye" style="padding: 3px; color: #35b7c4; border: 1px solid #35b7c4;"></i>
+            </a>
+            ' . $deleteDocs . '
+            <a href="' . base_url("upload/" . $column->file) . '" download>
+                <i class="fa fa-download" style="padding: 3px; color: #35b7c4; border: 1px solid #35b7c4;"></i>
+            </a>
+        </td>';
+                }
+
                 $data .= '<tbody>
                 		<tr ' . (($lead_id != $column->lead_id) ? "class='danger'" : "") . '>
 							<td class="whitespace">' . $column->docs_id . '</td>
@@ -1072,14 +1127,10 @@ class TaskController extends CI_Controller {
 							<td class="whitespace">' . $column->sub_docs_type . '</td>
                             <td class="whitespace">' . (($column->pwd != null || $column->pwd != '') ? $column->pwd : '-') . '</td>
 							<td class="whitespace">' . (($column->name != null) ? $column->name : '-') . '</td>
-							<td class="whitespace">' . $newDate . '</td>
+							<td class="whitespace">' . $newDate . '</td>'.
+                            $download_view_section
 
-							<td class="whitespace">
-							 	<a href="' . base_url("upload/" . $column->file) . '" target="_blank"><i class="fa fa-eye" style="padding : 3px; color : #35b7c4; border : 1px solid #35b7c4;"></i></a>
-                                ' . $deleteDocs . '
-								<a href="' . base_url("upload/" . $column->file) . '" download><i class="fa fa-download" style="padding : 3px; color : #35b7c4; border : 1px solid #35b7c4;"></i></a>
-							</td>
-						</tr>';
+						.'</tr>';
             }
             // 	<a onclick="editCustomerDocs('.$column->docs_id.')"><i class="fa fa-pencil" style="padding : 3px; color : #35b7c4; border : 1px solid #35b7c4;"></i></a>
             $data .= '</tbody></table></div>';
@@ -1089,7 +1140,8 @@ class TaskController extends CI_Controller {
         echo json_encode($data);
     }
 
-    public function deleteCustomerDocsById($docs_id) {
+    public function deleteCustomerDocsById($docs_id)
+    {
         $docs_row = $this->db->select("*")->from("docs")->where("docs_id", $docs_id)->get()->row();
         $lead_id = $docs_row->lead_id;
         if (!empty($docs_id)) {
@@ -1099,7 +1151,8 @@ class TaskController extends CI_Controller {
         }
     }
 
-    public function viewCustomerDocs($docs_id) {
+    public function viewCustomerDocs($docs_id)
+    {
         if (!empty($docs_id)) {
             $query = $this->db->where("docs_id", $docs_id)->get('docs')->row_array();
             $img = $query['file'];
@@ -1116,14 +1169,16 @@ class TaskController extends CI_Controller {
         }
     }
 
-    public function viewCustomerDocsById($docs_id) {
+    public function viewCustomerDocsById($docs_id)
+    {
         if (!empty($docs_id)) {
             $query = $this->db->select('*')->where("docs_id", $docs_id)->get('docs')->row_array();
             echo json_encode($query);
         }
     }
 
-    public function downloadCustomerdocs($docs_id) {
+    public function downloadCustomerdocs($docs_id)
+    {
         if (!empty($docs_id)) {
             $query = $this->db->where("docs_id", $docs_id)->get('docs')->row_array();
             $img = $query['file'];
@@ -1141,7 +1196,8 @@ class TaskController extends CI_Controller {
         }
     }
 
-    public function notification($mobile, $msg) {
+    public function notification($mobile, $msg)
+    {
         $username = username;
         $password = password;
         $type = 0;
@@ -1241,110 +1297,111 @@ class TaskController extends CI_Controller {
     //         }
     //     }
 
-    public function saveCustomerDocs() {
+    public function saveCustomerDocs()
+    {
         if (empty($_SESSION['isUserSession']['user_id'])) {
-            $json['errSession'] = "Session Expired";
-            echo json_encode($json);
+            echo json_encode(['errSession' => "Session Expired"]);
             exit;
         }
-        $lead_id = $this->input->post('lead_id');
-        $lead_id =  $this->encrypt->decode($lead_id);
+        $lead_id = $this->encrypt->decode($this->input->post('lead_id'));
         $user_id = $this->input->post('user_id');
         $company_id = $this->input->post('company_id');
         $product_id = $this->input->post('product_id');
         $docs_id = $this->input->post('docs_id');
-
         $sub_docs_type_id = $this->input->post('document_name');
+        $password = $this->input->post('password');
 
         $tmpDocsDetails = $this->Docs->getDocumentMasterById($sub_docs_type_id);
         $documentMasterDetails = $tmpDocsDetails->row_array();
-        // echo "tmpDocsDetails".print_r($documentMasterDetails);
 
         $docs_type = $documentMasterDetails['docs_type'];
         $sub_docs_type = $documentMasterDetails['docs_sub_type'];
 
-        $password = $this->input->post('password');
+        if (!empty($lead_id) && isset($_FILES['file_name']['name'])) {
 
-        if (!empty($lead_id)) {
-            if (isset($_FILES['file_name']['name'])) {
+            // Create file name
+            $file_name = $_FILES["file_name"]['name'];
+            $extension = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+            $new_name = $lead_id . '_' . $sub_docs_type_id . '_lms_' . date('YmdHis') . '.' . $extension;
+            $image = '';
+            $uploadSuccess = false;
+            $isUploadedOnS3 = false;
 
-                $file_name = $_FILES["file_name"]['name'];
-                $extension = pathinfo($file_name, PATHINFO_EXTENSION);
-                $extension = strtolower($extension);
-                $new_name = $lead_id . '_' . $sub_docs_type_id . '_lms_' . date('YmdHis') . '.' . $extension;
-
-                //                $filesize = $_FILES['file_name']['size'];
-                //
-                //                $file_size_in_mb = round(($filesize / 1024 / 1024), 0);
-                //
-                //                if ($file_size_in_mb > 2) {
-                //
-                //                    $json['err'] = "File size is more than $file_size_in_mb MB";
-                //                    echo json_encode($json);
-                //                    return;
-                //                }
-                $config['file_name'] = $new_name;
-                $config['upload_path'] = FCPATH.'upload/';
-                $config['allowed_types'] = 'pdf|jpg|png|jpeg|mp4|avi|mov|wmv|flv|mkv';
-                $config['file_ext_tolower'] = true;
-                $this->upload->initialize($config);
-                if (!$this->upload->do_upload('file_name')) {
-                    $json['err'] = $this->upload->display_errors();
-                    echo json_encode($json);
-                } else {
-
-                    $data = array('upload_data' => $this->upload->data());
-                    $image = $data['upload_data']['file_name'];
-
-                    if (empty($docs_id)) {
-                        $fetch = 'LD.application_no, C.pancard, C.mobile';
-                        $join2 = "LD.lead_id = C.customer_lead_id";
-                        $conditions = ['LD.lead_id' => $lead_id];
-                        // $getLeads = $this->Tasks->join_two_table($fetch, $this->tbl_customer, $this->tbl_leads, $join2);
-                        $getLeads = $this->Tasks->join_two_table_with_where($conditions, $fetch, $this->tbl_customer, $this->tbl_leads, $join2);
-                        $lead = $getLeads->row();
-
-                        if (empty($lead->pancard)) {
-                            $json['err'] = "Failed to save docs due to Pancard.";
-                            echo json_encode($json);
-                            exit;
-                        }
-
-                        $data = array(
-                            'lead_id' => $lead_id,
-                            'application_no' => $lead->application_no,
-                            'company_id' => $company_id,
-                            // 'customer_id' => $customer_id,
-                            'pancard' => $lead->pancard,
-                            'mobile' => $lead->mobile,
-                            'docs_type' => $docs_type,
-                            'sub_docs_type' => $sub_docs_type,
-                            'file' => $image,
-                            'pwd' => $password,
-                            'ip' => ip,
-                            'upload_by' => $user_id,
-                            'created_on' => date("Y-m-d H:i:s"),
-                            'docs_master_id' => $sub_docs_type_id
-                        );
-                        $result = $this->Tasks->insert($data, 'docs');
-                        $json['msg'] = 'Docs saved successfully.';
-                        echo json_encode($json);
-                    } else {
-                        $json['msg'] = 'Docs updated successfully.';
-                        echo json_encode($json);
-                    }
+            if (COMP_DOC_S3_FLAG) {
+                // Upload to S3
+                $uploadResult = uploadDocument($_FILES, $lead_id, $new_name);
+                if (!empty($uploadResult['status']) && $uploadResult['status'] == 1) {
+                    $image = $uploadResult['file_name'];
+                    $uploadSuccess = true;
+                    $isUploadedOnS3 = true;
                 }
             } else {
-                $json['err'] = "Failed to save Docs. Try Again.";
-                echo json_encode($json);
+                // Local Upload
+                $config['file_name'] = $new_name;
+                $config['upload_path'] = FCPATH . 'upload/';
+                $config['allowed_types'] = 'pdf|jpg|png|jpeg|mp4|avi|mov|wmv|flv|mkv';
+                $config['file_ext_tolower'] = true;
+
+                $this->upload->initialize($config);
+
+                if ($this->upload->do_upload('file_name')) {
+                    $data = $this->upload->data();
+                    $image = $data['file_name'];
+                    $uploadSuccess = true;
+                } else {
+                    echo json_encode(['err' => $this->upload->display_errors()]);
+                    return;
+                }
+            }
+
+            if ($uploadSuccess) {
+                if (empty($docs_id)) {
+                    // Fetch lead info
+                    $fetch = 'LD.application_no, C.pancard, C.mobile';
+                    $join2 = "LD.lead_id = C.customer_lead_id";
+                    $conditions = ['LD.lead_id' => $lead_id];
+                    $getLeads = $this->Tasks->join_two_table_with_where($conditions, $fetch, $this->tbl_customer, $this->tbl_leads, $join2);
+                    $lead = $getLeads->row();
+
+                    if (empty($lead->pancard)) {
+                        echo json_encode(['err' => "Failed to save docs due to Pancard."]);
+                        return;
+                    }
+
+                    // Save to DB
+                    $data = [
+                        'lead_id' => $lead_id,
+                        'application_no' => $lead->application_no,
+                        'company_id' => $company_id,
+                        'pancard' => $lead->pancard,
+                        'mobile' => $lead->mobile,
+                        'docs_type' => $docs_type,
+                        'sub_docs_type' => $sub_docs_type,
+                        'file' => $image,
+                        'pwd' => $password,
+                        'uploaded_on_s3' => $isUploadedOnS3,
+                        'ip' => ip,
+                        'upload_by' => $user_id,
+                        'created_on' => date("Y-m-d H:i:s"),
+                        'docs_master_id' => $sub_docs_type_id
+                    ];
+                    $this->Tasks->insert($data, 'docs');
+                    echo json_encode(['msg' => 'Docs saved successfully.']);
+                } else {
+                    // Docs update logic (if needed)
+                    echo json_encode(['msg' => 'Docs updated successfully.']);
+                }
+            } else {
+                echo json_encode(['err' => "File upload failed."]);
             }
         } else {
-            $json['err'] = "Failed to save Docs. Try Again.";
-            echo json_encode($json);
+            echo json_encode(['err' => "Failed to save Docs. Try Again."]);
         }
     }
 
-    public function allocateLeads() {
+
+    public function allocateLeads()
+    {
 
         if (empty($_SESSION['isUserSession']['user_id'])) {
             $json['err'] = "Session Expired";
@@ -1464,7 +1521,8 @@ class TaskController extends CI_Controller {
         }
     }
 
-    public function rejectedLeadMoveToProcess() {
+    public function rejectedLeadMoveToProcess()
+    {
 
         if (empty($_SESSION['isUserSession']['user_id'])) {
             $data['err'] = "Session Expired";
@@ -1542,14 +1600,16 @@ class TaskController extends CI_Controller {
         }
     }
 
-    public function reallocate() {
+    public function reallocate()
+    {
 
         echo "<pre>";
         print_r($_POST);
         exit;
     }
 
-    public function initiateFiCPV() {
+    public function initiateFiCPV()
+    {
         if (empty($_SESSION['isUserSession']['user_id'])) {
             $json['errSession'] = "Session Expired";
             echo json_encode($json);
@@ -1652,7 +1712,8 @@ class TaskController extends CI_Controller {
         }
     }
 
-    public function resonForDuplicateLeads() {
+    public function resonForDuplicateLeads()
+    {
         if (isset($_POST["checkList"])) {
             $login_user_name = $_SESSION['isUserSession']['name'];
             foreach ($_POST["checkList"] as $item) {
@@ -1689,7 +1750,8 @@ class TaskController extends CI_Controller {
         }
     }
 
-    public function duplicateTaskList() {
+    public function duplicateTaskList()
+    {
         $taskLists = $this->Tasks->duplicateTask();
         $data['taskCount'] = $taskLists->num_rows();
         $data['listTask'] = $taskLists->result();
@@ -1697,12 +1759,14 @@ class TaskController extends CI_Controller {
         $this->load->view('Tasks/DuplicateTaskList', $data);
     }
 
-    public function duplicateLeadDetails($lead_id) {
+    public function duplicateLeadDetails($lead_id)
+    {
         $taskLists = $this->Tasks->duplicateTaskList($lead_id);
         echo json_encode($taskLists);
     }
 
-    public function saveHoldleads($lead_id) {
+    public function saveHoldleads($lead_id)
+    {
         $lead_id = $this->encrypt->decode($lead_id);
         if ($this->input->server('REQUEST_METHOD') == 'POST') {
             $status = $this->input->post('status');
@@ -1777,7 +1841,8 @@ class TaskController extends CI_Controller {
         }
     }
 
-    public function sanctionleads() {
+    public function sanctionleads()
+    {
 
         $user_id = !empty($_SESSION['isUserSession']['user_id']) ? $_SESSION['isUserSession']['user_id'] : 0;
         $cam_blacklist_removed_flag = 0;
@@ -1786,7 +1851,7 @@ class TaskController extends CI_Controller {
         if ($this->input->server('REQUEST_METHOD') == 'POST') {
 
             $lead_id = $this->input->post('lead_id');
-            $lead_id =  $this->encrypt->decode($lead_id);
+            $lead_id = $this->encrypt->decode($lead_id);
 
             $remarks = strip_tags($this->input->post('remarks'));
 
@@ -2002,15 +2067,15 @@ class TaskController extends CI_Controller {
 
                 // $query_cif = $this->db->select('cif_id, cif_number, cif_pancard, cif_mobile')->where('cif_pancard', $cam->pancard)->from('cif_customer')->get();
                 // if (isset($cam->mobile)) {
-                    $query_cif = $this->db->select('cif_mobile')
-                        ->where('cif_mobile', $cam->mobile)
-                        ->from('cif_customer')
-                        ->get();
+                $query_cif = $this->db->select('cif_mobile')
+                    ->where('cif_mobile', $cam->mobile)
+                    ->from('cif_customer')
+                    ->get();
                 if ($query_cif->num_rows() > 0) {
 
                     $cif = $query_cif->row_array();
                     // print_r($cif);
-                    $customer_id =isset($cif['cif_number'])? $cif['cif_number'] : $cif['cif_mobile'];
+                    $customer_id = isset($cif['cif_number']) ? $cif['cif_number'] : $cif['cif_mobile'];
 
                     // $cif_id = $cif['cif_id'];
 
@@ -2029,7 +2094,7 @@ class TaskController extends CI_Controller {
                     $customer_data['cif_created_on'] = date("Y-m-d H:i:s");
                     $cif_flag = $this->db->insert('cif_customer', $customer_data);
                 }
-            // }
+                // }
 
                 // if (empty($cif_flag)) {
                 //     $json['err'] = 'CIF is unable to create. Please check with IT Team.';
@@ -2191,7 +2256,8 @@ class TaskController extends CI_Controller {
         }
     }
 
-        public function resendSanctionLetter() {
+    public function resendSanctionLetter()
+    {
 
         $user_id = !empty($_SESSION['isUserSession']['user_id']) ? $_SESSION['isUserSession']['user_id'] : 0;
         $cam_blacklist_removed_flag = 0;
@@ -2200,13 +2266,12 @@ class TaskController extends CI_Controller {
         if ($this->input->server('REQUEST_METHOD') == 'POST') {
 
             $lead_id = $this->input->post('lead_id');
-            $lead_id =  $this->encrypt->decode($lead_id);
+            $lead_id = $this->encrypt->decode($lead_id);
 
             $remarks = strip_tags($this->input->post('remarks'));
 
             if (empty($remarks)) {
-              $remarks = "Sanction letter email resent!!";
-                
+                $remarks = "Sanction letter email resent!!";
             }
             $sql = "SELECT DISTINCT LD.lead_id, LD.lead_data_source_id,LD.mobile, LD.lead_status_id, LD.lead_screener_assign_user_id, LD.lead_branch_id, LD.user_type, C.pancard";
             $sql .= " ,C.first_name,C.middle_name,sur_name,C.gender,C.pancard_ocr_verified_status";
@@ -2277,7 +2342,7 @@ class TaskController extends CI_Controller {
 
 
 
-    
+
                 $bankingDataReturnArr = $this->Tasks->getCustomerAccountDetails($lead_id);
 
                 // print_r($bankingDataReturnArr);
@@ -2363,15 +2428,15 @@ class TaskController extends CI_Controller {
 
                 // $query_cif = $this->db->select('cif_id, cif_number, cif_pancard, cif_mobile')->where('cif_pancard', $cam->pancard)->from('cif_customer')->get();
                 // if (isset($cam->mobile)) {
-                    $query_cif = $this->db->select('cif_mobile')
-                        ->where('cif_mobile', $cam->mobile)
-                        ->from('cif_customer')
-                        ->get();
+                $query_cif = $this->db->select('cif_mobile')
+                    ->where('cif_mobile', $cam->mobile)
+                    ->from('cif_customer')
+                    ->get();
                 if ($query_cif->num_rows() > 0) {
 
                     $cif = $query_cif->row_array();
                     // print_r($cif);
-                    $customer_id =isset($cif['cif_number'])? $cif['cif_number'] : $cif['cif_mobile'];
+                    $customer_id = isset($cif['cif_number']) ? $cif['cif_number'] : $cif['cif_mobile'];
 
                     // $cif_id = $cif['cif_id'];
 
@@ -2390,7 +2455,7 @@ class TaskController extends CI_Controller {
                     $customer_data['cif_created_on'] = date("Y-m-d H:i:s");
                     $cif_flag = $this->db->insert('cif_customer', $customer_data);
                 }
-            // }
+                // }
 
                 // if (empty($cif_flag)) {
                 //     $json['err'] = 'CIF is unable to create. Please check with IT Team.';
@@ -2422,75 +2487,75 @@ class TaskController extends CI_Controller {
                 //     return false;
                 // }
 
-                        $status = "SANCTION";
-                        $stage = "S12";
-                        $lead_status_id = 12;
+                $status = "SANCTION";
+                $stage = "S12";
+                $lead_status_id = 12;
 
-         
-                            $sanction_remark = $remarks;
-                            $sanction_remark .= "<br/>Sanctioned";
-                            // $sanction_remark .= "<br/>Sanctioned Email: Resent!!";
-                            if ($cam_blacklist_removed_flag == 1) {
-                                $sanction_remark .= "<br>Blacklist Removed: YES";
-                            }
 
-                            $sanction_remark .= "<br>Eligible Loan Amt (Rs.): " . (!empty($cam->eligible_loan) ? $cam->eligible_loan : "");
-                            $sanction_remark .= "<br>Approved Loan Amt (Rs.): " . (!empty($cam->loan_recommended) ? $cam->loan_recommended : "");
-                            $sanction_remark .= "<br>Approved ROI (%): " . (!empty($cam->roi) ? round($cam->roi, 2) : "");
-                            $sanction_remark .= "<br>Approved Tenure (Days): " . (!empty($cam->tenure) ? $cam->tenure : "");
-                            $sanction_remark .= "<br>Approved Processing Fee: " . (!empty($cam->processing_fee_percent) ? round($cam->processing_fee_percent, 2) . "%" : "");
-                            $sanction_remark .= "<br>18% GST is " . (($cam->cam_processing_fee_gst_type_id == 2) ? "Exclusive" : "Inclusive");
-                            $sanction_remark .= "<br>Approved Total Admin Fee (Rs.): " . (!empty($cam->total_pf_with_gst) ? round($cam->total_pf_with_gst, 2) : "");
-                            $sanction_remark .= "<br>Approved Admin Fee 18% GST (Rs.): " . (!empty($cam->calculated_gst) ? round($cam->calculated_gst, 2) : "");
-                            $sanction_remark .= "<br>Approved Net Admin Fee (Rs.): " . (!empty($cam->net_pf_without_gst) ? round($cam->net_pf_without_gst, 2) : "");
-                            $sanction_remark .= "<br>Disbursal Date : " . (!empty($cam->disbursal_date) ? date("d-m-Y", strtotime($cam->disbursal_date)) : "");
-                            $sanction_remark .= "<br>Net Disbursal Amt (Rs.): " . (!empty($cam->net_disbursal_amount) ? $cam->net_disbursal_amount : "");
-                            $sanction_remark .= "<br>Repayment Date : " . (!empty($cam->repayment_date) ? date("d-m-Y", strtotime($cam->repayment_date)) : "");
-                            $sanction_remark .= "<br>Repayment Amt (Rs.): " . (!empty($cam->repayment_amount) ? $cam->repayment_amount : "");
+                $sanction_remark = $remarks;
+                $sanction_remark .= "<br/>Sanctioned";
+                // $sanction_remark .= "<br/>Sanctioned Email: Resent!!";
+                if ($cam_blacklist_removed_flag == 1) {
+                    $sanction_remark .= "<br>Blacklist Removed: YES";
+                }
 
-                            $lead_followup_insert_array = [
-                                'lead_id' => $lead_id,
-                                'customer_id' => $customer_id,
-                                'user_id' => $user_id,
-                                'status' => $status,
-                                'stage' => $stage,
-                                'lead_followup_status_id' => $lead_status_id,
-                                'remarks' => addslashes($sanction_remark),
-                                'created_on' => date("Y-m-d H:i:s")
-                            ];
+                $sanction_remark .= "<br>Eligible Loan Amt (Rs.): " . (!empty($cam->eligible_loan) ? $cam->eligible_loan : "");
+                $sanction_remark .= "<br>Approved Loan Amt (Rs.): " . (!empty($cam->loan_recommended) ? $cam->loan_recommended : "");
+                $sanction_remark .= "<br>Approved ROI (%): " . (!empty($cam->roi) ? round($cam->roi, 2) : "");
+                $sanction_remark .= "<br>Approved Tenure (Days): " . (!empty($cam->tenure) ? $cam->tenure : "");
+                $sanction_remark .= "<br>Approved Processing Fee: " . (!empty($cam->processing_fee_percent) ? round($cam->processing_fee_percent, 2) . "%" : "");
+                $sanction_remark .= "<br>18% GST is " . (($cam->cam_processing_fee_gst_type_id == 2) ? "Exclusive" : "Inclusive");
+                $sanction_remark .= "<br>Approved Total Admin Fee (Rs.): " . (!empty($cam->total_pf_with_gst) ? round($cam->total_pf_with_gst, 2) : "");
+                $sanction_remark .= "<br>Approved Admin Fee 18% GST (Rs.): " . (!empty($cam->calculated_gst) ? round($cam->calculated_gst, 2) : "");
+                $sanction_remark .= "<br>Approved Net Admin Fee (Rs.): " . (!empty($cam->net_pf_without_gst) ? round($cam->net_pf_without_gst, 2) : "");
+                $sanction_remark .= "<br>Disbursal Date : " . (!empty($cam->disbursal_date) ? date("d-m-Y", strtotime($cam->disbursal_date)) : "");
+                $sanction_remark .= "<br>Net Disbursal Amt (Rs.): " . (!empty($cam->net_disbursal_amount) ? $cam->net_disbursal_amount : "");
+                $sanction_remark .= "<br>Repayment Date : " . (!empty($cam->repayment_date) ? date("d-m-Y", strtotime($cam->repayment_date)) : "");
+                $sanction_remark .= "<br>Repayment Amt (Rs.): " . (!empty($cam->repayment_amount) ? $cam->repayment_amount : "");
 
-                            $this->Tasks->insert($lead_followup_insert_array, 'lead_followup');
+                $lead_followup_insert_array = [
+                    'lead_id' => $lead_id,
+                    'customer_id' => $customer_id,
+                    'user_id' => $user_id,
+                    'status' => $status,
+                    'stage' => $stage,
+                    'lead_followup_status_id' => $lead_status_id,
+                    'remarks' => addslashes($sanction_remark),
+                    'created_on' => date("Y-m-d H:i:s")
+                ];
 
-                            if ($cam->customer_digital_ekyc_flag == 2) {
+                $this->Tasks->insert($lead_followup_insert_array, 'lead_followup');
 
-                                $lead_followup_insert_array = [
-                                    'lead_id' => $lead_id,
-                                    'customer_id' => $customer_id,
-                                    'user_id' => $user_id,
-                                    'status' => $status,
-                                    'stage' => $stage,
-                                    'lead_followup_status_id' => $lead_status_id,
-                                    'remarks' => "Re-EKYC Needed due to error on ekyc api",
-                                    'created_on' => date("Y-m-d H:i:s")
-                                ];
-                            }
-                            $data['msg'] = 'Application Sanctioned Email Re-sent';
-                            //
-                            //if ($lead_data_source_id == 2) {
+                if ($cam->customer_digital_ekyc_flag == 2) {
 
-                            $sendLetter = $this->Tasks->sendSanctionMail($lead_id);
-                            // print_r($sendLetter); die;
-                            // $data['pdf'] = $pdf_return;
-                            // $data['emailRsp'] = $sendLetter;
-                            // if ($sendLetter['status'] == 1) {
-                            //     $data['msg'] = 'Application Sanctioned.';
-                            // } else {
-                            //     $data['msg'] = 'Application Sanctioned. Email sent error : ' . $sendLetter['error'];
-                            // }
-                            // }
-                            echo json_encode($data);
-                       
-                    
+                    $lead_followup_insert_array = [
+                        'lead_id' => $lead_id,
+                        'customer_id' => $customer_id,
+                        'user_id' => $user_id,
+                        'status' => $status,
+                        'stage' => $stage,
+                        'lead_followup_status_id' => $lead_status_id,
+                        'remarks' => "Re-EKYC Needed due to error on ekyc api",
+                        'created_on' => date("Y-m-d H:i:s")
+                    ];
+                }
+                $data['msg'] = 'Application Sanctioned Email Re-sent';
+                //
+                //if ($lead_data_source_id == 2) {
+
+                $sendLetter = $this->Tasks->sendSanctionMail($lead_id);
+                // print_r($sendLetter); die;
+                // $data['pdf'] = $pdf_return;
+                // $data['emailRsp'] = $sendLetter;
+                // if ($sendLetter['status'] == 1) {
+                //     $data['msg'] = 'Application Sanctioned.';
+                // } else {
+                //     $data['msg'] = 'Application Sanctioned. Email sent error : ' . $sendLetter['error'];
+                // }
+                // }
+                echo json_encode($data);
+
+
                 // } else {
                 //     $json['err'] = "Unable to generate loan number.";
                 //     echo json_encode($json);
@@ -2501,7 +2566,8 @@ class TaskController extends CI_Controller {
             echo json_encode($json);
         }
     }
-    public function leadRecommend() {
+    public function leadRecommend()
+    {
 
         //   error_reporting(E_ALL);
         //   ini_set("display_errors", 1);
@@ -2518,7 +2584,7 @@ class TaskController extends CI_Controller {
         if (!empty($_POST["lead_id"])) {
 
             $lead_id = $this->input->post('lead_id');
-            $lead_id =  $this->encrypt->decode($lead_id);
+            $lead_id = $this->encrypt->decode($lead_id);
 
             // if (agent != "CR1") {
             //     $json['err'] = "You are not authrized to take this action.[U01]";
@@ -2580,7 +2646,7 @@ class TaskController extends CI_Controller {
 
             $isBlackListed = $this->Tasks->checkBlackListedCustomer($lead_id);
 
-            if ( isset($isBlackListed['status']) && $isBlackListed['status'] == 1) {
+            if (isset($isBlackListed['status']) && $isBlackListed['status'] == 1) {
                 $json['err'] = $isBlackListed['error_msg'];
                 echo json_encode($json);
                 return false;
@@ -2624,7 +2690,7 @@ class TaskController extends CI_Controller {
 
             $CommonComponent = new CommonComponent();
             // echo "fghj".$leadDetails['pancard_verified_status'];
-            
+
             //production
             if (ENVIRONMENT == 'production') {
 
@@ -2676,75 +2742,75 @@ class TaskController extends CI_Controller {
             }
 
             $by_pass_pan_verification = true;
-            if(!$by_pass_pan_verification) {
-            $panDocsDetails = $this->Docs->getLeadDocumentWithTypeDetails($lead_id, 4);
+            if (!$by_pass_pan_verification) {
+                $panDocsDetails = $this->Docs->getLeadDocumentWithTypeDetails($lead_id, 4);
 
-            if ($leadDetails['user_type'] != "REPEAT" || $panDocsDetails['status'] == 1) {
+                if ($leadDetails['user_type'] != "REPEAT" || $panDocsDetails['status'] == 1) {
 
 
-                $pan_ocr_return = $CommonComponent->call_pan_ocr_api($lead_id);
-                //print_r($pan_ocr_return);die;
-                if ($pan_ocr_return['status'] == 1) {
+                    $pan_ocr_return = $CommonComponent->call_pan_ocr_api($lead_id);
+                    //print_r($pan_ocr_return);die;
+                    if ($pan_ocr_return['status'] == 1) {
 
-                    if ($pan_ocr_return['pan_valid_status'] == 1) {
-                        $pan_ocr_status = 1;
-                        $lead_remark .= "<br/>PAN OCR Verified";
+                        if ($pan_ocr_return['pan_valid_status'] == 1) {
+                            $pan_ocr_status = 1;
+                            $lead_remark .= "<br/>PAN OCR Verified";
+                        } else {
+                            $pan_ocr_status = 1;
+                            $json['err'] = "Customer PAN does not matched with PAN OCR Detail. Please check the application log.";
+                            echo json_encode($json);
+                            return false;
+                        }
                     } else {
                         $pan_ocr_status = 1;
-                        $json['err'] = "Customer PAN does not matched with PAN OCR Detail. Please check the application log.";
+                        $json['err'] = trim($pan_ocr_return['errors']);
                         echo json_encode($json);
                         return false;
                     }
                 } else {
                     $pan_ocr_status = 1;
-                    $json['err'] = trim($pan_ocr_return['errors']);
+                }
+
+                if ($pan_validate_status != 1 && $pan_ocr_status != 1) {
+                    $json['err'] = "Something went wrong. Please contact to IT Team.";
                     echo json_encode($json);
                     return false;
                 }
-            } else {
-                $pan_ocr_status = 1;
-            }
-
-            if ($pan_validate_status != 1 && $pan_ocr_status != 1) {
-                $json['err'] = "Something went wrong. Please contact to IT Team.";
-                echo json_encode($json);
-                return false;
-            }
 
 
-            $aadhaarDocsDetails = $this->Docs->getLeadDocumentWithTypeDetails($lead_id, "1,2");
+                $aadhaarDocsDetails = $this->Docs->getLeadDocumentWithTypeDetails($lead_id, "1,2");
 
-            if ($leadDetails['user_type'] != "REPEAT" || $aadhaarDocsDetails['status'] == 1) {
+                if ($leadDetails['user_type'] != "REPEAT" || $aadhaarDocsDetails['status'] == 1) {
 
 
-                $aadhaar_ocr_return = $CommonComponent->call_aadhaar_ocr_api($lead_id);
+                    $aadhaar_ocr_return = $CommonComponent->call_aadhaar_ocr_api($lead_id);
 
-                if ($aadhaar_ocr_return['status'] == 1) {
+                    if ($aadhaar_ocr_return['status'] == 1) {
 
-                    if ($aadhaar_ocr_return['aadhaar_valid_status'] == 1) {
-                        $aadhaar_ocr_status = 1;
-                        $lead_remark .= "<br/>Aadhaar OCR Verified";
+                        if ($aadhaar_ocr_return['aadhaar_valid_status'] == 1) {
+                            $aadhaar_ocr_status = 1;
+                            $lead_remark .= "<br/>Aadhaar OCR Verified";
+                        } else {
+                            $json['err'] = "Customer Aadhaar does not matched with Aadhaar OCR Detail. Please check the application log.";
+                            echo json_encode($json);
+                            return false;
+                        }
                     } else {
-                        $json['err'] = "Customer Aadhaar does not matched with Aadhaar OCR Detail. Please check the application log.";
+                        $json['err'] = trim($aadhaar_ocr_return['errors']);
                         echo json_encode($json);
                         return false;
                     }
                 } else {
-                    $json['err'] = trim($aadhaar_ocr_return['errors']);
+                    $aadhaar_ocr_status = 1;
+                }
+
+                if ($aadhaar_ocr_status != 1) {
+                    $json['err'] = "Something went wrong. Please contact to IT Team.";
                     echo json_encode($json);
                     return false;
                 }
-            } else {
-                $aadhaar_ocr_status = 1;
-            }
-
-            if ($aadhaar_ocr_status != 1) {
-                $json['err'] = "Something went wrong. Please contact to IT Team.";
-                echo json_encode($json);
-                return false;
             }
         }
-    }   
 
 
         $conditions_user_roles = array();
@@ -2952,7 +3018,8 @@ class TaskController extends CI_Controller {
     }
 
 
-    public function disburseRecommend() {
+    public function disburseRecommend()
+    {
         if (empty($_SESSION['isUserSession']['user_id'])) {
             $json['errSession'] = "Session Expired";
             echo json_encode($json);
@@ -2998,7 +3065,8 @@ class TaskController extends CI_Controller {
         }
     }
 
-    public function disburseWaived() {
+    public function disburseWaived()
+    {
         if (empty($_SESSION['isUserSession']['user_id'])) {
             $json['errSession'] = "Session Expired";
             echo json_encode($json);
@@ -3068,7 +3136,8 @@ class TaskController extends CI_Controller {
         }
     }
 
-    public function disbursalSendBack() {
+    public function disbursalSendBack()
+    {
         if (empty($_SESSION['isUserSession']['user_id'])) {
             $json['errSession'] = "Session Expired";
             echo json_encode($json);
@@ -3078,7 +3147,7 @@ class TaskController extends CI_Controller {
         if (!empty($_POST["lead_id"])) {
             $lead_id = $this->input->post('lead_id');
             $remarks = $this->input->post('remark');
-            $lead_id =  $this->encrypt->decode($lead_id);
+            $lead_id = $this->encrypt->decode($lead_id);
             $status = "DISBURSAL-SEND-BACK";
             $stage = "S25";
             $lead_status_id = 37;
@@ -3111,7 +3180,8 @@ class TaskController extends CI_Controller {
         }
     }
 
-    public function leadSendBack() {
+    public function leadSendBack()
+    {
         if (empty($_SESSION['isUserSession']['user_id'])) {
             $json['errSession'] = "Session Expired";
             echo json_encode($json);
@@ -3120,7 +3190,7 @@ class TaskController extends CI_Controller {
         if (isset($_POST["lead_id"])) {
             $lead_id = $this->input->post('lead_id');
             $remarks = $this->input->post('remark');
-            $lead_id =  $this->encrypt->decode($lead_id);
+            $lead_id = $this->encrypt->decode($lead_id);
 
             $leadsDetails = $this->Tasks->select(['lead_id' => $lead_id], 'first_name, email, mobile, lead_status_id', 'leads');
 
@@ -3181,8 +3251,9 @@ class TaskController extends CI_Controller {
         }
     }
 
-    public function getPersonalDetails($lead_id) {
-        $lead_id =  $this->encrypt->decode($lead_id);
+    public function getPersonalDetails($lead_id)
+    {
+        $lead_id = $this->encrypt->decode($lead_id);
         $conditions = ['LD.lead_id' => $lead_id];
         $personalDetails = $this->Tasks->index($conditions);
         $data['personalDetails1'] = $personalDetails->row();
@@ -3190,8 +3261,9 @@ class TaskController extends CI_Controller {
         echo json_encode($data);
     }
 
-    public function getResidenceDetails($lead_id) {
-        $lead_id =  $this->encrypt->decode($lead_id);
+    public function getResidenceDetails($lead_id)
+    {
+        $lead_id = $this->encrypt->decode($lead_id);
         $query = $this->Tasks->getResidenceDetails($lead_id);
         $row = $query->row();
         $data['residenceDetails'] = [
@@ -3228,9 +3300,10 @@ class TaskController extends CI_Controller {
         echo json_encode($data);
     }
 
-    public function getEmploymentDetails($lead_id) {
+    public function getEmploymentDetails($lead_id)
+    {
         //   echo $lead_id; die;
-        $lead_id =  $this->encrypt->decode($lead_id);
+        $lead_id = $this->encrypt->decode($lead_id);
 
         if (!empty($lead_id)) {
 
@@ -3273,15 +3346,17 @@ class TaskController extends CI_Controller {
         echo json_encode($data);
     }
 
-    public function getReferenceDetails($lead_id) {
-        $lead_id =  $this->encrypt->decode($lead_id);
+    public function getReferenceDetails($lead_id)
+    {
+        $lead_id = $this->encrypt->decode($lead_id);
         $data['refrence'] = getrefrenceData('lead_customer_references', $lead_id);
         echo json_encode($data);
     }
 
-    public function getApplicationDetails($lead_id) {
+    public function getApplicationDetails($lead_id)
+    {
 
-        $leadID =  $this->encrypt->decode($lead_id);
+        $leadID = $this->encrypt->decode($lead_id);
         $conditions = ['LD.lead_id' => $leadID];
         $applicationDetails = $this->Tasks->index($conditions);
         $data['application'] = $applicationDetails->row();
@@ -3289,7 +3364,8 @@ class TaskController extends CI_Controller {
         echo json_encode($data);
     }
 
-    public function convertEnquiryToApplication() {
+    public function convertEnquiryToApplication()
+    {
 
         if (empty($_SESSION['isUserSession']['user_id'])) {
             $json['errSession'] = "Session Expired.";
@@ -3538,7 +3614,8 @@ class TaskController extends CI_Controller {
         }
     }
 
-    private function generateReferenceCode($lead_id, $first_name, $last_name, $mobile) {
+    private function generateReferenceCode($lead_id, $first_name, $last_name, $mobile)
+    {
 
         $code_mix = array($lead_id[rand(0, strlen($lead_id) - 1)], $first_name[rand(0, strlen($first_name) - 1)], $first_name[rand(0, strlen($first_name) - 1)], $last_name[rand(0, strlen($last_name) - 1)], $last_name[rand(0, strlen($last_name) - 1)], $mobile[rand(0, strlen($mobile) - 1)], $mobile[rand(0, strlen($mobile) - 1)]);
 
@@ -3558,7 +3635,8 @@ class TaskController extends CI_Controller {
         return $referenceID;
     }
 
-    public function insertApplication() {
+    public function insertApplication()
+    {
         if (empty($_SESSION['isUserSession']['user_id'])) {
             $json['errSession'] = "Session Expired.";
             echo json_encode($json);
@@ -3600,7 +3678,7 @@ class TaskController extends CI_Controller {
             } else {
                 $lead_id = $this->input->post('lead_id');
 
-                $lead_id =  $this->encrypt->decode($lead_id);
+                $lead_id = $this->encrypt->decode($lead_id);
 
 
                 $leadDetails = $this->Tasks->select(['lead_id' => $lead_id], 'lead_id, lead_reference_no, pancard', 'leads');
@@ -3776,7 +3854,8 @@ class TaskController extends CI_Controller {
         }
     }
 
-    public function insertPersonal() {
+    public function insertPersonal()
+    {
         if (empty($_SESSION['isUserSession']['user_id'])) {
             $json['errSession'] = "Session Expired.";
             echo json_encode($json);
@@ -3865,7 +3944,8 @@ class TaskController extends CI_Controller {
         echo json_encode($json);
     }
 
-    public function insertResidence() {
+    public function insertResidence()
+    {
 
         if (empty($_SESSION['isUserSession']['user_id'])) {
             $json['errSession'] = "Session Expired.";
@@ -3898,7 +3978,7 @@ class TaskController extends CI_Controller {
             } else {
 
                 $lead_id = $this->input->post('lead_id');
-                $lead_id =  $this->encrypt->decode($lead_id);
+                $lead_id = $this->encrypt->decode($lead_id);
 
                 $lead_update = array();
                 $lead_branch_id = 0;
@@ -3980,7 +4060,8 @@ class TaskController extends CI_Controller {
         }
     }
 
-    public function insertEmployment() {
+    public function insertEmployment()
+    {
         if (empty($_SESSION['isUserSession']['user_id'])) {
             $json['errSession'] = "Session Expired.";
             echo json_encode($json);
@@ -4063,7 +4144,8 @@ class TaskController extends CI_Controller {
         }
     }
 
-    public function insertReference() {
+    public function insertReference()
+    {
 
         $currentdate = date('Y-m-d H:i:s');
         if (empty($_SESSION['isUserSession']['user_id'])) {
@@ -4144,7 +4226,8 @@ class TaskController extends CI_Controller {
         }
     }
 
-    public function updateReference() {
+    public function updateReference()
+    {
 
         $currentdate = date('Y-m-d H:i:s');
         if ($this->input->post('upd_user_id') == "") {
@@ -4191,7 +4274,8 @@ class TaskController extends CI_Controller {
         }
     }
 
-    public function deleteData() {
+    public function deleteData()
+    {
         $post = $_POST['data'];
         $id = $post['lead_id'];
 
@@ -4212,7 +4296,8 @@ class TaskController extends CI_Controller {
         }
     }
 
-    public function saveCustomerPersonalDetails() {
+    public function saveCustomerPersonalDetails()
+    {
         if ($this->input->server('REQUEST_METHOD') == 'POST') {
             $this->form_validation->set_rules('borrower_name', 'Borrower Name', 'required|trim');
             $this->form_validation->set_rules('gender', 'Gender', 'required|trim');
@@ -4375,7 +4460,8 @@ class TaskController extends CI_Controller {
         }
     }
 
-    public function LACLeadRecommendation() {
+    public function LACLeadRecommendation()
+    {
         if ($this->input->server('REQUEST_METHOD') == 'POST') {
             $this->form_validation->set_rules('Active_CC', 'Active CC', 'required|trim');
             $this->form_validation->set_rules('cc_statementDate', 'CC Statement Date', 'required|trim');
@@ -4424,7 +4510,8 @@ class TaskController extends CI_Controller {
         }
     }
 
-    public function PaydayLeadRecommendation() {
+    public function PaydayLeadRecommendation()
+    {
 
         //         error_reporting(E_ALL);
         // ini_set("display_errors", 1);
@@ -4571,7 +4658,8 @@ class TaskController extends CI_Controller {
         }
     }
 
-    public function validateCustomerPersonalDetails() {
+    public function validateCustomerPersonalDetails()
+    {
         if ($this->input->server('REQUEST_METHOD') == 'POST') {
             $this->form_validation->set_rules('employeeType', 'Employee Type', 'required|trim');
             $this->form_validation->set_rules('dateOfJoining', 'Date Of Joining', 'required|trim');
@@ -4601,7 +4689,8 @@ class TaskController extends CI_Controller {
         }
     }
 
-    public function quickCallLeadId() {
+    public function quickCallLeadId()
+    {
         $arr = $_POST['data'];
         $totalId = implode(",", $arr);
         $postsize = sizeof($_POST['data']);
@@ -4624,7 +4713,8 @@ class TaskController extends CI_Controller {
         }
     }
 
-    public function getLeadHistoryLogs($lead_id) {
+    public function getLeadHistoryLogs($lead_id)
+    {
 
         $lead_id = $this->encrypt->decode($lead_id);
         $leadData = $this->Tasks->getLeadLogs($lead_id);
@@ -4664,7 +4754,8 @@ class TaskController extends CI_Controller {
         echo json_encode($data);
     }
 
-    public function getSanctionFollowupLogs($lead_id) {
+    public function getSanctionFollowupLogs($lead_id)
+    {
 
         $leadData = $this->Tasks->getSanctionFollowupLogs($lead_id);
 
@@ -4700,7 +4791,8 @@ class TaskController extends CI_Controller {
         echo json_encode($data);
     }
 
-    public function sentRepaymentReminderOnMail() {
+    public function sentRepaymentReminderOnMail()
+    {
         die;
         $message_type = 'EMAIL_REMINDER';
         $SmsRow = $this->Tasks->getRepaymentReminderSend($message_type);
@@ -4798,7 +4890,8 @@ class TaskController extends CI_Controller {
         }
     }
 
-    public function sentRepaymentReminderOnSMS() {
+    public function sentRepaymentReminderOnSMS()
+    {
 
         $message_type = 'SMS_REMINDER';
         $SmsRow = $this->Tasks->getRepaymentReminderSend($message_type);
@@ -4856,7 +4949,8 @@ class TaskController extends CI_Controller {
     }
 
 
-    public function update_unpaidRepeat() {
+    public function update_unpaidRepeat()
+    {
 
         if ($this->input->server('REQUEST_METHOD') == 'GET') {
 
@@ -4912,7 +5006,8 @@ class TaskController extends CI_Controller {
 
 
 
-    public function __destruct() {
+    public function __destruct()
+    {
         $this->db->close();
     }
 }

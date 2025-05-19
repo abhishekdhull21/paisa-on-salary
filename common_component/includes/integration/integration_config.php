@@ -350,11 +350,11 @@ function integration_config($api_type = "", $api_sub_type = "") {
             $config_arr['Status'] = 1;
             $config_arr['use_ssl'] = '1';
             $config_arr['verify_peer'] = '1';
-            $config_arr['access_key'] = 'AKIAY4D6C4ASAWFIX5OH';
-            $config_arr['secret_key'] = '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';
-            $config_arr['bucket_name'] = 'bl-upload-files-dev';
-            $config_arr['folder_name'] = 'bl-upload-files-dev-folder';
-            $config_arr['s3_url'] = 's3://bl-upload-files-dev/bl-upload-files-dev-folder/';
+            $config_arr['access_key'] = getenv("AWS_ACCESS_KEY");
+            $config_arr['secret_key'] = getenv("AWS_SECRET_KEY");
+            $config_arr['bucket_name'] = getenv("S3_BUCKET_NAME");
+            $config_arr['folder_name'] = getenv("S3_BUCKET_FOLDER");
+            $config_arr['s3_url'] = 's3://' . rtrim(getenv("S3_BUCKET_NAME"), '/') . '/' . trim(getenv("S3_BUCKET_FOLDER"), '/') . '/';
             $config_arr['access_key_envname'] = 'S3_KEY';
             $config_arr['secret_key_envname'] = 'S3_SECRET';
             $config_arr['get_from_enviroment'] = '';
