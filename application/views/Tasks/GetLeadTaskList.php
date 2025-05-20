@@ -433,6 +433,7 @@ $stage = $this->uri->segment(2);
                                                                                 <!-- <th class="whitespace"><b>Email</b></th> -->
                                                                                 <th class="whitespace"><b>PAN</b></th>
                                                                                 <th class="whitespace"><b>Type</b></th>
+                                                                                <th class="whitespace"><b>Blacklist</b></th>
                                                                                 <!--<th class="whitespace"><b>Status</b></th>-->
                                                                                 <?php if (in_array($stage, array("S3", "S6"))) { ?>
                                                                                     <th class="whitespace"><b>Hold&nbsp;On</b></th>
@@ -487,6 +488,8 @@ $stage = $this->uri->segment(2);
                                                                                     if ((in_array($stage, array("S4", "S5", "S6", "S11")) && $row->customer_digital_ekyc_flag == 1)) {
                                                                                         $row_class = 'class="success"';
                                                                                     }
+                                                                                    
+
 																					if(isset($row->monthly_salary_amount) && $row->monthly_salary_amount >= 50000 && $row->monthly_salary_amount < 75000){
 																						$row_class = 'style="background-color:#cbe9ff !important"';
 																					}
@@ -496,6 +499,9 @@ $stage = $this->uri->segment(2);
 																					if(isset($row->monthly_salary_amount) && $row->monthly_salary_amount >= 100000 ){
 																						$row_class = 'style="background-color:#fff2cb !important"';
 																					}
+                                                                                    if ( $row->lead_black_list_flag == 1) {
+                                                                                        $row_class = 'style="background-color:#e221219c !important"';
+                                                                                    }
                                                                                     ?>
 
                                                                                     <tr  <?= $row_class ?>>
@@ -584,6 +590,7 @@ $stage = $this->uri->segment(2);
                                                                                         <td class="whitespace"  onclick="copyText('mcopy<?=$row->lead_id?>')"><input type="hidden" id="mcopy<?=$row->lead_id?>" value="<?=$row->mobile ? $row->mobile : ''?>"  /><?= ($row->mobile) ? inscriptionNumber(strval($row->mobile)) : '-' ?></td>
                                                                                         <td class="whitespace"><?= ($row->pancard) ? strval(($row->pancard)) : '-' ?></td>
                                                                                         <td class="whitespace"><?= ($row->user_type) ? strval(($row->user_type)) : 'NEW' ?></td>
+                                                                                        <td class="whitespace"><?= ($row->lead_black_list_flag) ? "Blacklisted" : 'No' ?></td>
 
                                                                                         <!--<td class="whitespace"><?= ($row->status) ? strval(($row->status)) : '-' ?></td>-->
                                                                                         <!--<?php if (in_array($stage, array("S3", "S6"))) { ?>-->

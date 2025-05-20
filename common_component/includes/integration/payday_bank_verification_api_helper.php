@@ -520,7 +520,23 @@ function digitap_bank_account_verification_api($lead_id, $request_array = array(
                     $apiNameMatch = $apiResponseData['model']['isNameMatch'];
                     $apiNameMatchScore = $apiResponseData['model']['matchingScore'];
                     $apiBeneName = $apiResponseData['model']['beneficiaryName'];
+
+                    $apiResponseJson["result"] = [
+                        "active" => "yes",
+                        "reason" => "success",
+                        "nameMatch" => $apiNameMatch,
+                        "nameMatchScore" => $apiNameMatchScore,
+                    ];
+
+
                 } else if (isset($apiResponseData['model']['status']) && $apiResponseData['model']['status'] != 'SUCCESS') {
+                    
+                    $apiResponseJson["result"] = [
+                        "active" => "No",
+                        "reason" => $apiResponseData['model']['desc'],
+                        "nameMatch" => $apiNameMatch,
+                        "nameMatchScore" => $apiNameMatchScore,
+                    ];
                     throw new ErrorException("API returned status: " . $apiResponseData['model']['status']);
                 } else if (isset($apiResponseData['error']['message']) && !empty($apiResponseData['error']['message'])) {
                     throw new ErrorException($apiResponseData['error']['message']);

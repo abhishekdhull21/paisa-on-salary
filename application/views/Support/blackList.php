@@ -46,7 +46,13 @@
                                                             <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
                                                             <div class="row">
                                                                 <div class="col-md-6">
-                                                                    <input type="text" class="form-control" name="bl_loan_no" id="bl_loan_no" required="" value="<?php if($referenceInfo['bl_loan_no']!=''){echo $referenceInfo['bl_loan_no'];}else{ echo $_POST['bl_loan_no'];} ?>" placeholder="Please enter loan no.*">
+                                                                <input type="text" 
+                                                                    class="form-control" 
+                                                                    name="bl_loan_no" 
+                                                                    id="bl_loan_no" 
+                                                                    required 
+                                                                    value="<?php echo isset($referenceInfo['bl_loan_no']) && $referenceInfo['bl_loan_no'] != '' ? $referenceInfo['bl_loan_no'] : set_value('bl_loan_no'); ?>" 
+                                                                    placeholder="Please enter loan no.*">
                                                                 </div>
                                                                 <div class="col-md-6">
                                                                     <button type="submit" id="search_loan_no" class="button btn">Search Loan No</button>

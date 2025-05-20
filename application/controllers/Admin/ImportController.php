@@ -188,6 +188,20 @@ class ImportController extends CI_Controller {
                                     }
                                 }
 
+                                if (empty($state_id) && !empty($state_name)) { //if city not avialable then state name searched
+                                    $state = $this->db->select('m_state_id')->from('master_state')->where('m_state_name', $state_name)->get();
+                                    if ($state->num_rows() > 0) {
+                                        $state_array = $state->row_array();
+                                        $state_id = $state_array['m_state_id'];
+                                    }
+                                }
+                                $lead_black_list_flag = 0;
+                                if (!empty($pancard)) { //If pincode available in excel
+                                    $result = $this->db->select('*')->where(["pancard" => $pancard])->from("blacklisted_pan")->get();
+                                    if ($result->num_rows() > 0) {
+                                        $lead_black_list_flag = 1;
+                                    }
+                                }
 
                                 $insertDataLeads = array(
                                     'first_name' => $first_name,
@@ -215,6 +229,7 @@ class ImportController extends CI_Controller {
                                     'utm_campaign' => $utm_campaign,
                                     'promocode' => $coupon,
                                     'lead_is_mobile_verified' => 1,
+                                    'lead_black_list_flag' =>$lead_black_list_flag
                                 );
 
                                 if (strtoupper(trim($utm_source)) == "C4C") {
