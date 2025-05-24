@@ -965,6 +965,7 @@ public function repayment($pancard)
             leads.first_name AS customer_name, 
             cam.loan_recommended AS loan_amount, 
             cam.net_disbursal_amount, 
+            cam.repayment_amount,
             cam.admin_fee, 
             cam.disbursal_date, 
             cam.repayment_date, 
@@ -990,6 +991,27 @@ public function repayment($pancard)
     ";
 
     $result = $this->db->query($sql, [$lead_id])->row_array();
+    // Default penalty is 0
+    $penalty_amount = 0;
+    $penalty_days = 0;
+
+    if (!empty($result['repayment_date']) && !empty($result['loan_amount'])) {
+        $repayment_date = new DateTime($result['repayment_date']);
+        $today = new DateTime();
+
+        if ($today > $repayment_date) {
+            $interval = $today->diff($repayment_date);
+            $penalty_days = $interval->days;
+
+            $daily_penalty = $result['loan_amount'] * 0.02; // 2% per day
+            $penalty_amount = $daily_penalty * $penalty_days;
+        }
+    }
+
+
+    // Include penalty in response
+    $result['penalty_amount'] = round($penalty_amount, 2);
+    $result['penalty_days'] = $penalty_days;
 
     // Return as JSON
     return $this->output
