@@ -932,4 +932,69 @@ class LoginController extends CI_Controller {
                 ]));
         }
     }
+
+public function repayment($pancard)
+{
+    // Load database if not already loaded
+    // $this->load->database();
+
+    // Sanitize pancard input (basic XSS protection)
+    $pancard = $this->security->xss_clean($pancard);
+    // Step 1: Fetch lead_id from leads table using pancard
+    $this->db->select('lead_id');
+    $this->db->from('leads');
+    $this->db->where('pancard', $pancard);
+    $this->db->order_by('created_on', 'DESC');
+    $this->db->limit(1);
+    $leadQuery = $this->db->get();
+
+    if ($leadQuery->num_rows() === 0) {
+        return $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode(['status' => false, 'message' => 'Lead not found']));
+    }
+
+    $lead_id = $leadQuery->row()->lead_id;
+
+    // Step 2: Run the SQL query using the lead_id
+    $sql = "
+        SELECT 
+            leads.lead_id, 
+            master_state.m_state_name AS state, 
+            leads.pancard, 
+            leads.first_name AS customer_name, 
+            cam.loan_recommended AS loan_amount, 
+            cam.net_disbursal_amount, 
+            cam.admin_fee, 
+            cam.disbursal_date, 
+            cam.repayment_date, 
+            cam.adminFeeWithGST AS gst, 
+            cam.tenure, 
+            cam.roi, 
+            dl.disburse_beneficiary_account_no AS customer_bank_account_number, 
+            dl.disburse_beneficiary_ifsc_code AS customer_bank_ifsc,
+            loan.status as loan_status,
+            loan.loan_settled_date,
+            loan.loan_closure_date
+        FROM leads 
+        LEFT JOIN credit_analysis_memo AS cam 
+            ON leads.lead_id = cam.lead_id 
+        LEFT JOIN api_disburse_logs AS dl 
+            ON leads.lead_id = dl.disburse_lead_id 
+        LEFT JOIN master_state 
+            ON master_state.m_state_id = leads.state_id
+        LEFT JOIN loan 
+            ON loan.lead_id = leads.lead_id 
+        WHERE leads.lead_id = ?
+        LIMIT 1
+    ";
+
+    $result = $this->db->query($sql, [$lead_id])->row_array();
+
+    // Return as JSON
+    return $this->output
+        ->set_content_type('application/json')
+        ->set_output(json_encode(['status' => true, 'data' => $result]));
+}
+
 }
