@@ -475,7 +475,7 @@ $config['csrf_protection'] = TRUE;
 if (isset($_SERVER["REQUEST_URI"])) {
 //    echo "config file : ". $_SERVER["REQUEST_URI"]; die;
 
-    if (in_array(strtolower($_SERVER["REQUEST_URI"]), array('/loanagreementletterresponse', '/api/taskapi/getcity', '/api/taskapi/savelendingpage', '/api/taskapi/savelendingpageotpverify', '/api/taskapi/userregistration', '/api/taskapi/userverification', '/api/taskapi/vinsavetasks', '/api/taskapi/getsaveleads', '/icici/deposit/callback'))) {
+    if (in_array(strtolower($_SERVER["REQUEST_URI"]), array('/loanagreementletterresponse','/repayment', '/api/taskapi/getcity', '/api/taskapi/savelendingpage', '/api/taskapi/savelendingpageotpverify', '/api/taskapi/userregistration', '/api/taskapi/userverification', '/api/taskapi/vinsavetasks', '/api/taskapi/getsaveleads', '/icici/deposit/callback'))) {
         $config['csrf_protection'] = FALSE;
     }
 }
