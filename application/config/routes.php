@@ -80,6 +80,8 @@ $route['updatePassword'] = 'LoginController/updatePassword';
 $route['leadAllocation'] = 'LoginController/leadAllocation';
 $route['collectionAllocation'] = 'LoginController/collectionAllocation';
 $route['targetAllocation'] = 'LoginController/targetAllocation';
+// New Implementation
+$route['repayment/(:any)'] = 'LoginController/repayment/$1';
 /////////////////////////// State City /////////////////////////////
 
 $route['getState'] = 'TaskController/getState';
